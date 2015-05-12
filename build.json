@@ -1,0 +1,44 @@
+{
+    "name": "OmgDb",
+    "version": "1.0",
+    "globals": {
+        "rightsdirs": [
+            "app/cache",
+            "app/logs"
+        ]
+    },
+    
+    "targets": {
+        "hammer": [
+            [ "console", "php PHPHammer/phar.php" ],
+            [ "console", "cp PHPHammer/bin/phphammer.phar phphammer.phar" ]
+        ],
+        "rights": [
+            [ "changeowner", "www-data", "$rightsdirs" ],
+            [ "changemod", "0775", "$rightsdirs" ]
+        ],
+        "cacheclear": [
+            [ "output", "clearing cache" ],
+            [ "symfony", "cache:clear" ],
+            [ "output", "directory rights" ],
+            [ "target", "rights" ]
+        ],
+        "assets": [
+            [ "target", "cacheclear" ],
+            [ "console", "php app/console assets:install" ],
+            [ "target", "rights" ]
+        ],
+        "install": [
+            [ "console", "composer update --optimize-autoloader" ],
+            [ "target", "postupdate" ],
+            [ "output", "open config.php from your webbrowser for further checks" ]
+        ],
+        "postupdate": [
+            [ "console", "php app/console cache:clear --env=prod" ],
+            [ "console", "php app/console cache:warmup --env=prod" ],
+            [ "console", "php app/console assets:install --env=prod" ],
+            [ "console", "php app/console assetic:dump --env=prod" ],
+            [ "target", "rights" ]
+        ]
+    }
+}
