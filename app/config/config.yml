@@ -71,3 +71,12 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+neo4j_ogm:
+    transport: 'curl'
+    host: '%neo4j_host%'
+    port: %neo4j_port%
+    username: '%neo4j_user%%'
+    password: '%neo4j_password%'
+    proxy_dir: '/tmp'
+    debug: true
