@@ -1,40 +1,50 @@
 <?php
-
 namespace AppBundle\Entity;
 
 use HireVoice\Neo4j\Annotation as OGM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * User
  *
- * @OGM\Entity(repositoryClass="AppBundle\Entity\UserRepository")
+ * OGM\Entity(repositoryClass="AppBundle\Entity\UserRepository")
  */
-class User
+class User implements UserInterface, \Serializable
 {
+
     /**
-     * @OGM\Auto
+     * OGM\Auto
+     *
+     * @var int
      */
     private $id;
 
     /**
+     * OGM\Property
+     * OGM\Index
+     *
      * @var string
-     * 
-     * @OGM\Property
-     * @OGM\Index
      */
     private $name;
 
     /**
-     * @var string
+     * OGM\Property
      *
-     * @OGM\Property
+     * @var string
      */
     private $email;
 
     /**
+     * OGM\Property
+     *
+     * @var string
+     */
+    private $password;
+
+    /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -57,7 +67,7 @@ class User
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -80,10 +90,80 @@ class User
     /**
      * Get email
      *
-     * @return string 
+     * @return string
      */
     public function getEmail()
     {
         return $this->email;
+    }
+
+    /*
+     * (non-PHPdoc)
+     * @see \Symfony\Component\Security\Core\User\UserInterface::getRoles()
+     */
+    public function getRoles()
+    {
+        return [
+            'ROLE_USER'
+        ];
+    }
+
+    /*
+     * (non-PHPdoc)
+     * @see \Symfony\Component\Security\Core\User\UserInterface::getPassword()
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /*
+     * (non-PHPdoc)
+     * @see \Symfony\Component\Security\Core\User\UserInterface::getSalt()
+     */
+    public function getSalt()
+    {
+        return null;
+    }
+
+    /*
+     * (non-PHPdoc)
+     * @see \Symfony\Component\Security\Core\User\UserInterface::getUsername()
+     */
+    public function getUsername()
+    {
+        return $this->name;
+    }
+
+    /*
+     * (non-PHPdoc)
+     * @see \Symfony\Component\Security\Core\User\UserInterface::eraseCredentials()
+     */
+    public function eraseCredentials()
+    {}
+
+    /**
+     *
+     * @param
+     *            $password
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
+        return $this;
+    }
+
+    public function serialize()
+    {
+        return serialize([
+            $this->name,
+            $this->email,
+            $this->password
+        ]);
+    }
+
+    public function unserialize($serialized)
+    {
+        list ($this->name, $this->email, $this->password) = unserialize($serialized);
     }
 }

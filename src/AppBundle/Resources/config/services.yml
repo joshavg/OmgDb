@@ -1,0 +1,16 @@
+services:
+  neo4j_client:
+    class: AppBundle\Architecture\Neo4jClientWrapper
+    arguments:
+      - "%neo4j_host%"
+      - "%neo4j_port%"
+    calls:
+      - [ configure, [ "%neo4j_user%", "%neo4j_password%"] ]
+
+  neo4j_user_provider:
+    class: AppBundle\Architecture\Neo4jUserProvider
+    arguments:
+      - "@neo4j_client"
+      
+  password_hash_encoder:
+    class: AppBundle\Architecture\PasswordEncoder
