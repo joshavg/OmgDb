@@ -2,6 +2,7 @@
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Architecture\ContainerServices;
 
@@ -10,10 +11,11 @@ class DefaultController extends Controller
     use ContainerServices;
 
     /**
-     * @Route("/app/example", name="homepage")
+     * @Route("/", name="index")
+     * @Template
      */
     public function indexAction()
     {
-        return $this->render('default/index.html.twig');
+        return [];
     }
 }

@@ -1,8 +1,6 @@
 <?php
 namespace AppBundle\Architecture;
 
-use HireVoice\Neo4j\EntityManager;
-
 /**
  * wrapper for container service getters
  *
@@ -10,14 +8,6 @@ use HireVoice\Neo4j\EntityManager;
  */
 trait ContainerServices
 {
-
-    /**
-     * @return EntityManager
-     */
-    private function getNeo4jEm()
-    {
-        return $this->container->get('neo4j.manager');
-    }
 
     /**
      * @return Neo4jClientWrapper
