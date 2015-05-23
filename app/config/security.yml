@@ -40,9 +40,9 @@ security:
             form_login:
                 login_path: /login
                 check_path: /login_check
-            #logout:
-            #    path:   _demo_logout
-            #    target: _demo
+            logout:
+                path:   /logout
+                target: /
             #anonymous: ~
             #http_basic:
             #    realm: "Secured Demo Area"

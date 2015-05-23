@@ -1,5 +1,8 @@
 {% extends 'AppBundle::layout.html.twig' %}
 
 {% block body %}
-
+    <h1>
+        {{ 'label.hello'|trans }}
+        {{ app.user.name }}
+    </h1>
 {% endblock %}
