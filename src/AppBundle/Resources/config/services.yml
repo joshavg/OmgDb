@@ -14,3 +14,8 @@ services:
       
   password_hash_encoder:
     class: AppBundle\Architecture\PasswordEncoder
+  
+  user.repo:
+    class: AppBundle\Entity\UserRepository
+    calls:
+      - [ setClient, [ "@neo4j_client" ] ]
