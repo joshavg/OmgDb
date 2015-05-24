@@ -10,9 +10,9 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Architecture\RepositoryServices;
 
 /**
+ * @Route("/settings")
  *
  * @author laniger
- *         @Route("/settings")
  */
 class SettingsController extends Controller
 {
@@ -55,9 +55,11 @@ class SettingsController extends Controller
             $user = $this->getUser();
 
             $user->setEmail($data->getEmail());
-            if($form['newpassword']->getData()) {
+            if ($form['newpassword']->getData()) {
                 $newpw = $form['newpassword']->getData();
-                $hash = $this->getPasswordEncoderFactory()->getEncoder($user)->encodePassword($newpw, null);
+                $hash = $this->getPasswordEncoderFactory()
+                    ->getEncoder($user)
+                    ->encodePassword($newpw, null);
                 $user->setPassword($hash);
             }
 

@@ -1,7 +1,6 @@
 <?php
 namespace AppBundle\Entity;
 
-use HireVoice\Neo4j\Annotation as OGM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -13,29 +12,24 @@ class User implements UserInterface, \Serializable
 {
 
     /**
-     * OGM\Auto
      *
      * @var int
      */
     private $id;
 
     /**
-     * OGM\Property
-     * OGM\Index
      *
      * @var string
      */
     private $name;
 
     /**
-     * OGM\Property
      *
      * @var string
      */
     private $email;
 
     /**
-     * OGM\Property
      *
      * @var string
      */
