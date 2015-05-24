@@ -1,3 +1,8 @@
+laniger_neo4j:
+    resource: "@lanigerNeo4jBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation

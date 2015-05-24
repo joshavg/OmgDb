@@ -74,3 +74,9 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+laniger_neo4j:
+    user: neo4j
+    host: localhost
+    pw: b
+    port: 7474

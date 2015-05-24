@@ -1,0 +1,8 @@
+services:
+  neo4j_client:
+    class: AppBundle\Architecture\Neo4jClientWrapper
+    arguments:
+      - "%laniger.neo4j.host%"
+      - "%laniger.neo4j.port%"
+    calls:
+      - [ configure, [ "%laniger.neo4j.user%", "%laniger.neo4j.pw%"] ]
