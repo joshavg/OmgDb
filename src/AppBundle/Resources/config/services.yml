@@ -1,8 +1,4 @@
 services:
-  neo4j_user_provider:
-    class: AppBundle\Architecture\Neo4jUserProvider
-    arguments:
-      - "@neo4j_client"
       
   password_hash_encoder:
     class: AppBundle\Architecture\PasswordEncoder
@@ -10,4 +6,4 @@ services:
   user.repo:
     class: AppBundle\Entity\UserRepository
     calls:
-      - [ setClient, [ "@neo4j_client" ] ]
+      - [ setClient, [ "@neo4j.client" ] ]

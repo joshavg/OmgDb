@@ -1,5 +1,5 @@
 <?php
-namespace AppBundle\Architecture;
+namespace laniger\Neo4jBundle\Architecture;
 
 use Everyman\Neo4j\Client;
 use Everyman\Neo4j\Cypher\Query;

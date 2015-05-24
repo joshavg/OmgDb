@@ -1,5 +1,5 @@
 <?php
-namespace AppBundle\Architecture;
+namespace laniger\Neo4jBundle\Architecture;
 
 trait Neo4jClientConsumer
 {

@@ -1,5 +1,5 @@
 <?php
-namespace AppBundle\Architecture;
+namespace laniger\Neo4jBundle\Architecture;
 
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;

@@ -9,7 +9,7 @@ security:
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
         neo4j:
-            id: neo4j_user_provider
+            id: neo4j.userprovider
         #in_memory:
         #    memory:
         #        users:
