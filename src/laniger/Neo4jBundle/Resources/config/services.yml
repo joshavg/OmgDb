@@ -11,3 +11,10 @@ services:
     class: laniger\Neo4jBundle\Architecture\Neo4jUserProvider
     arguments:
       - "@neo4j.client"
+      
+  neo4j.validator.uniquelabel:
+    class: laniger\Neo4jBundle\Validator\Constraints\Neo4jUniqueLabelConstraintValidator
+    tags:
+      - { name: validator.constraint_validator, alias: neo4j.validator.uniquelabel }
+    calls:
+      - [ setClient, [ "@neo4j.client" ] ]
