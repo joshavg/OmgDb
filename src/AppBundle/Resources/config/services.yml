@@ -10,5 +10,8 @@ services:
 
   appbundle.form.type.NewSchemaType:
     class: AppBundle\Form\NewSchemaType
+    arguments:
+      - "@router"
+      - settings_index
     tags:
       - { name: form.type, alias: NewSchema }

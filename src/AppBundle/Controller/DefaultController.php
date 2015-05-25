@@ -26,4 +26,9 @@ class DefaultController extends Controller
             'newSchemaForm' => $form->createView()
         ];
     }
+
+    private function newSchemaForm()
+    {
+        return $this->createForm('NewSchema', [], []);
+    }
 }

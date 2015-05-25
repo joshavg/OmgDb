@@ -8,9 +8,11 @@ use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 use laniger\Neo4jBundle\Validator\Constraints\Neo4jUniqueLabelConstraint;
 use Symfony\Component\Validator\Constraints\Regex;
 use laniger\Neo4jBundle\Validator\Constraints\Neo4jLabelConstraint;
+use AppBundle\Architecture\RoutedForm;
 
 class NewSchemaType extends AbstractType
 {
+    use RoutedForm;
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -24,6 +26,8 @@ class NewSchemaType extends AbstractType
         $builder->add('save', 'submit', [
             'label' => 'label.save'
         ]);
+
+        $this->setRoute($builder);
     }
 
     public function getName()
