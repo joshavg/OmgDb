@@ -17,7 +17,7 @@ trait ContainerServices
      */
     private function getNeo4jClient()
     {
-        return $this->container->get('neo4j_client');
+        return $this->container->get('neo4j.client');
     }
 
     /**
