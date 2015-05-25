@@ -18,3 +18,8 @@ services:
       - { name: validator.constraint_validator, alias: neo4j.validator.uniquelabel }
     calls:
       - [ setClient, [ "@neo4j.client" ] ]
+  
+  neo4j.validator.label:
+    class: laniger\Neo4jBundle\Validator\Constraints\Neo4jLabelConstraintValidator
+    tags:
+      - { name: validator.constraint_validator, alias: neo4j.validator.label }

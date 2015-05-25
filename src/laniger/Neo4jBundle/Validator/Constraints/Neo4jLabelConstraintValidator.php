@@ -5,7 +5,7 @@ use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Constraint;
 use laniger\Neo4jBundle\Architecture\Neo4jClientConsumer;
 
-class Neo4jUniqueLabelConstraintValidator extends ConstraintValidator
+class Neo4jLabelConstraintValidator extends ConstraintValidator
 {
     use Neo4jClientConsumer;
 
@@ -15,21 +15,14 @@ class Neo4jUniqueLabelConstraintValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint)
     {
-        if(!Neo4jLabelConstraintValidator::isValidLabel($value)) {
-            return;
-        }
-
-        $res = $this->client->cypher('
-            MATCH (n:' . $value . ') RETURN COUNT(n) AS cnt
-        ', [
-            'label' => $value
-        ]);
-
-        $cnt = $res[0]['cnt'];
-        if ($cnt > 0) {
+        if (!static::isValidLabel($value)) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('%label%', $value)
                 ->addViolation();
         }
+    }
+
+    public static function isValidLabel($lbl) {
+        return preg_match('/^[a-z]{1}[a-z0-9_]*$/i', $lbl) === 1;
     }
 }

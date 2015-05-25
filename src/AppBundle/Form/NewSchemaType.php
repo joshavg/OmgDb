@@ -6,15 +6,18 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 use laniger\Neo4jBundle\Validator\Constraints\Neo4jUniqueLabelConstraint;
+use Symfony\Component\Validator\Constraints\Regex;
+use laniger\Neo4jBundle\Validator\Constraints\Neo4jLabelConstraint;
 
 class NewSchemaType extends AbstractType
 {
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name', 'text', [
-            'label' => 'label.name',
+        $builder->add('uniqueName', 'text', [
+            'label' => 'label.unique.name',
             'constraints' => [
+                new Neo4jLabelConstraint(),
                 new Neo4jUniqueLabelConstraint()
             ]
         ]);
