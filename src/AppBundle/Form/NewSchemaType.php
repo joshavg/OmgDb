@@ -25,6 +25,6 @@ class NewSchemaType extends AbstractType
 
     public function getName()
     {
-        return 'SettingsType';
+        return 'NewSchema';
     }
 }

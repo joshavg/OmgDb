@@ -7,3 +7,8 @@ services:
     class: AppBundle\Entity\UserRepository
     calls:
       - [ setClient, [ "@neo4j.client" ] ]
+
+  appbundle.form.type.NewSchemaType:
+    class: AppBundle\Form\NewSchemaType
+    tags:
+      - { name: form.type, alias: NewSchema }
