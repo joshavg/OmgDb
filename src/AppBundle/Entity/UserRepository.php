@@ -7,8 +7,7 @@ use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use AppBundle\Architecture\ContainerServices;
-use AppBundle\Architecture\Neo4jClientConsumer;
+use laniger\Neo4jBundle\Architecture\Neo4jClientConsumer;
 
 /**
  * UserRepository

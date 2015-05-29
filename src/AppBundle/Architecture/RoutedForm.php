@@ -3,8 +3,9 @@ namespace AppBundle\Architecture;
 
 use Symfony\Bundle\FrameworkBundle\Routing\Router;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\AbstractType;
 
-trait RoutedForm
+abstract class RoutedForm extends AbstractType
 {
 
     private $url;
@@ -14,7 +15,7 @@ trait RoutedForm
         $this->url = $router->generate($route);
     }
 
-    public function setRoute(FormBuilderInterface $builder)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->setAction($this->url);
     }

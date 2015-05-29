@@ -26,7 +26,8 @@
         ],
         "assets": [
             [ "target", "cacheclear" ],
-            [ "console", "php app/console assets:install" ],
+            [ "symfony", "assets:install" ],
+            [ "symfony", "assetic:dump" ],
             [ "target", "rights" ]
         ],
         "install": [

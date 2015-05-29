@@ -10,12 +10,13 @@ use Symfony\Component\Validator\Constraints\Regex;
 use laniger\Neo4jBundle\Validator\Constraints\Neo4jLabelConstraint;
 use AppBundle\Architecture\RoutedForm;
 
-class NewSchemaType extends AbstractType
+class NewSchemaType extends RoutedForm
 {
-    use RoutedForm;
+    use ServiceForm;
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        parent::buildForm($builder, $options);
         $builder->add('uniqueName', 'text', [
             'label' => 'label.unique.name',
             'constraints' => [
@@ -26,8 +27,6 @@ class NewSchemaType extends AbstractType
         $builder->add('save', 'submit', [
             'label' => 'label.save'
         ]);
-
-        $this->setRoute($builder);
     }
 
     public function getName()

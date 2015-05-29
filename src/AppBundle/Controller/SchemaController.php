@@ -4,27 +4,29 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use AppBundle\Architecture\ContainerServices;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\NewSchemaType;
 
-class DefaultController extends Controller
+/**
+ * @Route("/schema")
+ *
+ * @author laniger
+ */
+class SchemaController extends Controller
 {
-    use ContainerServices;
 
     /**
-     * @Route("/", name="index")
-     * @Template
+     * @Route("/new", methods={"POST"})
+     *
+     * @param Request $request
      */
-    public function indexAction(Request $req)
+    public function newSchemaAction(Request $request)
     {
         $form = $this->createForm(NewSchemaType::serviceName());
+        $form->handleRequest($request);
 
-        $form->handleRequest($req);
-        $form->isValid();
-
-        return [
-            'newSchemaForm' => $form->createView()
-        ];
+        if($form->isValid()) {
+            return $this->renderView('bla');
+        }
     }
 }
