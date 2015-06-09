@@ -25,7 +25,7 @@ class SchemaController extends Controller
         $form = $this->createForm(NewSchemaType::serviceName());
         $form->handleRequest($request);
 
-        if($form->isValid()) {
+        if($form->isSubmitted() && $form->isValid()) {
             return $this->renderView('bla');
         }
     }
