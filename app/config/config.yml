@@ -76,7 +76,7 @@ swiftmailer:
     spool:     { type: memory }
 
 laniger_neo4j:
-    user: neo4j
-    host: localhost
-    pw: b
-    port: 7474
+    user: "%database_user%"
+    host: "%database_host%"
+    pw: "%database_password%"
+    port: "%database_port%"
