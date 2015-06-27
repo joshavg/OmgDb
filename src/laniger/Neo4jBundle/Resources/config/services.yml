@@ -14,12 +14,24 @@ services:
       
   neo4j.validator.uniquelabel:
     class: laniger\Neo4jBundle\Validator\Constraints\Neo4jUniqueLabelConstraintValidator
+    arguments:
+      - "@neo4j.client"
     tags:
       - { name: validator.constraint_validator, alias: neo4j.validator.uniquelabel }
-    calls:
-      - [ setClient, [ "@neo4j.client" ] ]
+      
+  neo4j.validator.uniquename:
+    class: laniger\Neo4jBundle\Validator\Constraints\Neo4jUniqueNameConstraintValidator
+    arguments:
+      - "@neo4j.client"
+    tags:
+      - { name: validator.constraint_validator, alias: neo4j.validator.uniquename }
   
   neo4j.validator.label:
     class: laniger\Neo4jBundle\Validator\Constraints\Neo4jLabelConstraintValidator
     tags:
       - { name: validator.constraint_validator, alias: neo4j.validator.label }
+  
+  neo4j.validator.callback:
+    class: laniger\Neo4jBundle\Validator\Constraints\Neo4jCallbackConstraintValidator
+    tags:
+      - { name: validator.constraint_validator, alias: neo4j.validator.callback }
