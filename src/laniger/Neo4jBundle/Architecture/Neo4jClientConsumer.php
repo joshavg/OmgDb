@@ -5,12 +5,11 @@ trait Neo4jClientConsumer
 {
 
     /**
-     *
      * @var Neo4jClientWrapper
      */
-    protected $client;
+    private $client;
 
-    public function setClient(Neo4jClientWrapper $client)
+    public function __construct(Neo4jClientWrapper $client)
     {
         $this->client = $client;
     }
