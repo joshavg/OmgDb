@@ -3,8 +3,13 @@ services:
   password_hash_encoder:
     class: AppBundle\Architecture\PasswordEncoder
   
-  user.repo:
+  repo.user:
     class: AppBundle\Entity\UserRepository
+    arguments:
+      - "@neo4j.client"
+  
+  repo.schema:
+    class: AppBundle\Entity\SchemaRepository
     arguments:
       - "@neo4j.client"
 
@@ -12,6 +17,6 @@ services:
     class: AppBundle\Form\NewSchemaType
     arguments:
       - "@router"
-      - settings_index
+      - schema_insert
     tags:
       - { name: form.type, alias: NewSchema }

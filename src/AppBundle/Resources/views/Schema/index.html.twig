@@ -1,0 +1,22 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+{% block body %}
+    <h1>
+        {{ 'label.schema.index'|trans }}
+    </h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>{{ 'label.schema.name'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in schemas %}
+                <tr>
+                    <td>{{ s.name }}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
