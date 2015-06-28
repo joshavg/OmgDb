@@ -4,6 +4,7 @@ services:
     arguments:
       - "%laniger.neo4j.host%"
       - "%laniger.neo4j.port%"
+      - "@logger"
     calls:
       - [ configure, [ "%laniger.neo4j.user%", "%laniger.neo4j.pw%"] ]
       
