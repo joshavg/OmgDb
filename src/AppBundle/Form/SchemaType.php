@@ -13,7 +13,7 @@ use laniger\Neo4jBundle\Validator\Constraints\Neo4jCallbackConstraint;
 use laniger\Neo4jBundle\Architecture\Neo4jClientWrapper;
 use laniger\Neo4jBundle\Validator\Constraints\Neo4jUniqueNameConstraint;
 
-class NewSchemaType extends RoutedForm
+class SchemaType extends RoutedForm
 {
     use ServiceForm;
 
@@ -22,7 +22,7 @@ class NewSchemaType extends RoutedForm
         parent::buildForm($builder, $options);
 
         $builder->add('name', 'text', [
-            'label' => 'label.unique.name',
+            'label' => 'label.schema.name',
             'constraints' => [
                 new Neo4jUniqueNameConstraint('Schema')
             ]
@@ -34,6 +34,6 @@ class NewSchemaType extends RoutedForm
 
     public function getName()
     {
-        return 'NewSchema';
+        return 'Schema';
     }
 }

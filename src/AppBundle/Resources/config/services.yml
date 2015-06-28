@@ -14,10 +14,10 @@ services:
       - "@neo4j.client"
       - "@security.token_storage"
 
-  appbundle.form.type.NewSchemaType:
-    class: AppBundle\Form\NewSchemaType
+  appbundle.form.type.SchemaType:
+    class: AppBundle\Form\SchemaType
     arguments:
       - "@router"
       - schema_insert
     tags:
-      - { name: form.type, alias: NewSchema }
+      - { name: form.type, alias: Schema }

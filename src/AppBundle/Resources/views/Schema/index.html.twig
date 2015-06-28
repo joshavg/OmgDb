@@ -5,18 +5,29 @@
         {{ 'label.schema.index'|trans }}
     </h1>
 
+    <h2>{{ 'label.schema.all'|trans }}</h2>
+
     <table class="table table-striped">
         <thead>
             <tr>
                 <th>{{ 'label.schema.name'|trans }}</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             {% for s in schemas %}
                 <tr>
-                    <td>{{ s.name }}
+                    <td>{{ s.name }}</td>
+                    <td>
+                        <a href="{{ path('schema_edit', {'name': s.name}) }}">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </a>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
+
+    <h2>{{ 'label.schema.new'|trans }}</h2>
+    {{ form(newform) }}
 {% endblock %}

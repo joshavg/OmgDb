@@ -6,7 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Architecture\ContainerServices;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Form\NewSchemaType;
+use AppBundle\Form\SchemaType;
 
 class DefaultController extends Controller
 {
@@ -18,7 +18,7 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $req)
     {
-        $form = $this->createForm(NewSchemaType::serviceName());
+        $form = $this->createForm(SchemaType::serviceName());
 
         $form->handleRequest($req);
         $form->isValid();

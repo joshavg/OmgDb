@@ -47,4 +47,16 @@ class SchemaRepository
             'username' => $this->user->getUsername()
         ]));
     }
+
+    public function fetch($name) {
+        return static::transformToArray($this->client->cypher('
+            MATCH (n:Schema)<-[r:Created]-(u:User)
+            WHERE u.name = {user}
+              AND n.name = {name}
+           RETURN n
+        ', [
+            'user' => $this->user->getUsername(),
+            'name' => $name
+        ]))[0];
+    }
 }
