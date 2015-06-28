@@ -12,6 +12,7 @@ services:
     class: AppBundle\Entity\SchemaRepository
     arguments:
       - "@neo4j.client"
+      - "@security.token_storage"
 
   appbundle.form.type.NewSchemaType:
     class: AppBundle\Form\NewSchemaType

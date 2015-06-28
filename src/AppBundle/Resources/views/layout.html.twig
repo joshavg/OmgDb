@@ -22,12 +22,17 @@
                     <ul class="nav navbar-nav navbar-right">
                         {% if app.user %}
                             <li>
-                                <a href="{{ path('settings_index') }}">
+                                <a href="{{ path('schema_index') }}" title="{{ 'nav.schema.index'|trans }}">
+                                    <span class="glyphicon glyphicon-th-large"></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ path('settings_index') }}" title="{{ 'nav.settings.index'|trans }}">
                                     <span class="glyphicon glyphicon-cog"></span>
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ path('logout') }}">
+                                <a href="{{ path('logout') }}" title="{{ 'nav.logout'|trans }}">
                                     <span class="glyphicon glyphicon-off"></span>
                                 </a>
                             </li>
