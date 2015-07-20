@@ -8,23 +8,20 @@ use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 use laniger\Neo4jBundle\Validator\Constraints\Neo4jUniqueLabelConstraint;
 use Symfony\Component\Validator\Constraints\Regex;
 use laniger\Neo4jBundle\Validator\Constraints\Neo4jLabelConstraint;
-use AppBundle\Architecture\RoutedForm;
 use laniger\Neo4jBundle\Validator\Constraints\Neo4jCallbackConstraint;
 use laniger\Neo4jBundle\Architecture\Neo4jClientWrapper;
 use laniger\Neo4jBundle\Validator\Constraints\Neo4jUniqueNameConstraint;
 
-class SchemaType extends RoutedForm
+class SchemaType extends AbstractType
 {
     use ServiceForm;
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::buildForm($builder, $options);
-
         $builder->add('name', 'text', [
             'label' => 'label.schema.name',
             'constraints' => [
-                new Neo4jUniqueNameConstraint('Schema')
+                new Neo4jUniqueNameConstraint('schema')
             ]
         ]);
         $builder->add('save', 'submit', [

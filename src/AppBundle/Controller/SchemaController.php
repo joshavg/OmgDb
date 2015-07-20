@@ -25,7 +25,7 @@ class SchemaController extends Controller
      */
     public function insertSchemaAction(Request $request)
     {
-        $form = $this->createForm(SchemaType::serviceName());
+        $form = $this->createForm(new SchemaType());
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -47,7 +47,7 @@ class SchemaController extends Controller
     public function indexAction()
     {
         $dat = $this->getSchemaRepository()->fetchForOverview();
-        $form = $this->createForm(SchemaType::serviceName());
+        $form = $this->createForm(new SchemaType());
         return [
             'schemas' => $dat,
             'newform' => $form->createView()
@@ -61,9 +61,10 @@ class SchemaController extends Controller
     public function editAction($name)
     {
         $schema = $this->getSchemaRepository()->fetch($name);
-        $form = $this->createForm(SchemaType::serviceName(), $schema, [
+        $form = $this->createForm(new SchemaType(), $schema, [
             'action' => $this->generateUrl('schema_update')
         ]);
+
         return [
             'form' => $form->createView()
         ];
@@ -75,7 +76,7 @@ class SchemaController extends Controller
      */
     public function updateAction(Request $req)
     {
-        $form = $this->createForm(SchemaType::serviceName());
+        $form = $this->createForm(new SchemaType());
 
         $form->handleRequest($req);
         if ($form->isValid()) {
