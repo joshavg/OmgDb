@@ -11,6 +11,7 @@
         <thead>
             <tr>
                 <th>{{ 'label.schema.name'|trans }}</th>
+                <th>{{ 'label.schema.created_at'|trans }}</th>
                 <th></th>
             </tr>
         </thead>
@@ -18,8 +19,9 @@
             {% for s in schemas %}
                 <tr>
                     <td>{{ s.name }}</td>
+                    <td>{{ s.created_at}}</td>
                     <td>
-                        <a href="{{ path('schema_edit', {'name': s.name}) }}">
+                        <a href="{{ path('schema_edit', {'name': s.name}) }}" class="btn">
                             <span class="glyphicon glyphicon-pencil"></span>
                         </a>
                     </td>

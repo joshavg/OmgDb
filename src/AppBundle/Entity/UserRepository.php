@@ -19,7 +19,7 @@ class UserRepository
     public function persistUser(User $user)
     {
         $this->client->cypher('
-            MATCH (n:User)
+            MATCH (n:user)
             WHERE n.name = {name}
               SET n.password = {pw},
                   n.email = {email}
