@@ -35,6 +35,7 @@
 	<buildpathentry kind="src" path="vendor/doctrine/inflector/lib"/>
 	<buildpathentry kind="src" path="vendor/symfony/assetic-bundle"/>
 	<buildpathentry kind="src" path="vendor/doctrine/orm/lib"/>
+	<buildpathentry kind="src" path="app"/>
 	<buildpathentry kind="src" path="vendor/doctrine/lexer/lib"/>
 	<buildpathentry kind="src" path="vendor/kriswallsmith/assetic/src"/>
 </buildpath>
