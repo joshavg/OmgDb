@@ -19,7 +19,7 @@
             {% for s in schemas %}
                 <tr>
                     <td>{{ s.name }}</td>
-                    <td>{{ s.created_at}}</td>
+                    <td>{{ s.createdAt|date }}</td>
                     <td>
                         <a href="{{ path('schema_edit', {'name': s.name}) }}" class="btn">
                             <span class="glyphicon glyphicon-pencil"></span>

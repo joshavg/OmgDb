@@ -16,13 +16,21 @@ class SchemaType extends AbstractType
 {
     use ServiceForm;
 
+    public function __construct($mode = Form::MODE_NEW)
+    {
+        $this->mode = $mode;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $constraints = [];
+        if ($this->mode == Form::MODE_NEW) {
+            $constraints[] = new Neo4jUniqueNameConstraint('schema');
+        }
         $builder->add('name', 'text', [
             'label' => 'label.schema.name',
-            'constraints' => [
-                new Neo4jUniqueNameConstraint('schema')
-            ]
+            'constraints' => $constraints,
+            'read_only' => $this->mode == Form::MODE_EDIT
         ]);
         $builder->add('save', 'submit', [
             'label' => 'label.save'

@@ -5,6 +5,7 @@ use laniger\Neo4jBundle\Architecture\Neo4jRepository;
 use laniger\Neo4jBundle\Architecture\Neo4jClientConsumer;
 use laniger\Neo4jBundle\Architecture\Neo4jClientWrapper;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Everyman\Neo4j\Node;
 
 class SchemaRepository
 {
@@ -23,7 +24,7 @@ class SchemaRepository
         $this->user = $storage->getToken()->getUser();
     }
 
-    public function newSchema(array $formdata)
+    public function newSchema(Schema $schema)
     {
         $this->client->cypher('
              MATCH (u:user)
@@ -32,26 +33,41 @@ class SchemaRepository
                SET n.name = {name},
                    n.created_at = {date}
         ', [
-            'name' => $formdata['name'],
+            'name' => $schema->getName(),
             'username' => $this->user->getUsername(),
             'date' => date(\DateTime::ISO8601)
         ]);
     }
 
+    private function createSchemaFromRow(Node $row)
+    {
+        $schema = new Schema();
+        $schema->setName($row->getProperty('name'));
+        $schema->setCreatedAt(\DateTime::createFromFormat(\DateTime::ISO8601, $row->getProperty('created_at')));
+        return $schema;
+    }
+
     public function fetchForOverview()
     {
-        return static::transformToArray($this->client->cypher('
+        $dat = $this->client->cypher('
              MATCH (n:schema)<-[r:created]-(u:user)
              WHERE u.name = {username}
             RETURN n
             ORDER BY n.name
         ', [
             'username' => $this->user->getUsername()
-        ]));
+        ]);
+
+        $return = [];
+        foreach($dat as $row) {
+            $return[] = $this->createSchemaFromRow($row['n']);
+        }
+
+        return $return;
     }
 
     public function fetch($name) {
-        return static::transformToArray($this->client->cypher('
+        $dat = $this->client->cypher('
             MATCH (n:schema)<-[r:created]-(u:user)
             WHERE u.name = {user}
               AND n.name = {name}
@@ -59,6 +75,8 @@ class SchemaRepository
         ', [
             'user' => $this->user->getUsername(),
             'name' => $name
-        ]))[0];
+        ])[0];
+
+        return $this->createSchemaFromRow($dat['n']);
     }
 }
