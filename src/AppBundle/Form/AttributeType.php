@@ -11,9 +11,10 @@ use laniger\Neo4jBundle\Validator\Constraints\Neo4jLabelConstraint;
 use laniger\Neo4jBundle\Validator\Constraints\Neo4jCallbackConstraint;
 use laniger\Neo4jBundle\Architecture\Neo4jClientWrapper;
 use laniger\Neo4jBundle\Validator\Constraints\Neo4jUniqueNameConstraint;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use AppBundle\Entity\Attribute;
 
-class SchemaType extends AbstractType
+class AttributeType extends AbstractType
 {
     use ServiceForm;
 
@@ -24,26 +25,24 @@ class SchemaType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $constraints = [];
-        if ($this->mode == Form::MODE_NEW) {
-            $constraints[] = new Neo4jUniqueNameConstraint('schema');
-        }
         $builder->add('name', 'text', [
-            'label' => 'label.schema.name',
-            'constraints' => $constraints,
-            'read_only' => $this->mode == Form::MODE_EDIT
-        ]);
-        $builder->add('attributes', 'collection', [
-            'label' => 'label.schema.attributes',
-            'type' => new AttributeType()
-        ]);
-        $builder->add('save', 'submit', [
-            'label' => 'label.save'
+            'label' => 'label.attribute.name'
         ]);
     }
 
     public function getName()
     {
-        return 'Schema';
+        return 'Attribute';
+    }
+
+    /*
+     * (non-PHPdoc)
+     * @see \Symfony\Component\Form\AbstractType::setDefaultOptions()
+     */
+    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => Attribute::class
+        ]);
     }
 }

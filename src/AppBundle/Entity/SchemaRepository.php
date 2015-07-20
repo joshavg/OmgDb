@@ -14,14 +14,22 @@ class SchemaRepository
     }
 
     /**
+     *
      * @var User
      */
     private $user;
 
-    public function __construct(Neo4jClientWrapper $client, TokenStorage $storage)
+    /**
+     *
+     * @var AttributeRepository
+     */
+    private $attrrepo;
+
+    public function __construct(Neo4jClientWrapper $client, TokenStorage $storage, AttributeRepository $attrrepo)
     {
         $this->neo($client);
         $this->user = $storage->getToken()->getUser();
+        $this->attrrepo = $attrrepo;
     }
 
     public function newSchema(Schema $schema)
@@ -59,14 +67,15 @@ class SchemaRepository
         ]);
 
         $return = [];
-        foreach($dat as $row) {
+        foreach ($dat as $row) {
             $return[] = $this->createSchemaFromRow($row['n']);
         }
 
         return $return;
     }
 
-    public function fetch($name) {
+    public function fetch($name)
+    {
         $dat = $this->client->cypher('
             MATCH (n:schema)<-[r:created]-(u:user)
             WHERE u.name = {user}
@@ -77,6 +86,8 @@ class SchemaRepository
             'name' => $name
         ])[0];
 
-        return $this->createSchemaFromRow($dat['n']);
+        $schema = $this->createSchemaFromRow($dat['n']);
+        $schema->setAttributes($this->attrrepo->getForSchema($schema));
+        return $schema;
     }
 }

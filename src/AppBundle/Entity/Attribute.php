@@ -1,14 +1,12 @@
 <?php
 namespace AppBundle\Entity;
 
-class Schema
+class Attribute
 {
 
     private $name;
 
     private $createdAt;
-
-    private $attributes;
 
     public function getName()
     {
@@ -29,17 +27,6 @@ class Schema
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-        return $this;
-    }
-
-    public function getAttributes()
-    {
-        return $this->attributes;
-    }
-
-    public function setAttributes($attributes)
-    {
-        $this->attributes = $attributes;
         return $this;
     }
 }
