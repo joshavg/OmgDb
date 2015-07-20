@@ -26,20 +26,22 @@ class SchemaRepository
     public function newSchema(array $formdata)
     {
         $this->client->cypher('
-             MATCH (u:User)
+             MATCH (u:user)
              WHERE u.name = {username}
-            CREATE (n:Schema)<-[r:Created]-(u)
-               SET n.name = {name}
+            CREATE (n:schema)<-[r:created]-(u)
+               SET n.name = {name},
+                   n.created_at = {date}
         ', [
             'name' => $formdata['name'],
-            'username' => $this->user->getUsername()
+            'username' => $this->user->getUsername(),
+            'date' => date(\DateTime::ISO8601)
         ]);
     }
 
     public function fetchForOverview()
     {
         return static::transformToArray($this->client->cypher('
-             MATCH (n:Schema)<-[r:Created]-(u:User)
+             MATCH (n:schema)<-[r:created]-(u:user)
              WHERE u.name = {username}
             RETURN n
             ORDER BY n.name
@@ -50,7 +52,7 @@ class SchemaRepository
 
     public function fetch($name) {
         return static::transformToArray($this->client->cypher('
-            MATCH (n:Schema)<-[r:Created]-(u:User)
+            MATCH (n:schema)<-[r:created]-(u:user)
             WHERE u.name = {user}
               AND n.name = {name}
            RETURN n

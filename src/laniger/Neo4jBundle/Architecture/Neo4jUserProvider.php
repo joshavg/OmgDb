@@ -26,7 +26,7 @@ class Neo4jUserProvider implements UserProviderInterface
      */
     public function loadUserByUsername($username)
     {
-        $res = $this->client->cypher('MATCH (n:User) WHERE n.name = {name} RETURN n', [
+        $res = $this->client->cypher('MATCH (n:user) WHERE n.name = {name} RETURN n', [
             'name' => $username
         ]);
 
