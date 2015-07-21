@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\SchemaType;
 use AppBundle\Architecture\RepositoryServices;
-use AppBundle\Form\Form;
+use AppBundle\Form\FormDefinition;
 use AppBundle\Entity\Schema;
 
 /**
@@ -65,7 +65,7 @@ class SchemaController extends Controller
     public function editAction($name)
     {
         $schema = $this->getSchemaRepository()->fetch($name);
-        $form = $this->createForm(new SchemaType(Form::MODE_EDIT), $schema, [
+        $form = $this->createForm(new SchemaType(FormDefinition::MODE_EDIT), $schema, [
             'action' => $this->generateUrl('schema_update')
         ]);
 
@@ -80,7 +80,7 @@ class SchemaController extends Controller
      */
     public function updateAction(Request $req)
     {
-        $form = $this->createForm(new SchemaType(Form::MODE_EDIT), new Schema());
+        $form = $this->createForm(new SchemaType(FormDefinition::MODE_EDIT), new Schema());
 
         $form->handleRequest($req);
         if ($form->isValid()) {

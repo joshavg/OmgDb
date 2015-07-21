@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Architecture\ContainerServices;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\SchemaType;
+use AppBundle\Entity\Schema;
 
 class DefaultController extends Controller
 {
@@ -18,7 +19,7 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $req)
     {
-        $form = $this->createForm(new SchemaType(), [], [
+        $form = $this->createForm(new SchemaType(), new Schema(), [
             'action' => $this->generateUrl('schema_insert')
         ]);
 

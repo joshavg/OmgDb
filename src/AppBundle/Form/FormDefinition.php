@@ -1,7 +1,7 @@
 <?php
 namespace AppBundle\Form;
 
-class Form
+class FormDefinition
 {
 
     const MODE_EDIT = 1;

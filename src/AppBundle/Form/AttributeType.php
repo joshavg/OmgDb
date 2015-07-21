@@ -18,7 +18,7 @@ class AttributeType extends AbstractType
 {
     use ServiceForm;
 
-    public function __construct($mode = Form::MODE_NEW)
+    public function __construct($mode = FormDefinition::MODE_NEW)
     {
         $this->mode = $mode;
     }
