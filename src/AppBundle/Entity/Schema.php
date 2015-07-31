@@ -42,4 +42,9 @@ class Schema
         $this->attributes = $attributes;
         return $this;
     }
+    
+    public function __toString()
+    {
+        return $this->name;
+    }
 }

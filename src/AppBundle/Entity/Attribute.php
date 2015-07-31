@@ -7,6 +7,8 @@ class Attribute
     private $name;
 
     private $createdAt;
+    
+    private $dataType;
 
     public function getName()
     {
@@ -28,5 +30,16 @@ class Attribute
     {
         $this->createdAt = $createdAt;
         return $this;
+    }
+    
+    public function setDataType(AttributeDataType $type)
+    {
+        $this->type = $type;
+        return $this;
+    }
+    
+    public function getDataType()
+    {
+        return $this->type;
     }
 }

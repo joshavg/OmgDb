@@ -14,39 +14,36 @@ use laniger\Neo4jBundle\Validator\Constraints\Neo4jUniqueNameConstraint;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use AppBundle\Entity\Attribute;
 use AppBundle\Entity\AttributeDataType;
+use AppBundle\Entity\Schema;
 
-class AttributeType extends AbstractType
+class SchemaFilterType extends AbstractType
 {
     use ServiceForm;
 
-    public function __construct($mode = FormDefinition::MODE_NEW)
+    private $schemas;
+    
+    public function __construct(array $schemas = null)
     {
-        $this->mode = $mode;
+        $this->schemas = $schemas;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name', 'text', [
-            'label' => 'label.attribute.name'
-        ]);
-        $builder->add('datatype', 'coice', [
-            'choices' => AttributeDataType::getTypes()
+        $choices = [];
+        foreach($this->schemas as $schema)
+        {
+            $choices[$schema->getName()] = $schema->getName();
+        }
+        
+        $builder->add('schema', 'choice', [
+            'choices' => $choices,
+            'empty_data' => null,
+            'placeholder' => 'label.attribute.choose-schema'
     	]);
     }
 
     public function getName()
     {
-        return 'Attribute';
-    }
-
-    /*
-     * (non-PHPdoc)
-     * @see \Symfony\Component\Form\AbstractType::setDefaultOptions()
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
-    {
-        $resolver->setDefaults([
-            'data_class' => Attribute::class
-        ]);
+        return 'SchemaFilter';
     }
 }
