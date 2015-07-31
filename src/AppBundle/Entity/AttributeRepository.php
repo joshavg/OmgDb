@@ -28,7 +28,7 @@ class AttributeRepository
     public function getForSchema(Schema $schema)
     {
         $attr = $this->client->cypher('
-            MATCH (s:schema)-[:attribute]->(a:attribute)
+            MATCH (s:schema)<-[:attribute_of]->(a:attribute)
             WHERE s.name = {name}
            RETURN a
         ', [

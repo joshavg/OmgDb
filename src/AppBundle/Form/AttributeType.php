@@ -28,6 +28,9 @@ class AttributeType extends AbstractType
         $builder->add('name', 'text', [
             'label' => 'label.attribute.name'
         ]);
+        $builder->add('type', 'coice', [
+            
+    	]);
     }
 
     public function getName()

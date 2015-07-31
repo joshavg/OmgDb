@@ -37,7 +37,7 @@ class SchemaRepository
         $this->client->cypher('
              MATCH (u:user)
              WHERE u.name = {username}
-            CREATE (n:schema)<-[r:created]-(u)
+            CREATE (n:schema)-[r:created_by]->(u)
                SET n.name = {name},
                    n.created_at = {date}
         ', [
@@ -58,7 +58,7 @@ class SchemaRepository
     public function fetchForOverview()
     {
         $dat = $this->client->cypher('
-             MATCH (n:schema)<-[r:created]-(u:user)
+             MATCH (n:schema)-[r:created_by]->(u:user)
              WHERE u.name = {username}
             RETURN n
             ORDER BY n.name
@@ -77,7 +77,7 @@ class SchemaRepository
     public function fetch($name)
     {
         $dat = $this->client->cypher('
-            MATCH (n:schema)<-[r:created]-(u:user)
+            MATCH (n:schema)-[r:created_by]->(u:user)
             WHERE u.name = {user}
               AND n.name = {name}
            RETURN n
