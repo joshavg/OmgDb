@@ -38,4 +38,9 @@
             {% endfor %}
         </tbody>
     </table>
+    
+    {% if newForm %}
+        <h2>{{ 'label.attribute.new'|trans }}</h2>
+        {{ form(newForm) }}
+    {% endif %}
 {% endblock %}

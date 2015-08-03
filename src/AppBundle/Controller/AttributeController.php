@@ -3,6 +3,7 @@ namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\SchemaType;
@@ -10,6 +11,8 @@ use AppBundle\Architecture\RepositoryServices;
 use AppBundle\Form\FormDefinition;
 use AppBundle\Form\SchemaFilterType;
 use AppBundle\Entity\Schema;
+use AppBundle\Entity\Attribute;
+use AppBundle\Form\AttributeType;
 
 /**
  * @Route("/attribute")
@@ -35,17 +38,43 @@ class AttributeController extends Controller
         ]);
         
         $attributes = [];
+        $newform = null;
         if($schemaFilterForm->handleRequest($request)->isValid()) {
             $schemaname = $schemaFilterForm->getData();
             $schema = $this->getSchemaRepository()->fetch($schemaname['schema']);
             
             $attributes = $this->getAttributeRepository()->getForSchema($schema);
+            
+            $attr = new Attribute();
+            $attr->setSchema($schema);
+            $newform = $this->createNewForm($attr);
         }
         
         return [
             'attributes' => $attributes,
-            'schemaFilterForm' => $schemaFilterForm->createView()
+            'schemaFilterForm' => $schemaFilterForm->createView(),
+            'newForm' => $newform ? $newform->createView() : null
         ];
+    }
+    
+    private function createNewForm(Attribute $attr)
+    {
+        $form = $this->createForm(new AttributeType(), $attr, [
+            'action' => $this->generateUrl('attribute_insert')
+        ]);
+        $form->add('submit', 'submit', [
+            'label' => 'label.create'
+        ]);
+        return $form;
+    }
+    
+    /**
+     * @Route("/new", name="attribute_insert")
+     * @Method("POST")
+     */
+    public function newAction(Request $req)
+    {
+        return [];
     }
 
     /**

@@ -32,6 +32,7 @@ class AttributeRepository
             MATCH (s:schema)<-[:attribute_of]->(a:attribute)
             WHERE s.name = {name}
            RETURN a
+            ORDER BY s.name
         ', [
             'name' => $schema->getName()
         ]);

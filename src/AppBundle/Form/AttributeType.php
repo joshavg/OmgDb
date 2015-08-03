@@ -14,6 +14,7 @@ use laniger\Neo4jBundle\Validator\Constraints\Neo4jUniqueNameConstraint;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use AppBundle\Entity\Attribute;
 use AppBundle\Entity\AttributeDataType;
+use AppBundle\Entity\Schema;
 
 class AttributeType extends AbstractType
 {
@@ -26,11 +27,23 @@ class AttributeType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $builder->add('schema', 'text', [
+            'label' => 'label.attribute.schema',
+            'read_only' => true,
+            'data_class' => Schema::class
+        ]);
+        
         $builder->add('name', 'text', [
             'label' => 'label.attribute.name'
         ]);
-        $builder->add('datatype', 'coice', [
-            'choices' => AttributeDataType::getTypes()
+        
+        $choices = [];
+        foreach(AttributeDataType::getTypes() as $type)
+        {
+            $choices[$type->getName()] = $type->getName();
+        }
+        $builder->add('dataType', 'choice', [
+            'choices' => $choices
     	]);
     }
 
