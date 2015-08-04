@@ -4,8 +4,7 @@
     "globals": {
         "rightsdirs": [
             "app/cache",
-            "app/logs",
-            "src/AppBundle"
+            "app/logs"
         ]
     },
     
@@ -36,10 +35,10 @@
             [ "output", "open config.php from your webbrowser for further checks" ]
         ],
         "postupdate": [
-            [ "console", "php app/console cache:clear --env=prod" ],
-            [ "console", "php app/console cache:warmup --env=prod" ],
-            [ "console", "php app/console assets:install --env=prod" ],
-            [ "console", "php app/console assetic:dump --env=prod" ],
+            [ "symfony", "cache:clear --env=prod" ],
+            [ "symfony", "cache:warmup --env=prod" ],
+            [ "symfony", "assets:install --env=prod" ],
+            [ "symfony", "assetic:dump --env=prod" ],
             [ "target", "rights" ]
         ]
     }
