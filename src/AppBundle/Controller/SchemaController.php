@@ -24,6 +24,7 @@ class SchemaController extends Controller
      * @Template("AppBundle:Schema:new.html.twig")
      *
      * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function insertSchemaAction(Request $request)
     {

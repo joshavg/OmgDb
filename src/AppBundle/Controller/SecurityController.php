@@ -5,8 +5,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Architecture\ContainerServices;
-use AppBundle\Entity\User;
-use Symfony\Component\BrowserKit\Response;
 
 /**
  * provides routes and functions for security routines
