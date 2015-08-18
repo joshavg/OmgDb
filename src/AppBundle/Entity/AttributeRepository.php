@@ -6,6 +6,7 @@ use laniger\Neo4jBundle\Architecture\Neo4jClientConsumer;
 use laniger\Neo4jBundle\Architecture\Neo4jClientWrapper;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Everyman\Neo4j\Node;
+use AppBundle\Entity\AttributeDataType;
 
 class AttributeRepository
 {
@@ -31,6 +32,7 @@ class AttributeRepository
             MATCH (s:schema)<-[:attribute_of]->(a:attribute)
             WHERE s.name = {name}
            RETURN a
+            ORDER BY s.name
         ', [
             'name' => $schema->getName()
         ]);
@@ -47,6 +49,7 @@ class AttributeRepository
         $a = new Attribute();
         $a->setName($row->getProperty('name'));
         $a->setCreatedAt(\DateTime::createFromFormat(\DateTime::ISO8601, $row->getProperty('created_at')));
+        $a->setDataType(AttributeDataType::getByName($row->getProperty('type')));
         return $a;
     }
 }

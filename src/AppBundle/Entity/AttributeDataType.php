@@ -1,16 +1,21 @@
 <?php
 namespace AppBundle\Entity;
 
-class AttributeDatType
+class AttributeDataType
 {
     
     public static function getTypes()
     {
         return [
-            new AttributeType('text'),
-            new AttributeType('number'),
-            new AttributeType('boolean')
+            new AttributeDataType('text'),
+            new AttributeDataType('number'),
+            new AttributeDataType('boolean')
         ];
+    }
+    
+    public static function getByName($name)
+    {
+        return new AttributeDataType($name);
     }
 
     private $name;
@@ -18,6 +23,11 @@ class AttributeDatType
     private function __construct($name)
     {
         $this->name = $name;
+    }
+    
+    public function getName()
+    {
+        return $this->name;
     }
 
 }

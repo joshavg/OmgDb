@@ -9,6 +9,8 @@ class Attribute
     private $createdAt;
     
     private $dataType;
+    
+    private $schema;
 
     public function getName()
     {
@@ -34,12 +36,23 @@ class Attribute
     
     public function setDataType(AttributeDataType $type)
     {
-        $this->type = $type;
+        $this->dataType = $type;
         return $this;
     }
     
     public function getDataType()
     {
-        return $this->type;
+        return $this->dataType;
+    }
+    
+    public function setSchema(Schema $schema)
+    {
+        $this->schema = $schema;
+        return $this;
+    }
+    
+    public function getSchema()
+    {
+        return $this->schema;
     }
 }

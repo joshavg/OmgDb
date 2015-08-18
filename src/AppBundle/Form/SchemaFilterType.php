@@ -38,7 +38,8 @@ class SchemaFilterType extends AbstractType
         $builder->add('schema', 'choice', [
             'choices' => $choices,
             'empty_data' => null,
-            'placeholder' => 'label.attribute.choose-schema'
+            'placeholder' => 'label.attribute.choose-schema',
+            'label' => 'label.schema.name'
     	]);
     }
 

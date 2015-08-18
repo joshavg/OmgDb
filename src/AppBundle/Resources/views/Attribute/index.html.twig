@@ -12,8 +12,9 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>{{ 'label.schema.name'|trans }}</th>
-                <th>{{ 'label.schema.created_at'|trans }}</th>
+                <th>{{ 'label.attribute.name'|trans }}</th>
+                <th>{{ 'label.attribute.data-type'|trans }}</th>
+                <th>{{ 'label.attribute.created_at'|trans }}</th>
                 <th></th>
             </tr>
         </thead>
@@ -21,6 +22,7 @@
             {% for a in attributes %}
                 <tr>
                     <td>{{ a.name }}</td>
+                    <td>{{ a.dataType.name }}</td>
                     <td>{{ a.createdAt|date }}</td>
                     <td>
                         <a href="{{ path('schema_edit', {'name': a.name}) }}" class="btn">
@@ -36,4 +38,9 @@
             {% endfor %}
         </tbody>
     </table>
+    
+    {% if newForm %}
+        <h2>{{ 'label.attribute.new'|trans }}</h2>
+        {{ form(newForm) }}
+    {% endif %}
 {% endblock %}
