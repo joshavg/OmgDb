@@ -3,6 +3,7 @@ namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
 use laniger\Neo4jBundle\Validator\Constraints\Neo4jUniqueLabelConstraint;
@@ -52,11 +53,7 @@ class AttributeType extends AbstractType
         return 'Attribute';
     }
 
-    /*
-     * (non-PHPdoc)
-     * @see \Symfony\Component\Form\AbstractType::setDefaultOptions()
-     */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => Attribute::class
