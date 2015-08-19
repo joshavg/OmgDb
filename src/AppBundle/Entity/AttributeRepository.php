@@ -39,7 +39,9 @@ class AttributeRepository
 
         $attributes = [];
         foreach ($attr as $row) {
-            $attributes[] = $this->createFromRow($row['a']);
+            $a = $this->createFromRow($row['a']);
+            $a->setSchema($schema);
+            $attributes[] = $a;
         }
         return $attributes;
     }

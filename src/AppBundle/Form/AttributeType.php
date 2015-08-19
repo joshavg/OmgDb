@@ -33,19 +33,18 @@ class AttributeType extends AbstractType
             'read_only' => true,
             'data_class' => Schema::class
         ]);
-        
+
         $builder->add('name', 'text', [
             'label' => 'label.attribute.name'
         ]);
-        
+
         $choices = [];
-        foreach(AttributeDataType::getTypes() as $type)
-        {
+        foreach (AttributeDataType::getTypes() as $type) {
             $choices[$type->getName()] = $type->getName();
         }
         $builder->add('dataType', 'choice', [
             'choices' => $choices
-    	]);
+        ]);
     }
 
     public function getName()
