@@ -5,7 +5,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Form\SchemaType;
+use AppBundle\Form\Type\SchemaType;
 use AppBundle\Architecture\RepositoryServices;
 use AppBundle\Form\FormDefinition;
 use AppBundle\Entity\Schema;

@@ -6,7 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Architecture\ContainerServices;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Form\SchemaType;
+use AppBundle\Form\Type\SchemaType;
 use AppBundle\Entity\Schema;
 
 class DefaultController extends Controller

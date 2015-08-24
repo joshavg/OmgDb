@@ -5,7 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Architecture\ContainerServices;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use AppBundle\Form\SettingsType;
+use AppBundle\Form\Type\SettingsType;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Architecture\RepositoryServices;
 

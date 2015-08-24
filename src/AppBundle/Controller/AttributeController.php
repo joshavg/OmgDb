@@ -9,10 +9,10 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\SchemaType;
 use AppBundle\Architecture\RepositoryServices;
 use AppBundle\Form\FormDefinition;
-use AppBundle\Form\SchemaFilterType;
+use AppBundle\Form\Type\SchemaFilterType;
 use AppBundle\Entity\Schema;
 use AppBundle\Entity\Attribute;
-use AppBundle\Form\AttributeType;
+use AppBundle\Form\Type\AttributeType;
 
 /**
  * @Route("/attribute")
