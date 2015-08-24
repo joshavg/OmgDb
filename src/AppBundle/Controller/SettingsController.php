@@ -44,6 +44,7 @@ class SettingsController extends Controller
      * @Template("AppBundle:Settings:settings.html.twig")
      *
      * @param Request $req
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function userSettingsSaveAction(Request $req)
     {

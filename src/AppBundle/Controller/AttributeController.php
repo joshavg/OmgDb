@@ -36,27 +36,27 @@ class AttributeController extends Controller
         $schemaFilterForm->add('filter', 'submit', [
             'label' => 'label.attribute.filter'
         ]);
-        
+
         $attributes = [];
         $newform = null;
         if($schemaFilterForm->handleRequest($request)->isValid()) {
             $schemaname = $schemaFilterForm->getData();
             $schema = $this->getSchemaRepository()->fetch($schemaname['schema']);
-            
+
             $attributes = $this->getAttributeRepository()->getForSchema($schema);
-            
+
             $attr = new Attribute();
             $attr->setSchema($schema);
             $newform = $this->createNewForm($attr);
         }
-        
+
         return [
             'attributes' => $attributes,
             'schemaFilterForm' => $schemaFilterForm->createView(),
             'newForm' => $newform ? $newform->createView() : null
         ];
     }
-    
+
     private function createNewForm(Attribute $attr)
     {
         $form = $this->createForm(new AttributeType(), $attr, [
@@ -67,7 +67,7 @@ class AttributeController extends Controller
         ]);
         return $form;
     }
-    
+
     /**
      * @Route("/new", name="attribute_insert")
      * @Method("POST")
@@ -78,7 +78,7 @@ class AttributeController extends Controller
     }
 
     /**
-     * @Route("/{name}/edit", name="schema_edit")
+     * @Route("/{schema_name}/{attribute_name}/edit", name="attribute_edit")
      * @Template()
      */
     public function editAction($name)
