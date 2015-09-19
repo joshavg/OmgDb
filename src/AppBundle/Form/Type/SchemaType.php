@@ -1,5 +1,5 @@
 <?php
-namespace AppBundle\Form;
+namespace AppBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -10,6 +10,8 @@ use laniger\Neo4jBundle\Validator\Constraints\Neo4jLabelConstraint;
 use laniger\Neo4jBundle\Validator\Constraints\Neo4jCallbackConstraint;
 use laniger\Neo4jBundle\Architecture\Neo4jClientWrapper;
 use laniger\Neo4jBundle\Validator\Constraints\Neo4jUniqueNameConstraint;
+use AppBundle\Form\ServiceForm;
+use AppBundle\Form\FormDefinition;
 
 class SchemaType extends AbstractType
 {

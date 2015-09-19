@@ -1,5 +1,5 @@
 <?php
-namespace AppBundle\Form;
+namespace AppBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,6 +16,8 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use AppBundle\Entity\Attribute;
 use AppBundle\Entity\AttributeDataType;
 use AppBundle\Entity\Schema;
+use AppBundle\Form\FormDefinition;
+use AppBundle\Form\ServiceForm;
 
 class AttributeType extends AbstractType
 {
