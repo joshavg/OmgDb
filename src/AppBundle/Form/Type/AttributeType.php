@@ -2,6 +2,8 @@
 namespace AppBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraint;
@@ -30,13 +32,15 @@ class AttributeType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('schema', 'text', [
+        $builder->add('schema', TextType::class, [
             'label' => 'label.attribute.schema',
-            'read_only' => true,
+            'attr' => [
+                'readonly' => true
+            ],
             'data_class' => Schema::class
         ]);
 
-        $builder->add('name', 'text', [
+        $builder->add('name', TextType::class, [
             'label' => 'label.attribute.name'
         ]);
 
@@ -44,7 +48,7 @@ class AttributeType extends AbstractType
         foreach (AttributeDataType::getTypes() as $type) {
             $choices[$type->getName()] = $type->getName();
         }
-        $builder->add('dataType', 'choice', [
+        $builder->add('dataType', ChoiceType::class, [
             'choices' => $choices
         ]);
     }

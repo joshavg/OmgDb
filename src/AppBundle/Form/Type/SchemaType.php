@@ -2,13 +2,9 @@
 namespace AppBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Validator\Constraint;
-use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
-use Symfony\Component\Validator\Constraints\Regex;
-use laniger\Neo4jBundle\Validator\Constraints\Neo4jLabelConstraint;
-use laniger\Neo4jBundle\Validator\Constraints\Neo4jCallbackConstraint;
-use laniger\Neo4jBundle\Architecture\Neo4jClientWrapper;
 use laniger\Neo4jBundle\Validator\Constraints\Neo4jUniqueNameConstraint;
 use AppBundle\Form\ServiceForm;
 use AppBundle\Form\FormDefinition;
@@ -28,12 +24,14 @@ class SchemaType extends AbstractType
         if ($this->mode == FormDefinition::MODE_NEW) {
             $constraints[] = new Neo4jUniqueNameConstraint('schema');
         }
-        $builder->add('name', 'text', [
+        $builder->add('name', TextType::class, [
             'label' => 'label.schema.name',
             'constraints' => $constraints,
-            'read_only' => $this->mode == FormDefinition::MODE_EDIT
+            'attr' => [
+                'readonly' => $this->mode == FormDefinition::MODE_EDIT
+            ]
         ]);
-        $builder->add('save', 'submit', [
+        $builder->add('save', SubmitType::class, [
             'label' => 'label.save'
         ]);
     }

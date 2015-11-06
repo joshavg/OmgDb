@@ -80,9 +80,9 @@ class SchemaRepository
         ', [
             'user' => $this->user->getUsername(),
             'name' => $name
-        ])[0];
+        ])->getRows()['n'][0];
 
-        $schema = $this->createSchemaFromRow($dat['n']);
+        $schema = $this->createSchemaFromRow($dat);
         $schema->setAttributes($this->attrrepo->getForSchema($schema));
         return $schema;
     }

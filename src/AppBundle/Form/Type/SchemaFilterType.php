@@ -2,6 +2,7 @@
 namespace AppBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Security\Core\Validator\Constraints\UserPassword;
@@ -22,7 +23,7 @@ class SchemaFilterType extends AbstractType
     use ServiceForm;
 
     private $schemas;
-    
+
     public function __construct(array $schemas = null)
     {
         $this->schemas = $schemas;
@@ -35,8 +36,8 @@ class SchemaFilterType extends AbstractType
         {
             $choices[$schema->getName()] = $schema->getName();
         }
-        
-        $builder->add('schema', 'choice', [
+
+        $builder->add('schema', ChoiceType::class, [
             'choices' => $choices,
             'empty_data' => null,
             'placeholder' => 'label.attribute.choose-schema',

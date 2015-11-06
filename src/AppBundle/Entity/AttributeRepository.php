@@ -45,12 +45,12 @@ class AttributeRepository
         return $attributes;
     }
 
-    private function createFromRow(Node $row)
+    private function createFromRow($row)
     {
         $a = new Attribute();
-        $a->setName($row->getProperty('name'));
-        $a->setCreatedAt(\DateTime::createFromFormat(\DateTime::ISO8601, $row->getProperty('created_at')));
-        $a->setDataType(AttributeDataType::getByName($row->getProperty('type')));
+        $a->setName($row['name']);
+        $a->setCreatedAt(\DateTime::createFromFormat(\DateTime::ISO8601, $row['created_at']));
+        $a->setDataType(AttributeDataType::getByName($row['type']));
         return $a;
     }
 }

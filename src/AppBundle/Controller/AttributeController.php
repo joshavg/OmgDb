@@ -5,6 +5,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\SchemaType;
 use AppBundle\Architecture\RepositoryServices;
@@ -33,7 +34,7 @@ class AttributeController extends Controller
     {
         $schemas = $this->getSchemaRepository()->fetchForOverview();
         $schemaFilterForm = $this->createForm(new SchemaFilterType($schemas), []);
-        $schemaFilterForm->add('filter', 'submit', [
+        $schemaFilterForm->add('filter', SubmitType::class, [
             'label' => 'label.attribute.filter'
         ]);
 
@@ -59,10 +60,10 @@ class AttributeController extends Controller
 
     private function createNewForm(Attribute $attr)
     {
-        $form = $this->createForm(new AttributeType(), $attr, [
+        $form = $this->createForm(AttributeType::class, $attr, [
             'action' => $this->generateUrl('attribute_insert')
         ]);
-        $form->add('submit', 'submit', [
+        $form->add('submit', SubmitType::class, [
             'label' => 'label.create'
         ]);
         return $form;

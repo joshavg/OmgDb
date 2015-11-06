@@ -19,7 +19,7 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $req)
     {
-        $form = $this->createForm(new SchemaType(), new Schema(), [
+        $form = $this->createForm(SchemaType::class, new Schema(), [
             'action' => $this->generateUrl('schema_insert')
         ]);
 

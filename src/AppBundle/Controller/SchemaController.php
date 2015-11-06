@@ -50,7 +50,7 @@ class SchemaController extends Controller
     public function indexAction()
     {
         $dat = $this->getSchemaRepository()->fetchForOverview();
-        $form = $this->createForm(new SchemaType(), new Schema(), [
+        $form = $this->createForm(SchemaType::class, new Schema(), [
             'action' => $this->generateUrl('schema_insert')
         ]);
         return [
