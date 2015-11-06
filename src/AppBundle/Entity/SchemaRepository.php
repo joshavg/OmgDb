@@ -2,10 +2,8 @@
 namespace AppBundle\Entity;
 
 use laniger\Neo4jBundle\Architecture\Neo4jRepository;
-use laniger\Neo4jBundle\Architecture\Neo4jClientConsumer;
 use laniger\Neo4jBundle\Architecture\Neo4jClientWrapper;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
-use Everyman\Neo4j\Node;
 
 class SchemaRepository
 {
@@ -14,13 +12,11 @@ class SchemaRepository
     }
 
     /**
-     *
      * @var User
      */
     private $user;
 
     /**
-     *
      * @var AttributeRepository
      */
     private $attrrepo;
@@ -47,11 +43,11 @@ class SchemaRepository
         ]);
     }
 
-    private function createSchemaFromRow(Node $row)
+    private function createSchemaFromRow($row)
     {
         $schema = new Schema();
-        $schema->setName($row->getProperty('name'));
-        $schema->setCreatedAt(\DateTime::createFromFormat(\DateTime::ISO8601, $row->getProperty('created_at')));
+        $schema->setName($row['name']);
+        $schema->setCreatedAt(\DateTime::createFromFormat(\DateTime::ISO8601, $row['created_at']));
         return $schema;
     }
 
@@ -67,8 +63,8 @@ class SchemaRepository
         ]);
 
         $return = [];
-        foreach ($dat as $row) {
-            $return[] = $this->createSchemaFromRow($row['n']);
+        foreach ($dat->getRows()['n'] as $row) {
+            $return[] = $this->createSchemaFromRow($row);
         }
 
         return $return;

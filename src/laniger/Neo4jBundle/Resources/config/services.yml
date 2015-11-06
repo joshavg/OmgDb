@@ -4,10 +4,10 @@ services:
     arguments:
       - "%laniger.neo4j.host%"
       - "%laniger.neo4j.port%"
+      - "%laniger.neo4j.user%"
+      - "%laniger.neo4j.pw%"
       - "@logger"
-    calls:
-      - [ configure, [ "%laniger.neo4j.user%", "%laniger.neo4j.pw%"] ]
-      
+
   neo4j.userprovider:
     class: laniger\Neo4jBundle\Architecture\Neo4jUserProvider
     arguments:

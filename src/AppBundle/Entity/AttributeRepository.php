@@ -15,7 +15,6 @@ class AttributeRepository
     }
 
     /**
-     *
      * @var User
      */
     private $user;
@@ -38,8 +37,8 @@ class AttributeRepository
         ]);
 
         $attributes = [];
-        foreach ($attr as $row) {
-            $a = $this->createFromRow($row['a']);
+        foreach ($attr->getRows()['a'] as $row) {
+            $a = $this->createFromRow($row);
             $a->setSchema($schema);
             $attributes[] = $a;
         }

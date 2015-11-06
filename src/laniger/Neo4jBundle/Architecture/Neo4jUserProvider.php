@@ -10,7 +10,6 @@ class Neo4jUserProvider implements UserProviderInterface
 {
 
     /**
-     *
      * @var Neo4jClientWrapper
      */
     private $client;
@@ -30,15 +29,17 @@ class Neo4jUserProvider implements UserProviderInterface
             'name' => $username
         ]);
 
-        if (! count($res)) {
+        $rows = $res->getRows();
+
+        if (! count($rows)) {
             throw new UsernameNotFoundException(sprintf('Username "%s" does not exist.', $username));
         }
 
-        $row = $res[0]['n'];
+        $row = $rows['n'][0];
         $user = new User();
-        $user->setName($row->getProperty('name'));
-        $user->setEmail($row->getProperty('email'));
-        $user->setPassword($row->getProperty('password'));
+        $user->setName($row['name']);
+        $user->setEmail($row['email']);
+        $user->setPassword($row['password']);
         return $user;
     }
 

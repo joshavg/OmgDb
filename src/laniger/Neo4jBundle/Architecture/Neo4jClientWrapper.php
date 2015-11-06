@@ -1,37 +1,51 @@
 <?php
 namespace laniger\Neo4jBundle\Architecture;
 
-use Everyman\Neo4j\Client;
-use Everyman\Neo4j\Cypher\Query;
+use Neoxygen\NeoClient\Client;
+use Neoxygen\NeoClient\ClientBuilder;
 use Psr\Log\LoggerInterface;
 
-class Neo4jClientWrapper extends Client
+class Neo4jClientWrapper
 {
 
     /**
-     *
      * @var LoggerInterface
      */
     private $logger;
 
-    public function __construct($host, $pw, LoggerInterface $logger)
+    /**
+     * @var Client
+     */
+    private $client;
+
+    public function __construct($host, $port, $user, $pw, LoggerInterface $logger)
     {
-        parent::__construct($host, $pw);
         $this->logger = $logger;
+        $this->client = ClientBuilder::create()->addConnection('default', 'http', $host, $port, true, $user, $pw)
+            ->setAutoFormatResponse(true)
+            ->build();
     }
 
-    public function configure($user, $pw)
-    {
-        $this->getTransport()->setAuth($user, $pw);
-    }
-
+    /**
+     * @param $cypher
+     * @param array $parms
+     * @return \Neoxygen\NeoClient\Request\Response
+     */
     public function cypher($cypher, array $parms = [])
     {
         $this->logger->debug(__CLASS__ . ': executing cypher', [
             'query' => $cypher,
             'params' => $parms
         ]);
-        $qry = new Query($this, $cypher, $parms);
-        return $qry->getResultSet();
+
+        return $this->client->sendCypherQuery($cypher, $parms);
+    }
+
+    /**
+     * @return Client
+     */
+    public function getClient()
+    {
+        return $this->client;
     }
 }

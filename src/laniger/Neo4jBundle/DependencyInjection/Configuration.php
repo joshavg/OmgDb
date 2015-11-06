@@ -12,11 +12,6 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 class Configuration implements ConfigurationInterface
 {
 
-    /**
-     *
-     * @ERROR!!!
-     *
-     */
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
@@ -30,7 +25,6 @@ class Configuration implements ConfigurationInterface
             ->integerNode('port')
             ->end()
             ->scalarNode('host')
-            ->end()
             ->end();
 
         return $treeBuilder;

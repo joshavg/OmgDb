@@ -25,7 +25,7 @@ class Neo4jUniqueLabelConstraintValidator extends ConstraintValidator
             'label' => $value
         ]);
 
-        $cnt = $res[0]['cnt'];
+        $cnt = $res->getRows()['cnt'][0];
         if ($cnt > 0) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('%label%', $value)
