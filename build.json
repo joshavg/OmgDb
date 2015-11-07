@@ -7,11 +7,16 @@
             "app/logs"
         ]
     },
-    
+
     "targets": {
         "hammer": [
             [ "console", "php PHPHammer/phar.php" ],
             [ "console", "cp PHPHammer/bin/phphammer.phar phphammer.phar" ]
+        ],
+        "hammer-install": [
+            [ "target", "hammer" ],
+            [ "console", "chmod +x phphammer.phar" ],
+            [ "console", "mv phphammer.phar /usr/bin/phphammer" ]
         ],
         "rights": [
             [ "changeowner", "www-data", "$rightsdirs" ],
