@@ -2,11 +2,8 @@
 namespace AppBundle\Entity;
 
 use laniger\Neo4jBundle\Architecture\Neo4jRepository;
-use laniger\Neo4jBundle\Architecture\Neo4jClientConsumer;
 use laniger\Neo4jBundle\Architecture\Neo4jClientWrapper;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
-use Everyman\Neo4j\Node;
-use AppBundle\Entity\AttributeDataType;
 
 class AttributeRepository
 {

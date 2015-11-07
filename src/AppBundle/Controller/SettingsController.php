@@ -33,7 +33,7 @@ class SettingsController extends Controller
 
     private function createUserForm()
     {
-        $form = $this->createForm(new SettingsType(), $this->getUser(), [
+        $form = $this->createForm(SettingsType::class, $this->getUser(), [
             'action' => $this->generateUrl('settings_user_save')
         ]);
         return $form;

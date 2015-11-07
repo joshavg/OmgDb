@@ -33,9 +33,9 @@ class SchemaRepository
         $this->client->cypher('
              MATCH (u:user)
              WHERE u.name = {username}
-            CREATE (n:schema)-[r:created_by]->(u)
-               SET n.name = {name},
-                   n.created_at = {date}
+            CREATE (s:schema)-[r:created_by]->(u)
+               SET s.name = {name},
+                   s.created_at = {date}
         ', [
             'name' => $schema->getName(),
             'username' => $this->user->getUsername(),

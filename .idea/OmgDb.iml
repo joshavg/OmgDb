@@ -38,6 +38,7 @@
       <sourceFolder url="file://$MODULE_DIR$/vendor/kriswallsmith/assetic/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/vendor/everyman/neo4jphp/lib" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/vendor/everyman/neo4jphp/tests/unit/lib" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/app/cache" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
