@@ -1,14 +1,14 @@
 <?php
 namespace AppBundle\Entity;
 
-use laniger\Neo4jBundle\Architecture\Neo4jRepository;
+use laniger\Neo4jBundle\Architecture\Neo4jClientConsumer;
 use laniger\Neo4jBundle\Architecture\Neo4jClientWrapper;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class SchemaRepository
 {
-    use Neo4jRepository {
-        Neo4jRepository::__construct as neo;
+    use Neo4jClientConsumer {
+        Neo4jClientConsumer::__construct as neo;
     }
 
     /**
@@ -21,7 +21,8 @@ class SchemaRepository
      */
     private $attrrepo;
 
-    public function __construct(Neo4jClientWrapper $client, TokenStorage $storage, AttributeRepository $attrrepo)
+    public function __construct(Neo4jClientWrapper $client, TokenStorage $storage,
+                                AttributeRepository $attrrepo)
     {
         $this->neo($client);
         $this->user = $storage->getToken()->getUser();
@@ -43,14 +44,6 @@ class SchemaRepository
         ]);
     }
 
-    private function createSchemaFromRow($row)
-    {
-        $schema = new Schema();
-        $schema->setName($row['name']);
-        $schema->setCreatedAt(\DateTime::createFromFormat(\DateTime::ISO8601, $row['created_at']));
-        return $schema;
-    }
-
     public function fetchForOverview()
     {
         $dat = $this->client->cypher('
@@ -68,6 +61,14 @@ class SchemaRepository
         }
 
         return $return;
+    }
+
+    private function createSchemaFromRow($row)
+    {
+        $schema = new Schema();
+        $schema->setName($row['name']);
+        $schema->setCreatedAt(\DateTime::createFromFormat(\DateTime::ISO8601, $row['created_at']));
+        return $schema;
     }
 
     public function fetch($name)

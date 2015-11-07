@@ -1,14 +1,14 @@
 <?php
 namespace AppBundle\Entity;
 
-use laniger\Neo4jBundle\Architecture\Neo4jRepository;
+use laniger\Neo4jBundle\Architecture\Neo4jClientConsumer;
 use laniger\Neo4jBundle\Architecture\Neo4jClientWrapper;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
 class AttributeRepository
 {
-    use Neo4jRepository {
-        Neo4jRepository::__construct as neo;
+    use Neo4jClientConsumer {
+        Neo4jClientConsumer::__construct as neo;
     }
 
     /**
