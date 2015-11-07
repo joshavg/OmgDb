@@ -1,20 +1,19 @@
 services:
-      
+
   password_hash_encoder:
     class: AppBundle\Architecture\PasswordEncoder
-  
+
   repo.user:
     class: AppBundle\Entity\UserRepository
     arguments:
       - "@neo4j.client"
-  
+
   repo.schema:
     class: AppBundle\Entity\SchemaRepository
     arguments:
       - "@neo4j.client"
       - "@security.token_storage"
-      - "@repo.attribute"
-  
+
   repo.attribute:
     class: AppBundle\Entity\AttributeRepository
     arguments:

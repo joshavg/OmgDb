@@ -1,37 +1,26 @@
 <?php
 namespace AppBundle\Entity;
 
-use laniger\Neo4jBundle\Architecture\Neo4jClientConsumer;
 use laniger\Neo4jBundle\Architecture\Neo4jClientWrapper;
+use laniger\Neo4jBundle\Architecture\Neo4jRepository;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
-class SchemaRepository
+class SchemaRepository extends Neo4jRepository
 {
-    use Neo4jClientConsumer {
-        Neo4jClientConsumer::__construct as neo;
-    }
-
     /**
      * @var User
      */
     private $user;
 
-    /**
-     * @var AttributeRepository
-     */
-    private $attrrepo;
-
-    public function __construct(Neo4jClientWrapper $client, TokenStorage $storage,
-                                AttributeRepository $attrrepo)
+    public function __construct(Neo4jClientWrapper $client, TokenStorage $storage)
     {
-        $this->neo($client);
+        parent::__construct($client);
         $this->user = $storage->getToken()->getUser();
-        $this->attrrepo = $attrrepo;
     }
 
     public function newSchema(Schema $schema)
     {
-        $this->client->cypher('
+        $this->getClient()->cypher('
              MATCH (u:user)
              WHERE u.name = {username}
             CREATE (s:schema)-[r:created_by]->(u)
@@ -46,7 +35,7 @@ class SchemaRepository
 
     public function fetchForOverview()
     {
-        $dat = $this->client->cypher('
+        $dat = $this->getClient()->cypher('
              MATCH (n:schema)-[r:created_by]->(u:user)
              WHERE u.name = {username}
             RETURN n
@@ -73,7 +62,7 @@ class SchemaRepository
 
     public function fetch($name)
     {
-        $dat = $this->client->cypher('
+        $dat = $this->getClient()->cypher('
             MATCH (n:schema)-[r:created_by]->(u:user)
             WHERE u.name = {user}
               AND n.name = {name}
@@ -84,7 +73,6 @@ class SchemaRepository
         ])->getRows()['n'][0];
 
         $schema = $this->createSchemaFromRow($dat);
-        $schema->setAttributes($this->attrrepo->getForSchema($schema));
         return $schema;
     }
 }

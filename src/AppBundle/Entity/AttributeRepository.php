@@ -1,16 +1,12 @@
 <?php
 namespace AppBundle\Entity;
 
-use laniger\Neo4jBundle\Architecture\Neo4jClientConsumer;
 use laniger\Neo4jBundle\Architecture\Neo4jClientWrapper;
+use laniger\Neo4jBundle\Architecture\Neo4jRepository;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 
-class AttributeRepository
+class AttributeRepository extends Neo4jRepository
 {
-    use Neo4jClientConsumer {
-        Neo4jClientConsumer::__construct as neo;
-    }
-
     /**
      * @var User
      */
@@ -18,13 +14,13 @@ class AttributeRepository
 
     public function __construct(Neo4jClientWrapper $client, TokenStorage $storage)
     {
-        $this->neo($client);
+        parent::__construct($client);
         $this->user = $storage->getToken()->getUser();
     }
 
     public function getForSchema(Schema $schema)
     {
-        $attr = $this->client->cypher('
+        $attr = $this->getClient()->cypher('
             MATCH (s:schema)<-[:attribute_of]->(a:attribute)
             WHERE s.name = {name}
            RETURN a
