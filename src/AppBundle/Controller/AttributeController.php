@@ -1,9 +1,6 @@
 <?php
 namespace AppBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,6 +11,9 @@ use AppBundle\Form\Type\SchemaFilterType;
 use AppBundle\Entity\Schema;
 use AppBundle\Entity\Attribute;
 use AppBundle\Form\Type\AttributeType;
+use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 /**
  * @Route("/attribute")
@@ -28,6 +28,7 @@ class AttributeController extends Controller
      * @Route("/index", name="attribute_index")
      * @Template()
      *
+     * @param Request $request
      * @return array
      */
     public function indexAction(Request $request)
@@ -72,6 +73,8 @@ class AttributeController extends Controller
     /**
      * @Route("/new", name="attribute_insert")
      * @Method("POST")
+     * @param Request $req
+     * @return array
      */
     public function newAction(Request $req)
     {
@@ -81,6 +84,8 @@ class AttributeController extends Controller
     /**
      * @Route("/{schema_name}/{attribute_name}/edit", name="attribute_edit")
      * @Template()
+     * @param $name
+     * @return array
      */
     public function editAction($name)
     {
