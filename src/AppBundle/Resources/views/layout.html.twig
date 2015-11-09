@@ -22,22 +22,22 @@
                     <ul class="nav navbar-nav navbar-right">
                         {% if app.user %}
                             <li>
-                                <a href="{{ path('schema_index') }}" title="{{ 'nav.schema.index'|trans }}">
+                                <a href="{{ path('schema_index') }}" title="{{ 'nav.schema.index'|trans }}" accesskey="s">
                                     <span class="glyphicon glyphicon-th-large"></span>
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ path('attribute_index') }}" title="{{ 'nav.attribute.index'|trans }}">
+                                <a href="{{ path('attribute_index') }}" title="{{ 'nav.attribute.index'|trans }}" accesskey="a">
                                     <span class="glyphicon glyphicon-th"></span>
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ path('settings_index') }}" title="{{ 'nav.settings.index'|trans }}">
+                                <a href="{{ path('settings_index') }}" title="{{ 'nav.settings.index'|trans }}" accesskey="q">
                                     <span class="glyphicon glyphicon-cog"></span>
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ path('logout') }}" title="{{ 'nav.logout'|trans }}">
+                                <a href="{{ path('logout') }}" title="{{ 'nav.logout'|trans }}" accesskey="l">
                                     <span class="glyphicon glyphicon-off"></span>
                                 </a>
                             </li>

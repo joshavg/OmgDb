@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "06b82a90521c4a8ef245b8c5c5333d54",
+    "hash": "e2a6213a1f496e676cb6d37dd02d449e",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -767,6 +767,108 @@
                 "orm"
             ],
             "time": "2015-08-31 12:59:39"
+        },
+        {
+            "name": "egeloen/ordered-form",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/egeloen/ivory-ordered-form.git",
+                "reference": "8773860b1b4f37ebc55a4cf7d04a013acfca56fc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/egeloen/ivory-ordered-form/zipball/8773860b1b4f37ebc55a4cf7d04a013acfca56fc",
+                "reference": "8773860b1b4f37ebc55a4cf7d04a013acfca56fc",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3",
+                "symfony/form": "~2.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0",
+                "satooshi/php-coveralls": "~0.6"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ivory\\OrderedForm\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Eric GELOEN",
+                    "email": "geloen.eric@gmail.com"
+                }
+            ],
+            "description": "Provides a form ordering support with the Symfony2 form component.",
+            "keywords": [
+                "Symfony2",
+                "form",
+                "order"
+            ],
+            "time": "2014-12-29 21:17:02"
+        },
+        {
+            "name": "egeloen/ordered-form-bundle",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/egeloen/IvoryOrderedFormBundle.git",
+                "reference": "7634b7d02949078914ed091d90d9a2562d2c5854"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/egeloen/IvoryOrderedFormBundle/zipball/7634b7d02949078914ed091d90d9a2562d2c5854",
+                "reference": "7634b7d02949078914ed091d90d9a2562d2c5854",
+                "shasum": ""
+            },
+            "require": {
+                "egeloen/ordered-form": "~2.0",
+                "php": ">=5.3.3",
+                "symfony/framework-bundle": "~2.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0",
+                "satooshi/php-coveralls": "~0.6"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Ivory\\OrderedFormBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Eric GELOEN",
+                    "email": "geloen.eric@gmail.com"
+                }
+            ],
+            "description": "Provides a form ordering support for your Symfony2 project.",
+            "keywords": [
+                "form",
+                "order"
+            ],
+            "time": "2014-12-29 21:28:57"
         },
         {
             "name": "graphaware/neo4j-response-formatter",
@@ -2317,12 +2419,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "515007e941cb43616e224bbbaa6d8354868d647f"
+                "reference": "7c0b9b6a0d6b464e8bdc0fe1583b656ef386546d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/515007e941cb43616e224bbbaa6d8354868d647f",
-                "reference": "515007e941cb43616e224bbbaa6d8354868d647f",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/7c0b9b6a0d6b464e8bdc0fe1583b656ef386546d",
+                "reference": "7c0b9b6a0d6b464e8bdc0fe1583b656ef386546d",
                 "shasum": ""
             },
             "require": {
@@ -2442,7 +2544,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2015-11-07 08:30:54"
+            "time": "2015-11-09 16:22:52"
         },
         {
             "name": "twig/extensions",

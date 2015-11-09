@@ -28,7 +28,7 @@ class SchemaController extends Controller
      */
     public function insertSchemaAction(Request $request)
     {
-        $form = $this->createForm(new SchemaType(), new Schema());
+        $form = $this->createForm(SchemaType::class, new Schema());
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -66,7 +66,7 @@ class SchemaController extends Controller
     public function editAction($name)
     {
         $schema = $this->getSchemaRepository()->fetch($name);
-        $form = $this->createForm(new SchemaType(FormDefinition::MODE_EDIT), $schema, [
+        $form = $this->createForm(SchemaType::class, $schema, [
             'action' => $this->generateUrl('schema_update')
         ]);
 
@@ -81,7 +81,7 @@ class SchemaController extends Controller
      */
     public function updateAction(Request $req)
     {
-        $form = $this->createForm(new SchemaType(FormDefinition::MODE_EDIT), new Schema());
+        $form = $this->createForm(SchemaType::class, new Schema());
 
         $form->handleRequest($req);
         if ($form->isValid()) {

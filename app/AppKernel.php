@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new AppBundle\AppBundle(),
             new laniger\Neo4jBundle\lanigerNeo4jBundle(),
             new laniger\BootstrapBundle\lanigerBootstrapBundle(),
+            new Ivory\OrderedFormBundle\IvoryOrderedFormBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
