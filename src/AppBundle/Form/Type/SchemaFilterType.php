@@ -32,8 +32,7 @@ class SchemaFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $choices = [];
-        foreach($this->schemas as $schema)
-        {
+        foreach ($this->schemas as $schema) {
             $choices[$schema->getName()] = $schema->getName();
         }
 
@@ -42,7 +41,12 @@ class SchemaFilterType extends AbstractType
             'empty_data' => null,
             'placeholder' => 'label.attribute.choose-schema',
             'label' => 'label.schema.name'
-    	]);
+        ]);
+    }
+
+    public function getBlockPrefix()
+    {
+        return $this->getName();
     }
 
     public function getName()

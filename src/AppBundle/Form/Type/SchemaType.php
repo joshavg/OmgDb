@@ -45,6 +45,11 @@ class SchemaType extends AbstractType
         $resolver->setDefault('goal', 'insert');
     }
 
+    public function getBlockPrefix()
+    {
+        return $this->getName();
+    }
+
     public function getName()
     {
         return 'Schema';

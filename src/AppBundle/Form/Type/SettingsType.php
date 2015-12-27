@@ -41,6 +41,11 @@ class SettingsType extends AbstractType
         ]);
     }
 
+    public function getBlockPrefix()
+    {
+        return $this->getName();
+    }
+
     public function getName()
     {
         return 'SettingsType';
