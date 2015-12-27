@@ -42,7 +42,6 @@ class SchemaType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setRequired(['goal']);
         $resolver->setDefault('goal', 'insert');
     }
 

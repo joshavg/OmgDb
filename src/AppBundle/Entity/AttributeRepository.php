@@ -30,10 +30,13 @@ class AttributeRepository extends Neo4jRepository
         ]);
 
         $attributes = [];
-        foreach ($attr->getRows()['a'] as $row) {
-            $a = $this->createFromRow($row);
-            $a->setSchema($schema);
-            $attributes[] = $a;
+
+        if (isset($attr->getRows()['a'])) {
+            foreach ($attr->getRows()['a'] as $row) {
+                $a = $this->createFromRow($row);
+                $a->setSchema($schema);
+                $attributes[] = $a;
+            }
         }
         return $attributes;
     }
