@@ -44,14 +44,4 @@ class SchemaFilterType extends AbstractType
             'label' => 'label.schema.name'
         ]);
     }
-
-    /*public function getBlockPrefix()
-    {
-        return $this->getName();
-    }*/
-
-    /*public function getName()
-    {
-        return 'form.schema.filter';
-    }*/
 }
