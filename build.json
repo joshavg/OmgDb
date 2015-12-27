@@ -20,7 +20,7 @@
         ],
         "rights": [
             [ "changeowner", "www-data", "$rightsdirs" ],
-            [ "changemod", "0775", "$rightsdirs" ]
+            [ "changemod", "0777", "$rightsdirs" ]
         ],
         "cacheclear": [
             [ "output", "clearing cache" ],
