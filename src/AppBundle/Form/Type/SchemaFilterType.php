@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Form\Type;
 
+use AppBundle\Entity\SchemaRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -24,9 +25,9 @@ class SchemaFilterType extends AbstractType
 
     private $schemas;
 
-    public function __construct(array $schemas = null)
+    public function __construct(SchemaRepository $repo)
     {
-        $this->schemas = $schemas;
+        $this->schemas = $repo->fetchAllForCurrentUser();
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -44,13 +45,13 @@ class SchemaFilterType extends AbstractType
         ]);
     }
 
-    public function getBlockPrefix()
+    /*public function getBlockPrefix()
     {
         return $this->getName();
-    }
+    }*/
 
-    public function getName()
+    /*public function getName()
     {
-        return 'SchemaFilter';
-    }
+        return 'form.schema.filter';
+    }*/
 }

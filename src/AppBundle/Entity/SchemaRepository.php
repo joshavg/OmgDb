@@ -33,7 +33,7 @@ class SchemaRepository extends Neo4jRepository
         ]);
     }
 
-    public function fetchForOverview()
+    public function fetchAllForCurrentUser()
     {
         $dat = $this->getClient()->cypher('
              MATCH (n:schema)-[r:created_by]->(u:user)

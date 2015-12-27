@@ -33,9 +33,7 @@ class AttributeController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $schemas = $this->getSchemaRepository()->fetchForOverview();
-        // TODO make schema filter type a service and pass schema repository as param
-        $schemaFilterForm = $this->createForm(new SchemaFilterType($schemas), []);
+        $schemaFilterForm = $this->createForm(SchemaFilterType::class, []);
         $schemaFilterForm->add('filter', SubmitType::class, [
             'label' => 'label.attribute.filter'
         ]);
