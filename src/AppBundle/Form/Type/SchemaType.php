@@ -10,6 +10,7 @@ use AppBundle\Form\ServiceForm;
 use AppBundle\Form\FormDefinition;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SchemaType extends AbstractType
 {
@@ -21,24 +22,28 @@ class SchemaType extends AbstractType
             'label' => 'label.save'
         ]);
 
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
-            $constraints = [];
-            $readonly = false;
-            if ($event->getData() && $event->getData()->getCreatedAt()) {
-                $readonly = true;
-            } else {
-                $constraints[] = new Neo4jUniqueNameConstraint('schema');
-            }
+        $constraints = [];
+        $readonly = false;
+        if ($options['goal'] === 'update') {
+            $readonly = true;
+        } else {
+            $constraints[] = new Neo4jUniqueNameConstraint('schema');
+        }
 
-            $event->getForm()->add('name', TextType::class, [
-                'label' => 'label.schema.name',
-                'constraints' => $constraints,
-                'attr' => [
-                    'readonly' => $readonly
-                ],
-                'position' => 'first'
-            ]);
-        });
+        $builder->add('name', TextType::class, [
+            'label' => 'label.schema.name',
+            'constraints' => $constraints,
+            'attr' => [
+                'readonly' => $readonly
+            ],
+            'position' => 'first'
+        ]);
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setRequired(['goal']);
+        $resolver->setDefault('goal', 'insert');
     }
 
     public function getName()

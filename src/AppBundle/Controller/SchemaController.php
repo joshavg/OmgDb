@@ -67,7 +67,8 @@ class SchemaController extends Controller
     {
         $schema = $this->getSchemaRepository()->fetch($name);
         $form = $this->createForm(SchemaType::class, $schema, [
-            'action' => $this->generateUrl('schema_update')
+            'action' => $this->generateUrl('schema_update'),
+            'goal' => 'update'
         ]);
 
         return [
@@ -81,7 +82,9 @@ class SchemaController extends Controller
      */
     public function updateAction(Request $req)
     {
-        $form = $this->createForm(SchemaType::class, new Schema());
+        $form = $this->createForm(SchemaType::class, new Schema(), [
+            'goal' => 'update'
+        ]);
 
         $form->handleRequest($req);
         if ($form->isValid()) {
