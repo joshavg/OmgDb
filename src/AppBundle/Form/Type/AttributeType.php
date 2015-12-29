@@ -53,16 +53,6 @@ class AttributeType extends AbstractType
         ]);
     }
 
-    public function getBlockPrefix()
-    {
-        return $this->getName();
-    }
-
-    public function getName()
-    {
-        return 'Attribute';
-    }
-
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
