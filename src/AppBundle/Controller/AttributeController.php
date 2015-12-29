@@ -89,8 +89,9 @@ class AttributeController extends Controller
     public function editAction($name)
     {
         $schema = $this->getSchemaRepository()->fetch($name);
-        $form = $this->createForm(new SchemaType(FormDefinition::MODE_EDIT), $schema, [
-            'action' => $this->generateUrl('schema_update')
+        $form = $this->createForm(SchemaType::class, $schema, [
+            'action' => $this->generateUrl('schema_update'),
+            'goal' => 'update'
         ]);
 
         return [
@@ -104,7 +105,9 @@ class AttributeController extends Controller
      */
     public function updateAction(Request $req)
     {
-        $form = $this->createForm(new SchemaType(FormDefinition::MODE_EDIT), new Schema());
+        $form = $this->createForm(SchemaType::class, new Schema(), [
+            'goal' => 'update'
+        ]);
 
         $form->handleRequest($req);
         if ($form->isValid()) {
