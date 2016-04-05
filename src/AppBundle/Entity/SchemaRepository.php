@@ -75,4 +75,19 @@ class SchemaRepository extends Neo4jRepository
         $schema = $this->createSchemaFromRow($dat);
         return $schema;
     }
+
+    public function isSchemaUniqueForCurrentUser($name)
+    {
+        $dat = $this->getClient()->cypher('
+            MATCH (s:schema)-[r:created_by]->(u:user)
+            WHERE s.name = {name}
+              AND u.name = {user}
+            RETURN COUNT(s) AS cnt
+        ', [
+            'user' => $this->user->getUsername(),
+            'name' => $name
+        ])->getRows()['cnt'][0];
+
+        return $dat < 1;
+    }
 }

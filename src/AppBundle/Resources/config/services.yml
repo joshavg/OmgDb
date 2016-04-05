@@ -26,3 +26,10 @@ services:
       - "@repo.schema"
     tags:
       - { name: form.type }
+
+  validator.schemaname:
+    class: AppBundle\Validator\Constraints\SchemaNameConstraintValidator
+    arguments:
+      - "@repo.schema"
+    tags:
+      - { name: validator.constraint_validator, alias: validator.schemaname }

@@ -1,15 +1,12 @@
 <?php
 namespace AppBundle\Form\Type;
 
+use AppBundle\Validator\Constraints\SchemaNameConstraint;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use laniger\Neo4jBundle\Validator\Constraints\Neo4jUniqueNameConstraint;
 use AppBundle\Form\ServiceForm;
-use AppBundle\Form\FormDefinition;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SchemaType extends AbstractType
@@ -27,7 +24,7 @@ class SchemaType extends AbstractType
         if ($options['goal'] === 'update') {
             $readonly = true;
         } else {
-            $constraints[] = new Neo4jUniqueNameConstraint('schema');
+            $constraints[] = new SchemaNameConstraint();
         }
 
         $builder->add('name', TextType::class, [
