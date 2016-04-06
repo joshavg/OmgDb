@@ -19,17 +19,13 @@ class SchemaType extends AbstractType
             'label' => 'label.save'
         ]);
 
-        $constraints = [];
         $readonly = false;
         if ($options['goal'] === 'update') {
             $readonly = true;
-        } else {
-            $constraints[] = new SchemaNameConstraint();
         }
 
         $builder->add('name', TextType::class, [
             'label' => 'label.schema.name',
-            'constraints' => $constraints,
             'attr' => [
                 'readonly' => $readonly
             ],

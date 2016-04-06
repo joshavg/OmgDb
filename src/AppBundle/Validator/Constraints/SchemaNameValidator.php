@@ -1,11 +1,12 @@
 <?php
 namespace AppBundle\Validator\Constraints;
 
+use AppBundle\Entity\Schema;
 use AppBundle\Entity\SchemaRepository;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Constraint;
 
-class SchemaNameConstraintValidator extends ConstraintValidator
+class SchemaNameValidator extends ConstraintValidator
 {
     /**
      * @var SchemaRepository
@@ -17,12 +18,16 @@ class SchemaNameConstraintValidator extends ConstraintValidator
         $this->repo = $repo;
     }
 
-    /*
-     * (non-PHPdoc)
-     * @see \Symfony\Component\Validator\ConstraintValidatorInterface::validate()
+    /**
+     * @param Schema $value
+     * @param Constraint $constraint
      */
     public function validate($value, Constraint $constraint)
     {
+        if ($value->getCreatedAt() !== null) {
+            return;
+        }
+
         $valid = $this->repo->isSchemaUniqueForCurrentUser($value);
 
         if (!$valid) {

@@ -25,11 +25,6 @@ class AttributeType extends AbstractType
 {
     use ServiceForm;
 
-    public function __construct($mode = FormDefinition::MODE_NEW)
-    {
-        $this->mode = $mode;
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('schema', TextType::class, [
@@ -40,9 +35,19 @@ class AttributeType extends AbstractType
             'data_class' => Schema::class
         ]);
 
+        $constraints = [];
+        $readonly = false;
+        if($options['goal'] === 'update') {
+            $readonly = true;
+        } else {
+            $constraints[] = null;
+        }
         $builder->add('name', TextType::class, [
             'label' => 'label.attribute.name',
-            'constraints' => []
+            'constraints' => $constraints,
+            'attr' => [
+                'readonly' => $readonly
+            ]
         ]);
 
         $choices = [];
@@ -57,7 +62,8 @@ class AttributeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Attribute::class
+            'data_class' => Attribute::class,
+            'goal' => 'insert'
         ]);
     }
 }
