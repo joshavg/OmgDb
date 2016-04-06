@@ -5,43 +5,28 @@
         {{ 'label.attribute.index'|trans }}
     </h1>
 
-    <h2>{{ 'label.attribute.all'|trans }}</h2>
-
-    {{ form(schemaFilterForm) }}
+    <h2>{{ 'label.attribute.select-schema'|trans }}</h2>
 
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>{{ 'label.attribute.name'|trans }}</th>
-                <th>{{ 'label.attribute.data-type'|trans }}</th>
-                <th>{{ 'label.attribute.created_at'|trans }}</th>
+                <th>{{ 'label.attribute.schema.name' }}</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            {% for a in attributes %}
+            {% for s in schemas %}
                 <tr>
-                    <td>{{ a.name }}</td>
-                    <td>{{ a.dataType.name }}</td>
-                    <td>{{ a.createdAt|date }}</td>
+                    <td>{{ s.name }}</td>
                     <td>
-                        <a href="{{ path('attribute_edit', {'schema_name': a.schemaName, 'attribute_name': a.name}) }}" class="btn">
+                        <a href="{{ path('attribute_for_schema',
+                                            {'schema_name': s.name}) }}" class="btn">
                             <span class="glyphicon glyphicon-pencil"></span>
                         </a>
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="4">
-                        {{ 'label.attribute.nothing-to-show'|trans }}
                     </td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
 
-    {% if newForm %}
-        <h2>{{ 'label.attribute.new'|trans }}</h2>
-        {{ form(newForm) }}
-    {% endif %}
 {% endblock %}

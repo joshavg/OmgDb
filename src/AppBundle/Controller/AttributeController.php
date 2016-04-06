@@ -32,28 +32,32 @@ class AttributeController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $schemaFilterForm = $this->createForm(SchemaFilterType::class, []);
-        $schemaFilterForm->add('filter', SubmitType::class, [
-            'label' => 'label.attribute.filter'
-        ]);
+        $schemas = $this->getSchemaRepository()->fetchAllForCurrentUser();
+        return [
+            'schemas' => $schemas
+        ];
+    }
 
-        $attributes = [];
-        $newform = null;
-        if ($schemaFilterForm->handleRequest($request)->isValid()) {
-            $schemaname = $schemaFilterForm->getData();
-            $schema = $this->getSchemaRepository()->fetch($schemaname['schema']);
+    /**
+     * @Route("/forSchema/{schema_name}", name="attribute_for_schema")
+     * @Template()
+     *
+     * @param $schema_name
+     * @return array
+     */
+    public function schemaChosenAction($schema_name)
+    {
+        $schema = $this->getSchemaRepository()->fetch($schema_name);
+        $attributes = $this->getAttributeRepository()->getForSchema($schema);
 
-            $attributes = $this->getAttributeRepository()->getForSchema($schema);
-
-            $attr = new Attribute();
-            $attr->setSchemaName($schema->getName());
-            $newform = $this->createNewForm($attr);
-        }
+        $attr = new Attribute();
+        $attr->setSchemaName($schema->getName());
+        $newform = $this->createNewForm($attr);
 
         return [
+            'schema' => $schema,
             'attributes' => $attributes,
-            'schemaFilterForm' => $schemaFilterForm->createView(),
-            'newForm' => $newform ? $newform->createView() : null
+            'newForm' => $newform->createView()
         ];
     }
 
@@ -71,7 +75,7 @@ class AttributeController extends Controller
     /**
      * @Route("/new", name="attribute_insert")
      * @Method("POST")
-     * @Template("AppBundle:Attribute:index.html.twig")
+     * @Template("AppBundle:Attribute:schemaChosen.html.twig")
      *
      * @param Request $req
      * @return array
@@ -83,10 +87,18 @@ class AttributeController extends Controller
 
         if ($form->handleRequest($req)->isValid()) {
             $this->getAttributeRepository()->newAttribute($attr);
-            return $this->redirectToRoute('attribute_index');
+            return $this->redirectToRoute('attribute_for_schema', [
+                'schema_name' => $attr->getSchemaName()
+            ]);
         }
 
-        return $this->indexAction($req);
+        $schema = $this->getSchemaRepository()->fetch($attr->getSchemaName());
+        $attributes = $this->getAttributeRepository()->getForSchema($schema);
+        return [
+            'schema' => $schema,
+            'attributes' => $attributes,
+            'newForm' => $form->createView()
+        ];
     }
 
     /**
