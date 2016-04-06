@@ -47,7 +47,11 @@ class Attribute
      */
     public function setDataType($typename)
     {
-        $this->dataType = $typename;
+        if(is_string($typename)) {
+            $this->dataType = AttributeDataType::getByName($typename);
+        } else {
+            $this->dataType = $typename;
+        }
         return $this;
     }
 
@@ -56,7 +60,7 @@ class Attribute
      */
     public function getDataType()
     {
-        return AttributeDataType::getByName($this->dataType);
+        return $this->dataType;
     }
 
     public function setSchemaName($schema)

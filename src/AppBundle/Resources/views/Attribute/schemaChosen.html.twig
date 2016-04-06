@@ -11,6 +11,7 @@
         <thead>
             <tr>
                 <th>{{ 'label.attribute.name' }}</th>
+                <th>{{ 'label.attribute.dataType' }}</th>
                 <th>{{ 'label.attribute.createdAt' }}</th>
                 <th></th>
             </tr>
@@ -19,6 +20,7 @@
             {% for a in attributes %}
                 <tr>
                     <td>{{ a.name }}</td>
+                    <td>{{ a.dataType }}</td>
                     <td>{{ a.createdAt|date }}</td>
                     <td>
                         <a href="{{ path('attribute_edit',

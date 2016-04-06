@@ -86,4 +86,43 @@ class AttributeRepository extends Neo4jRepository
         $a->setDataType(AttributeDataType::getByName($row['datatype']));
         return $a;
     }
+
+    public function fetch($schemaName, $name)
+    {
+        $row = $this->getClient()->cypher('
+            MATCH (a:attribute)-[:attribute_of]->(s:schema),
+                  (s)-[:created_by]->(u:user)
+            WHERE s.name = {schemaname}
+              AND u.name = {username}
+              AND a.name = {attributename}
+           RETURN a
+        ', [
+            'schemaname' => $schemaName,
+            'username' => $this->user->getUsername(),
+            'attributename' => $name
+        ])->getRows()['a'][0];
+
+        $attr = $this->createFromRow($row);
+        $attr->setSchemaName($schemaName);
+        return $attr;
+    }
+
+    public function update($name, Attribute $attr)
+    {
+        $this->getClient()->cypher('
+            MATCH (a:attribute)-[:attribute_of]->(s:schema),
+                  (s)-[:created_by]->(u:user)
+            WHERE s.name = {schemaname}
+              AND u.name = {username}
+              AND a.name = {attributename}
+              SET a.name = {newname},
+                  a.datatype = {newdatatype}
+        ', [
+            'schemaname' => $attr->getSchemaName(),
+            'username' => $this->user->getUsername(),
+            'attributename' => $name,
+            'newname' => $attr->getName(),
+            'newdatatype' => $attr->getDataType()->getName()
+        ]);
+    }
 }

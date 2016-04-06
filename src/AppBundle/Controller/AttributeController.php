@@ -104,38 +104,56 @@ class AttributeController extends Controller
     /**
      * @Route("/{schema_name}/{attribute_name}/edit", name="attribute_edit")
      * @Template()
-     * @param $name
+     *
+     * @param string $schema_name
+     * @param string $attribute_name
      * @return array
      */
-    public function editAction($name)
+    public function editAction($schema_name, $attribute_name)
     {
-        $schema = $this->getSchemaRepository()->fetch($name);
-        $form = $this->createForm(SchemaType::class, $schema, [
-            'action' => $this->generateUrl('schema_update'),
-            'goal' => 'update'
-        ]);
+        $attr = $this->getAttributeRepository()->fetch($schema_name, $attribute_name);
+        $form = $this->createEditForm($attr);
 
         return [
             'form' => $form->createView()
         ];
     }
 
+    private function createEditForm(Attribute $attr)
+    {
+        $form = $this->createForm(AttributeType::class, $attr, [
+            'action' => $this->generateUrl('attribute_update', [
+                'attribute_name' => $attr->getName(),
+                'schema_name' => $attr->getSchemaName()
+            ]),
+            'goal' => 'update'
+        ]);
+        $form->add('submit', SubmitType::class, [
+            'label' => 'label.save'
+        ]);
+        return $form;
+    }
+
     /**
-     * @Route("/update", methods={"POST", "PUT"}, name="schema_update")
+     * @Route("/{schema_name}/{attribute_name}/update", methods={"POST", "PUT"},
+     *     name="attribute_update")
      * @Template("AppBundle:Schema:edit.html.twig")
      *
+     * @param string $schema_name
+     * @param string $attribute_name
      * @param Request $req
      * @return array
      */
-    public function updateAction(Request $req)
+    public function updateAction($schema_name, $attribute_name, Request $req)
     {
-        $form = $this->createForm(SchemaType::class, new Schema(), [
-            'goal' => 'update'
-        ]);
+        $attr = $this->getAttributeRepository()->fetch($schema_name, $attribute_name);
+        $form = $this->createEditForm($attr);
 
-        $form->handleRequest($req);
-        if ($form->isValid()) {
-            return $this->redirect($this->generateUrl('schema_index'));
+        if ($form->handleRequest($req)->isValid()) {
+            $this->getAttributeRepository()->update($attribute_name, $attr);
+            return $this->redirectToRoute('attribute_for_schema', [
+                'schema_name' => $schema_name
+            ]);
         }
 
         return [
