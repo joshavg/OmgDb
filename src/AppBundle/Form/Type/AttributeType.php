@@ -42,12 +42,7 @@ class AttributeType extends AbstractType
 
         $builder->add('name', TextType::class, [
             'label' => 'label.attribute.name',
-            'constraints' => [
-                new Neo4jCallbackConstraint('err.attribute.unique.per.schema',
-                    function (Neo4jClientWrapper $client, $value) {
-                        $client->cypher('', []);
-                    })
-            ]
+            'constraints' => []
         ]);
 
         $choices = [];
