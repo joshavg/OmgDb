@@ -28,7 +28,7 @@ class SettingsType extends AbstractType
         $builder->add('newpassword', RepeatedType::class, [
             'mapped' => false,
             'required' => false,
-            'type' => 'password',
+            'type' => PasswordType::class,
             'first_options' => [
                 'label' => 'label.new.password'
             ],
