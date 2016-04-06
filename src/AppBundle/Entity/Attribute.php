@@ -1,16 +1,23 @@
 <?php
 namespace AppBundle\Entity;
 
+/**
+ * @AppBundle\Validator\Constraints\AttributeName
+ */
 class Attribute
 {
-
     private $name;
 
     private $createdAt;
-    
+
     private $dataType;
-    
-    private $schema;
+
+    private $schemaName;
+
+    public function __construct()
+    {
+        $this->dataType = AttributeDataType::$TEXT;
+    }
 
     public function getName()
     {
@@ -33,26 +40,33 @@ class Attribute
         $this->createdAt = $createdAt;
         return $this;
     }
-    
-    public function setDataType(AttributeDataType $type)
+
+    /**
+     * @param string $typename
+     * @return $this
+     */
+    public function setDataType($typename)
     {
-        $this->dataType = $type;
+        $this->dataType = $typename;
         return $this;
     }
-    
+
+    /**
+     * @return AttributeDataType
+     */
     public function getDataType()
     {
-        return $this->dataType;
+        return AttributeDataType::getByName($this->dataType);
     }
-    
-    public function setSchema(Schema $schema)
+
+    public function setSchemaName($schema)
     {
-        $this->schema = $schema;
+        $this->schemaName = $schema;
         return $this;
     }
-    
-    public function getSchema()
+
+    public function getSchemaName()
     {
-        return $this->schema;
+        return $this->schemaName;
     }
 }

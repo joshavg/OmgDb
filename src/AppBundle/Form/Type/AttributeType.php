@@ -27,24 +27,19 @@ class AttributeType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('schema', TextType::class, [
+        $builder->add('schemaName', TextType::class, [
             'label' => 'label.attribute.schema',
             'attr' => [
                 'readonly' => true
-            ],
-            'data_class' => Schema::class
+            ]
         ]);
 
-        $constraints = [];
         $readonly = false;
         if($options['goal'] === 'update') {
             $readonly = true;
-        } else {
-            $constraints[] = null;
         }
         $builder->add('name', TextType::class, [
             'label' => 'label.attribute.name',
-            'constraints' => $constraints,
             'attr' => [
                 'readonly' => $readonly
             ]
@@ -55,7 +50,8 @@ class AttributeType extends AbstractType
             $choices[$type->getName()] = $type->getName();
         }
         $builder->add('dataType', ChoiceType::class, [
-            'choices' => $choices
+            'choices' => $choices,
+            'choices_as_values' => true
         ]);
     }
 

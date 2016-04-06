@@ -1,25 +1,25 @@
 <?php
 namespace AppBundle\Validator\Constraints;
 
-use AppBundle\Entity\Schema;
-use AppBundle\Entity\SchemaRepository;
+use AppBundle\Entity\Attribute;
+use AppBundle\Entity\AttributeRepository;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Constraint;
 
-class SchemaNameValidator extends ConstraintValidator
+class AttributeNameValidator extends ConstraintValidator
 {
     /**
-     * @var SchemaRepository
+     * @var AttributeRepository
      */
     private $repo;
 
-    public function __construct(SchemaRepository $repo)
+    public function __construct(AttributeRepository $repo)
     {
         $this->repo = $repo;
     }
 
     /**
-     * @param Schema $value
+     * @param Attribute $value
      * @param Constraint $constraint
      */
     public function validate($value, Constraint $constraint)
@@ -28,7 +28,7 @@ class SchemaNameValidator extends ConstraintValidator
             return;
         }
 
-        $valid = $this->repo->isNameUniqueForCurrentUser($value->getName());
+        $valid = $this->repo->isNameUniqueForCurrentUser($value);
 
         if (!$valid) {
             $this->context->buildViolation($constraint->message)->addViolation();

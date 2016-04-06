@@ -76,7 +76,7 @@ class SchemaRepository extends Neo4jRepository
         return $schema;
     }
 
-    public function isSchemaUniqueForCurrentUser($name)
+    public function isNameUniqueForCurrentUser($name)
     {
         $dat = $this->getClient()->cypher('
             MATCH (s:schema)-[r:created_by]->(u:user)

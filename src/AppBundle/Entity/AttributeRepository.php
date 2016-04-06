@@ -34,14 +34,14 @@ class AttributeRepository extends Neo4jRepository
         if (isset($attr->getRows()['a'])) {
             foreach ($attr->getRows()['a'] as $row) {
                 $a = $this->createFromRow($row);
-                $a->setSchema($schema);
+                $a->setSchemaName($schema->getName());
                 $attributes[] = $a;
             }
         }
         return $attributes;
     }
 
-    public function newAttribute(Schema $schema, Attribute $attr)
+    public function newAttribute(Attribute $attr)
     {
         $this->getClient()->cypher('
             MATCH (u:user)<-[:created_by]-(s:schema)
@@ -53,11 +53,29 @@ class AttributeRepository extends Neo4jRepository
                   a.created_at = {date}
         ', [
             'username' => $this->user->getUsername(),
-            'schemaname' => $schema->getName(),
+            'schemaname' => $attr->getSchemaName(),
             'attrname' => $attr->getName(),
-            'datatype' => $attr->getDataType(),
+            'datatype' => $attr->getDataType()->getName(),
             'date' => date(\DateTime::ISO8601)
         ]);
+    }
+
+    public function isNameUniqueForCurrentUser(Attribute $attr)
+    {
+        $count = $this->getClient()->cypher('
+            MATCH (a:attribute)-[:attribute_of]->(s:schema),
+                  (s)-[:created_by]->(u:user)
+            WHERE s.name = {schemaname}
+              AND u.name = {username}
+              AND a.name = {attributename}
+           RETURN COUNT(a) AS cnt
+        ', [
+            'schemaname' => $attr->getSchemaName(),
+            'username' => $this->user->getUsername(),
+            'attributename' => $attr->getName()
+        ])->getRows()['cnt'][0];
+
+        return $count < 1;
     }
 
     private function createFromRow($row)
@@ -65,7 +83,7 @@ class AttributeRepository extends Neo4jRepository
         $a = new Attribute();
         $a->setName($row['name']);
         $a->setCreatedAt(\DateTime::createFromFormat(\DateTime::ISO8601, $row['created_at']));
-        $a->setDataType(AttributeDataType::getByName($row['type']));
+        $a->setDataType(AttributeDataType::getByName($row['datatype']));
         return $a;
     }
 }

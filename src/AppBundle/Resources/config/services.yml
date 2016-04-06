@@ -33,3 +33,10 @@ services:
       - "@repo.schema"
     tags:
       - { name: validator.constraint_validator, alias: validator.schemaname }
+
+  validator.attributename:
+    class: AppBundle\Validator\Constraints\AttributeNameValidator
+    arguments:
+      - "@repo.attribute"
+    tags:
+      - { name: validator.constraint_validator, alias: validator.attributename }

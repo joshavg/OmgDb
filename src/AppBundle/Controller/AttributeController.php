@@ -6,7 +6,6 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\SchemaType;
 use AppBundle\Architecture\RepositoryServices;
-use AppBundle\Form\FormDefinition;
 use AppBundle\Form\Type\SchemaFilterType;
 use AppBundle\Entity\Schema;
 use AppBundle\Entity\Attribute;
@@ -47,7 +46,7 @@ class AttributeController extends Controller
             $attributes = $this->getAttributeRepository()->getForSchema($schema);
 
             $attr = new Attribute();
-            $attr->setSchema($schema);
+            $attr->setSchemaName($schema->getName());
             $newform = $this->createNewForm($attr);
         }
 
@@ -72,12 +71,22 @@ class AttributeController extends Controller
     /**
      * @Route("/new", name="attribute_insert")
      * @Method("POST")
+     * @Template("AppBundle:Attribute:index.html.twig")
+     *
      * @param Request $req
      * @return array
      */
     public function newAction(Request $req)
     {
-        return [];
+        $attr = new Attribute();
+        $form = $this->createNewForm($attr);
+
+        if ($form->handleRequest($req)->isValid()) {
+            $this->getAttributeRepository()->newAttribute($attr);
+            return $this->redirectToRoute('attribute_index');
+        }
+
+        return $this->indexAction($req);
     }
 
     /**
@@ -102,6 +111,9 @@ class AttributeController extends Controller
     /**
      * @Route("/update", methods={"POST", "PUT"}, name="schema_update")
      * @Template("AppBundle:Schema:edit.html.twig")
+     *
+     * @param Request $req
+     * @return array
      */
     public function updateAction(Request $req)
     {

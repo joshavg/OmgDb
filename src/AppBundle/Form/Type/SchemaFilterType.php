@@ -3,6 +3,7 @@ namespace AppBundle\Form\Type;
 
 use AppBundle\Entity\SchemaRepository;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\ChoiceList\ArrayChoiceList;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraint;
@@ -39,6 +40,7 @@ class SchemaFilterType extends AbstractType
 
         $builder->add('schema', ChoiceType::class, [
             'choices' => $choices,
+            'choices_as_values' => true,
             'empty_data' => null,
             'placeholder' => 'label.attribute.choose-schema',
             'label' => 'label.schema.name'

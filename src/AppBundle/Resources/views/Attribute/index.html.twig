@@ -25,7 +25,7 @@
                     <td>{{ a.dataType.name }}</td>
                     <td>{{ a.createdAt|date }}</td>
                     <td>
-                        <a href="{{ path('attribute_edit', {'schema_name': a.schema.name, 'attribute_name': a.name}) }}" class="btn">
+                        <a href="{{ path('attribute_edit', {'schema_name': a.schemaName, 'attribute_name': a.name}) }}" class="btn">
                             <span class="glyphicon glyphicon-pencil"></span>
                         </a>
                     </td>
