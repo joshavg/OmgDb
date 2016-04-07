@@ -16,7 +16,7 @@ class Attribute
 
     public function __construct()
     {
-        $this->dataType = AttributeDataType::$TEXT;
+        $this->dataType = AttributeDataType::getByName(AttributeDataType::$TEXT);
     }
 
     public function getName()
@@ -47,7 +47,7 @@ class Attribute
      */
     public function setDataType($typename)
     {
-        if(is_string($typename)) {
+        if (is_string($typename)) {
             $this->dataType = AttributeDataType::getByName($typename);
         } else {
             $this->dataType = $typename;
