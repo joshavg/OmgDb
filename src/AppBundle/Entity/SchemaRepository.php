@@ -45,7 +45,7 @@ class SchemaRepository extends Neo4jRepository
     public function fetchAllForCurrentUser()
     {
         $dat = $this->getClient()->cypher('
-             MATCH (n:schema)-[r:created_by]->(u:user)
+             MATCH (n:schema)-[:created_by]->(u:user)
              WHERE u.name = {username}
             RETURN n
             ORDER BY LOWER(n.name)
@@ -55,12 +55,17 @@ class SchemaRepository extends Neo4jRepository
 
         $return = [];
         foreach ($dat as $row) {
-            $return[] = $this->createSchemaFromRow($row->get('n'));
+            $schema = $this->createSchemaFromRow($row->get('n'));
+            $return[] = $schema;
         }
 
         return $return;
     }
 
+    /**
+     * @param Node $row
+     * @return Schema
+     */
     private function createSchemaFromRow(Node $row)
     {
         $schema = new Schema();

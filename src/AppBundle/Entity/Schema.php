@@ -10,8 +10,6 @@ class Schema
 
     private $createdAt;
 
-    private $attributes;
-
     public function getName()
     {
         return $this->name;
@@ -31,17 +29,6 @@ class Schema
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-        return $this;
-    }
-
-    public function getAttributes()
-    {
-        return $this->attributes;
-    }
-
-    public function setAttributes($attributes)
-    {
-        $this->attributes = $attributes;
         return $this;
     }
 
