@@ -78,27 +78,6 @@ class SchemaRepository extends Neo4jRepository
         return $schema;
     }
 
-    /**
-     * @param $name
-     * @return Schema
-     * @deprecated
-     */
-    public function fetch($name)
-    {
-        $dat = $this->getClient()->cypher('
-            MATCH (n:schema)-[r:created_by]->(u:user)
-            WHERE u.name = {user}
-              AND n.name = {name}
-           RETURN n
-        ', [
-            'user' => $this->getUser()->getUsername(),
-            'name' => $name
-        ])->records()[0];
-
-        $schema = $this->createSchemaFromRow($dat->get('n'));
-        return $schema;
-    }
-
     public function fetchByUid($uid)
     {
         $dat = $this->getClient()->cypher('
