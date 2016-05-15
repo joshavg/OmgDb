@@ -2,6 +2,7 @@
     "name": "josha/28",
     "license": "GNU GPL",
     "type": "project",
+    "description": "document database based heavily on relations",
     "autoload": {
         "psr-4": {
             "": "src/"

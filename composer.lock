@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "dcf4f3c20cc0645f01f6149be400e7c8",
-    "content-hash": "5506ac9ba17c532a3480c5000fc6b025",
+    "hash": "160c69e8743a811d664dd72bb07fc8ad",
+    "content-hash": "38671f8c11a5bdc8023b82c834fdf1ee",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -879,16 +879,16 @@
         },
         {
             "name": "graphaware/neo4j-bolt",
-            "version": "1.5.3",
+            "version": "1.5.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/graphaware/neo4j-bolt-php.git",
-                "reference": "7ed257490630ec1708c6bc5b651c394859846f1d"
+                "reference": "7a8338f2cf3e2141431ae4b69593641c69d9f527"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/graphaware/neo4j-bolt-php/zipball/7ed257490630ec1708c6bc5b651c394859846f1d",
-                "reference": "7ed257490630ec1708c6bc5b651c394859846f1d",
+                "url": "https://api.github.com/repos/graphaware/neo4j-bolt-php/zipball/7a8338f2cf3e2141431ae4b69593641c69d9f527",
+                "reference": "7a8338f2cf3e2141431ae4b69593641c69d9f527",
                 "shasum": ""
             },
             "require": {
@@ -921,7 +921,7 @@
                 }
             ],
             "description": "Neo4j Bolt Binary Protocol PHP Driver",
-            "time": "2016-05-13 09:55:34"
+            "time": "2016-05-15 23:21:51"
         },
         {
             "name": "graphaware/neo4j-common",
@@ -2619,7 +2619,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=5.3.9"
+        "php": ">=5.6"
     },
     "platform-dev": []
 }
