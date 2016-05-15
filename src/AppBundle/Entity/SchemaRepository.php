@@ -9,14 +9,22 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 class SchemaRepository extends Neo4jRepository
 {
     /**
-     * @var User
+     * @var TokenStorage
      */
-    private $user;
+    private $tokenStorage;
 
     public function __construct(Neo4jClientWrapper $client, TokenStorage $storage)
     {
         parent::__construct($client);
-        $this->user = $storage->getToken()->getUser();
+        $this->tokenStorage = $storage;
+    }
+
+    /**
+     * @return User
+     */
+    private function getUser()
+    {
+        return $this->tokenStorage->getToken()->getUser();
     }
 
     public function newSchema(Schema $schema)
@@ -29,7 +37,7 @@ class SchemaRepository extends Neo4jRepository
                    s.created_at = {date}
         ', [
             'name' => $schema->getName(),
-            'username' => $this->user->getUsername(),
+            'username' => $this->getUser()->getUsername(),
             'date' => date(\DateTime::ISO8601)
         ]);
     }
@@ -40,9 +48,9 @@ class SchemaRepository extends Neo4jRepository
              MATCH (n:schema)-[r:created_by]->(u:user)
              WHERE u.name = {username}
             RETURN n
-            ORDER BY n.name
+            ORDER BY LOWER(n.name)
         ', [
-            'username' => $this->user->getUsername()
+            'username' => $this->getUser()->getUsername()
         ])->records();
 
         $return = [];
@@ -70,7 +78,7 @@ class SchemaRepository extends Neo4jRepository
               AND n.name = {name}
            RETURN n
         ', [
-            'user' => $this->user->getUsername(),
+            'user' => $this->getUser()->getUsername(),
             'name' => $name
         ])->records()[0];
 
@@ -86,7 +94,7 @@ class SchemaRepository extends Neo4jRepository
               AND u.name = {user}
             RETURN COUNT(s) AS cnt
         ', [
-            'user' => $this->user->getUsername(),
+            'user' => $this->getUser()->getUsername(),
             'name' => $name
         ])->firstRecord()->get('cnt');
 

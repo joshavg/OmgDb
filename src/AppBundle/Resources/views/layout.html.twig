@@ -47,7 +47,24 @@
             </div>
         </div>
         <div class="container-fluid">
+            {% if app.user %}
+                <section class="col-md-2">
+                    <ul class="list-group">
+                        {% for schema in repo_schema.fetchAllForCurrentUser %}
+                            <li class="list-group-item">
+                                {{ schema.name }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </section>
+                <section class="col-md-10">
+            {% endif %}
+
             {% block body %}{% endblock %}
+
+            {% if app.user %}
+                </section>
+            {% endif %}
         </div>
     </body>
 </html>
