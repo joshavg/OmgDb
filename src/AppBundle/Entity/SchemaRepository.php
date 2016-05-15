@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Entity;
 
+use GraphAware\Neo4j\Client\Formatter\Type\Node;
 use laniger\Neo4jBundle\Architecture\Neo4jClientWrapper;
 use laniger\Neo4jBundle\Architecture\Neo4jRepository;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
@@ -8,14 +9,22 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 class SchemaRepository extends Neo4jRepository
 {
     /**
-     * @var User
+     * @var TokenStorage
      */
-    private $user;
+    private $tokenStorage;
 
     public function __construct(Neo4jClientWrapper $client, TokenStorage $storage)
     {
         parent::__construct($client);
-        $this->user = $storage->getToken()->getUser();
+        $this->tokenStorage = $storage;
+    }
+
+    /**
+     * @return User
+     */
+    private function getUser()
+    {
+        return $this->tokenStorage->getToken()->getUser();
     }
 
     public function newSchema(Schema $schema)
@@ -28,7 +37,7 @@ class SchemaRepository extends Neo4jRepository
                    s.created_at = {date}
         ', [
             'name' => $schema->getName(),
-            'username' => $this->user->getUsername(),
+            'username' => $this->getUser()->getUsername(),
             'date' => date(\DateTime::ISO8601)
         ]);
     }
@@ -39,24 +48,25 @@ class SchemaRepository extends Neo4jRepository
              MATCH (n:schema)-[r:created_by]->(u:user)
              WHERE u.name = {username}
             RETURN n
-            ORDER BY n.name
+            ORDER BY LOWER(n.name)
         ', [
-            'username' => $this->user->getUsername()
-        ]);
+            'username' => $this->getUser()->getUsername()
+        ])->records();
 
         $return = [];
-        foreach ($dat->getRows()['n'] as $row) {
-            $return[] = $this->createSchemaFromRow($row);
+        foreach ($dat as $row) {
+            $return[] = $this->createSchemaFromRow($row->get('n'));
         }
 
         return $return;
     }
 
-    private function createSchemaFromRow($row)
+    private function createSchemaFromRow(Node $row)
     {
         $schema = new Schema();
-        $schema->setName($row['name']);
-        $schema->setCreatedAt(\DateTime::createFromFormat(\DateTime::ISO8601, $row['created_at']));
+        $schema->setName($row->get('name'));
+        $schema->setCreatedAt(\DateTime::createFromFormat(\DateTime::ISO8601,
+            $row->get('created_at')));
         return $schema;
     }
 
@@ -68,11 +78,11 @@ class SchemaRepository extends Neo4jRepository
               AND n.name = {name}
            RETURN n
         ', [
-            'user' => $this->user->getUsername(),
+            'user' => $this->getUser()->getUsername(),
             'name' => $name
-        ])->getRows()['n'][0];
+        ])->records()[0];
 
-        $schema = $this->createSchemaFromRow($dat);
+        $schema = $this->createSchemaFromRow($dat->get('n'));
         return $schema;
     }
 
@@ -84,9 +94,9 @@ class SchemaRepository extends Neo4jRepository
               AND u.name = {user}
             RETURN COUNT(s) AS cnt
         ', [
-            'user' => $this->user->getUsername(),
+            'user' => $this->getUser()->getUsername(),
             'name' => $name
-        ])->getRows()['cnt'][0];
+        ])->firstRecord()->get('cnt');
 
         return $dat < 1;
     }

@@ -1,6 +1,7 @@
 <?php
 namespace laniger\Neo4jBundle\Architecture;
 
+use GraphAware\Neo4j\Client\Formatter\RecordView;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use AppBundle\Entity\User;
@@ -29,17 +30,19 @@ class Neo4jUserProvider implements UserProviderInterface
             'name' => $username
         ]);
 
-        $rows = $res->getRows();
+        /** @var $rows RecordView */
+        $rows = $res->records();
 
-        if (! count($rows)) {
-            throw new UsernameNotFoundException(sprintf('Username "%s" does not exist.', $username));
+        if (!count($rows)) {
+            throw new UsernameNotFoundException(sprintf('Username "%s" does not exist.',
+                $username));
         }
 
-        $row = $rows['n'][0];
+        $row = $rows[0]->get('n');
         $user = new User();
-        $user->setName($row['name']);
-        $user->setEmail($row['email']);
-        $user->setPassword($row['password']);
+        $user->setName($row->get('name'));
+        $user->setEmail($row->get('email'));
+        $user->setPassword($row->get('password'));
         return $user;
     }
 

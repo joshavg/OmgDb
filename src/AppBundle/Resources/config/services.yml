@@ -20,13 +20,6 @@ services:
       - "@neo4j.client"
       - "@security.token_storage"
 
-  form.schema.filter:
-    class: AppBundle\Form\Type\SchemaFilterType
-    arguments:
-      - "@repo.schema"
-    tags:
-      - { name: form.type }
-
   validator.schemaname:
     class: AppBundle\Validator\Constraints\SchemaNameValidator
     arguments:
