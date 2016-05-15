@@ -36,6 +36,7 @@ class AttributeRepository extends Neo4jRepository
             foreach ($attr as $row) {
                 $a = $this->createFromRow($row->get('a'));
                 $a->setSchemaName($schema->getName());
+                $a->setSchemaUid($schema->getUid());
                 $attributes[] = $a;
             }
         }
@@ -51,13 +52,15 @@ class AttributeRepository extends Neo4jRepository
            CREATE (a:attribute)-[:attribute_of]->(s)
               SET a.name = {attrname},
                   a.datatype = {datatype},
-                  a.created_at = {date}
+                  a.created_at = {date},
+                  a.uid = {uid}
         ', [
             'username' => $this->user->getUsername(),
             'schemaname' => $attr->getSchemaName(),
             'attrname' => $attr->getName(),
             'datatype' => $attr->getDataType()->getName(),
-            'date' => date(\DateTime::ISO8601)
+            'date' => date(\DateTime::ISO8601),
+            'uid' => $attr->getUid()
         ]);
     }
 
@@ -86,9 +89,16 @@ class AttributeRepository extends Neo4jRepository
         $a->setCreatedAt(\DateTime::createFromFormat(\DateTime::ISO8601,
             $row->get('created_at')));
         $a->setDataType(AttributeDataType::getByName($row->get('datatype')));
+        $a->setUid($row->get('uid'));
         return $a;
     }
 
+    /**
+     * @param $schemaName
+     * @param $name
+     * @return Attribute
+     * @deprecated
+     */
     public function fetch($schemaName, $name)
     {
         $row = $this->getClient()->cypher('
@@ -109,20 +119,44 @@ class AttributeRepository extends Neo4jRepository
         return $attr;
     }
 
-    public function update($name, Attribute $attr)
+    public function fetchByUid($schemaUid, $uid)
+    {
+        $row = $this->getClient()->cypher('
+            MATCH (a:attribute)-[:attribute_of]->(s:schema),
+                  (s)-[:created_by]->(u:user)
+            WHERE s.uid = {schemaUid}
+              AND u.name = {username}
+              AND a.uid = {attributeUid}
+           RETURN a, s
+        ', [
+            'schemaUid' => $schemaUid,
+            'username' => $this->user->getUsername(),
+            'attributeUid' => $uid
+        ])->firstRecord();
+
+        $attr = $this->createFromRow($row->get('a'));
+
+        $schema = $row->get('s');
+        $attr->setSchemaName($schema->get('name'));
+        $attr->setSchemaUid($schema->get('uid'));
+        
+        return $attr;
+    }
+
+    public function update($uid, Attribute $attr)
     {
         $this->getClient()->cypher('
             MATCH (a:attribute)-[:attribute_of]->(s:schema),
                   (s)-[:created_by]->(u:user)
             WHERE s.name = {schemaname}
               AND u.name = {username}
-              AND a.name = {attributename}
+              AND a.uid = {attributeUid}
               SET a.name = {newname},
                   a.datatype = {newdatatype}
         ', [
             'schemaname' => $attr->getSchemaName(),
             'username' => $this->user->getUsername(),
-            'attributename' => $name,
+            'attributeUid' => $uid,
             'newname' => $attr->getName(),
             'newdatatype' => $attr->getDataType()->getName()
         ]);

@@ -21,7 +21,7 @@
                     <td>{{ s.name }}</td>
                     <td>{{ s.createdAt|date }}</td>
                     <td>
-                        <a href="{{ path('schema_edit', {'name': s.name}) }}" class="btn">
+                        <a href="{{ path('schema_edit', {'uid': s.uid}) }}" class="btn">
                             <span class="glyphicon glyphicon-pencil"></span>
                         </a>
                     </td>

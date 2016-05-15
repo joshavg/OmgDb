@@ -10,6 +10,23 @@ class Schema
 
     private $createdAt;
 
+    private $uid;
+
+    public function __construct()
+    {
+        $this->uid = uniqid('schema', true);
+    }
+
+    public function getUid()
+    {
+        return $this->uid;
+    }
+
+    public function setUid($uid)
+    {
+        $this->uid = $uid;
+    }
+
     public function getName()
     {
         return $this->name;

@@ -34,11 +34,13 @@ class SchemaRepository extends Neo4jRepository
              WHERE u.name = {username}
             CREATE (s:schema)-[r:created_by]->(u)
                SET s.name = {name},
-                   s.created_at = {date}
+                   s.created_at = {date},
+                   s.uid = {uid}
         ', [
             'name' => $schema->getName(),
             'username' => $this->getUser()->getUsername(),
-            'date' => date(\DateTime::ISO8601)
+            'date' => date(\DateTime::ISO8601),
+            'uid' => $schema->getUid()
         ]);
     }
 
@@ -72,9 +74,15 @@ class SchemaRepository extends Neo4jRepository
         $schema->setName($row->get('name'));
         $schema->setCreatedAt(\DateTime::createFromFormat(\DateTime::ISO8601,
             $row->get('created_at')));
+        $schema->setUid($row->get('uid'));
         return $schema;
     }
 
+    /**
+     * @param $name
+     * @return Schema
+     * @deprecated
+     */
     public function fetch($name)
     {
         $dat = $this->getClient()->cypher('
@@ -85,6 +93,22 @@ class SchemaRepository extends Neo4jRepository
         ', [
             'user' => $this->getUser()->getUsername(),
             'name' => $name
+        ])->records()[0];
+
+        $schema = $this->createSchemaFromRow($dat->get('n'));
+        return $schema;
+    }
+
+    public function fetchByUid($uid)
+    {
+        $dat = $this->getClient()->cypher('
+            MATCH (n:schema)-[r:created_by]->(u:user)
+            WHERE u.name = {user}
+              AND n.uid = {uid}
+           RETURN n
+        ', [
+            'user' => $this->getUser()->getUsername(),
+            'uid' => $uid
         ])->records()[0];
 
         $schema = $this->createSchemaFromRow($dat->get('n'));

@@ -33,6 +33,13 @@ class AttributeType extends AbstractType
                 'readonly' => true
             ]
         ]);
+        
+        $builder->add('schemaUid', TextType::class, [
+            'label' => 'label.attribute.schemaUid',
+            'attr' => [
+                'readonly' => true
+            ]
+        ]);
 
         $readonly = false;
         if($options['goal'] === 'update') {

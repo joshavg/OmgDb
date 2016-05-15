@@ -12,11 +12,37 @@ class Attribute
 
     private $dataType;
 
+    private $schemaUid;
+    
+    private $uid;
+    
     private $schemaName;
+
+    public function getSchemaName()
+    {
+        return $this->schemaName;
+    }
+
+    public function setSchemaName($schemaName)
+    {
+        $this->schemaName = $schemaName;
+        return $this;
+    }
 
     public function __construct()
     {
         $this->dataType = AttributeDataType::getByName(AttributeDataType::$TEXT);
+        $this->uid = uniqid('attribute', true);
+    }
+
+    public function getUid()
+    {
+        return $this->uid;
+    }
+
+    public function setUid($uid)
+    {
+        $this->uid = $uid;
     }
 
     public function getName()
@@ -63,14 +89,14 @@ class Attribute
         return $this->dataType;
     }
 
-    public function setSchemaName($schema)
+    public function setSchemaUid($uid)
     {
-        $this->schemaName = $schema;
+        $this->schemaUid = $uid;
         return $this;
     }
 
-    public function getSchemaName()
+    public function getSchemaUid()
     {
-        return $this->schemaName;
+        return $this->schemaUid;
     }
 }

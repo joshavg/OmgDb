@@ -60,17 +60,17 @@ class SchemaController extends Controller
     }
 
     /**
-     * @Route("/{name}/edit", name="schema_edit")
+     * @Route("/{uid}/edit", name="schema_edit")
      * @Template()
      *
-     * @param string $name
+     * @param string $uid
      * @return array
      */
-    public function editAction($name)
+    public function editAction($uid)
     {
-        $schema = $this->getSchemaRepository()->fetch($name);
+        $schema = $this->getSchemaRepository()->fetchByUid($uid);
         $form = $this->createForm(SchemaType::class, $schema, [
-            'action' => $this->generateUrl('schema_update', ['name' => $name]),
+            'action' => $this->generateUrl('schema_update', ['uid' => $uid]),
             'goal' => 'update'
         ]);
 
@@ -80,16 +80,16 @@ class SchemaController extends Controller
     }
 
     /**
-     * @Route("/{name}/update", methods={"POST", "PUT"}, name="schema_update")
+     * @Route("/{uid}/update", methods={"POST", "PUT"}, name="schema_update")
      * @Template("AppBundle:Schema:edit.html.twig")
      *
-     * @param string $name
+     * @param string $uid
      * @param Request $req
      * @return array
      */
-    public function updateAction($name, Request $req)
+    public function updateAction($uid, Request $req)
     {
-        $schema = $this->getSchemaRepository()->fetch($name);
+        $schema = $this->getSchemaRepository()->fetchByUid($uid);
         $form = $this->createForm(SchemaType::class, $schema, [
             'goal' => 'update'
         ]);
