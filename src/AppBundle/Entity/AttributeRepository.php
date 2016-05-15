@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Entity;
 
+use GraphAware\Neo4j\Client\Formatter\Type\Node;
 use laniger\Neo4jBundle\Architecture\Neo4jClientWrapper;
 use laniger\Neo4jBundle\Architecture\Neo4jRepository;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
@@ -27,13 +28,13 @@ class AttributeRepository extends Neo4jRepository
             ORDER BY s.name
         ', [
             'name' => $schema->getName()
-        ]);
+        ])->records();
 
         $attributes = [];
 
-        if (isset($attr->getRows()['a'])) {
-            foreach ($attr->getRows()['a'] as $row) {
-                $a = $this->createFromRow($row);
+        if (count($attr)) {
+            foreach ($attr as $row) {
+                $a = $this->createFromRow($row->get('a'));
                 $a->setSchemaName($schema->getName());
                 $attributes[] = $a;
             }
@@ -73,17 +74,18 @@ class AttributeRepository extends Neo4jRepository
             'schemaname' => $attr->getSchemaName(),
             'username' => $this->user->getUsername(),
             'attributename' => $attr->getName()
-        ])->getRows()['cnt'][0];
+        ])->firstRecord()->get('cnt');
 
         return $count < 1;
     }
 
-    private function createFromRow($row)
+    private function createFromRow(Node $row)
     {
         $a = new Attribute();
-        $a->setName($row['name']);
-        $a->setCreatedAt(\DateTime::createFromFormat(\DateTime::ISO8601, $row['created_at']));
-        $a->setDataType(AttributeDataType::getByName($row['datatype']));
+        $a->setName($row->get('name'));
+        $a->setCreatedAt(\DateTime::createFromFormat(\DateTime::ISO8601,
+            $row->get('created_at')));
+        $a->setDataType(AttributeDataType::getByName($row->get('datatype')));
         return $a;
     }
 
@@ -100,7 +102,7 @@ class AttributeRepository extends Neo4jRepository
             'schemaname' => $schemaName,
             'username' => $this->user->getUsername(),
             'attributename' => $name
-        ])->getRows()['a'][0];
+        ])->firstRecord()->get('a');
 
         $attr = $this->createFromRow($row);
         $attr->setSchemaName($schemaName);

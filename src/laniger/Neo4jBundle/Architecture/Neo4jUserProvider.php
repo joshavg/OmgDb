@@ -33,8 +33,9 @@ class Neo4jUserProvider implements UserProviderInterface
         /** @var $rows RecordView */
         $rows = $res->records();
 
-        if (! count($rows)) {
-            throw new UsernameNotFoundException(sprintf('Username "%s" does not exist.', $username));
+        if (!count($rows)) {
+            throw new UsernameNotFoundException(sprintf('Username "%s" does not exist.',
+                $username));
         }
 
         $row = $rows[0]->get('n');

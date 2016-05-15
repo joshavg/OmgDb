@@ -6,10 +6,8 @@ use GraphAware\Neo4j\Client\ClientBuilder;
 use GraphAware\Neo4j\Client\Formatter\Response;
 use Psr\Log\LoggerInterface;
 
-// TODO: finish transition to GraphAware
 class Neo4jClientWrapper
 {
-
     /**
      * @var LoggerInterface
      */
@@ -23,7 +21,6 @@ class Neo4jClientWrapper
     public function __construct($host, $port, $user, $pw, LoggerInterface $logger)
     {
         $this->logger = $logger;
-        //'http://neo4j:password@localhost:7474'
         ClientBuilder::create()->addConnection('default', '');
         $this->client =
             ClientBuilder::create()->addConnection('default', "http://$user:$pw@$host:$port")
