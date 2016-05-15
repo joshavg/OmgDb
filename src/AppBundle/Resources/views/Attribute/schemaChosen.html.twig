@@ -23,11 +23,16 @@
                     <td>{{ a.dataType }}</td>
                     <td>{{ a.createdAt|date }}</td>
                     <td>
-                        <a href="{{ path('attribute_edit',
-                                            { 'schema_uid': schema.uid,
-                                              'attribute_uid': a.uid }) }}" class="btn">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                        </a>
+                        <div class="btn-group">
+                            <a href="{{ path('attribute_edit', {'uid': a.uid }) }}"
+                               class="btn btn-primary">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </a>
+                            <a href="{{ path('attribute_delete', {'uid': a.uid }) }}"
+                               class="btn btn-danger btn-confirm-href">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
+                        </div>
                     </td>
                 </tr>
             {% endfor %}

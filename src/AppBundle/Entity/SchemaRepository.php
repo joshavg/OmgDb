@@ -108,4 +108,18 @@ class SchemaRepository extends Neo4jRepository
 
         return $dat < 1;
     }
+    
+    public function deleteByUid($uid)
+    {
+        $this->getClient()->cypher('
+            MATCH (s:schema)-[r:created_by]->(u:user),
+                  (a:attribute)-[ar:attribute_of]->(s)
+            WHERE s.uid = {uid}
+              AND u.name = {username}
+            DELETE r, ar, a, s
+        ', [
+            'username' => $this->getUser()->getUsername(),
+            'uid' => $uid
+        ]);
+    }
 }

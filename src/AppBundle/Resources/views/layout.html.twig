@@ -5,6 +5,9 @@
         <title>{{ 'title'|trans }}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         {% include 'lanigerBootstrapBundle::assets.include.twig' %}
+        {% javascripts '@AppBundle/Resources/public/omgdb.js' %}
+            <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
     </head>
     <body>
         <div class="navbar navbar-default">
@@ -65,6 +68,29 @@
             {% if app.user %}
                 </section>
             {% endif %}
+        </div>
+
+        <div class="modal" tabindex="-1" role="dialog" id="modal-confirm">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">
+                            {{ 'label.confirm-action'|trans }}
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>{{ 'text.confirm-action' }}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-default" data-dismiss="modal">
+                            {{ 'label.cancel'|trans }}
+                        </button>
+                        <button class="btn btn-primary" id="modal-confirm-confirm">
+                            {{ 'label.confirm'|trans }}
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </body>
 </html>

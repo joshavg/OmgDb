@@ -21,9 +21,16 @@
                     <td>{{ s.name }}</td>
                     <td>{{ s.createdAt|date }}</td>
                     <td>
-                        <a href="{{ path('schema_edit', {'uid': s.uid}) }}" class="btn">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                        </a>
+                        <div class="btn-group">
+                            <a href="{{ path('schema_edit', {'uid': s.uid}) }}"
+                               class="btn btn-primary">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </a>
+                            <a href="{{ path('schema_delete', {'uid': s.uid}) }}"
+                               class="btn btn-danger btn-confirm-href">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
+                        </div>
                     </td>
                 </tr>
             {% endfor %}

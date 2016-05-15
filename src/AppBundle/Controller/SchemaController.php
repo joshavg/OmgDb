@@ -103,4 +103,16 @@ class SchemaController extends Controller
             'form' => $form->createView()
         ];
     }
+
+    /**
+     * @Route("/{uid}/delete", methods={"GET", "DELETE"}, name="schema_delete")
+     *
+     * @param $uid
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteAction($uid)
+    {
+        $this->getSchemaRepository()->deleteByUid($uid);
+        return $this->redirectToRoute('schema_index');
+    }
 }

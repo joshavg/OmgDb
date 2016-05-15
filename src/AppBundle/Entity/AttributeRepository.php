@@ -93,19 +93,17 @@ class AttributeRepository extends Neo4jRepository
         return $a;
     }
 
-    public function fetchByUid($schemaUid, $uid)
+    public function fetchByUid($uid)
     {
         $row = $this->getClient()->cypher('
             MATCH (a:attribute)-[:attribute_of]->(s:schema),
                   (s)-[:created_by]->(u:user)
-            WHERE s.uid = {schemaUid}
-              AND u.name = {username}
-              AND a.uid = {attributeUid}
+            WHERE u.name = {username}
+              AND a.uid = {uid}
            RETURN a, s
         ', [
-            'schemaUid' => $schemaUid,
             'username' => $this->user->getUsername(),
-            'attributeUid' => $uid
+            'uid' => $uid
         ])->firstRecord();
 
         $attr = $this->createFromRow($row->get('a'));
@@ -133,6 +131,20 @@ class AttributeRepository extends Neo4jRepository
             'attributeUid' => $uid,
             'newname' => $attr->getName(),
             'newdatatype' => $attr->getDataType()->getName()
+        ]);
+    }
+
+    public function deleteByUid($uid)
+    {
+        $this->getClient()->cypher('
+            MATCH (a:attribute)-[r:attribute_of]->(s:schema),
+                  (s)-[:created_by]->(u:user)
+            WHERE a.uid = {uid}
+              AND u.name = {username}
+            DELETE r, a
+        ', [
+            'uid' => $uid,
+            'username' => $this->user->getUsername()
         ]);
     }
 }
