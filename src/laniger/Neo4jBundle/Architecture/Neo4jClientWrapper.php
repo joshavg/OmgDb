@@ -1,10 +1,10 @@
 <?php
 namespace laniger\Neo4jBundle\Architecture;
 
-use Neoxygen\NeoClient\Client;
-use Neoxygen\NeoClient\ClientBuilder;
+use GraphAware\Neo4j\Client\ClientBuilder;
 use Psr\Log\LoggerInterface;
 
+// TODO: finish transition to GraphAware
 class Neo4jClientWrapper
 {
 
@@ -22,7 +22,6 @@ class Neo4jClientWrapper
     {
         $this->logger = $logger;
         $this->client = ClientBuilder::create()->addConnection('default', 'http', $host, $port, true, $user, $pw)
-            ->setAutoFormatResponse(true)
             ->build();
     }
 
