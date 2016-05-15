@@ -71,7 +71,7 @@ class SchemaController extends Controller
         $schema = $this->getSchemaRepository()->fetchByUid($uid);
         $form = $this->createForm(SchemaType::class, $schema, [
             'action' => $this->generateUrl('schema_update', ['uid' => $uid]),
-            'goal' => 'update'
+            'validation_groups' => ['update']
         ]);
 
         return [
@@ -91,7 +91,7 @@ class SchemaController extends Controller
     {
         $schema = $this->getSchemaRepository()->fetchByUid($uid);
         $form = $this->createForm(SchemaType::class, $schema, [
-            'goal' => 'update'
+            'validation_groups' => ['update']
         ]);
 
         $form->handleRequest($req);

@@ -10,6 +10,9 @@ class AttributeDataType
 
     public static $BOOLEAN = 'boolean';
 
+    /**
+     * @return AttributeDataType[]
+     */
     public static function getTypes()
     {
         return [

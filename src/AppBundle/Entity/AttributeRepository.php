@@ -71,12 +71,12 @@ class AttributeRepository extends Neo4jRepository
                   (s)-[:created_by]->(u:user)
             WHERE s.uid = {schemaUid}
               AND u.name = {username}
-              AND a.uid = {attributeUid}
+              AND a.name = {attributeName}
            RETURN COUNT(a) AS cnt
         ', [
             'schemaUid' => $attr->getSchemaUid(),
             'username' => $this->user->getUsername(),
-            'attributeUid' => $attr->getUid()
+            'attributeName' => $attr->getName()
         ])->firstRecord()->get('cnt');
 
         return $count < 1;

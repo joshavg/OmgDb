@@ -14,9 +14,4 @@ class SchemaName extends Constraint
     {
         return 'validator.schemaname';
     }
-    
-    public function getTargets()
-    {
-        return self::CLASS_CONSTRAINT;
-    }
 }

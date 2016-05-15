@@ -123,7 +123,7 @@ class AttributeController extends Controller
                 'attribute_uid' => $attr->getUid(),
                 'schema_uid' => $attr->getSchemaUid()
             ]),
-            'goal' => 'update'
+            'validation_groups' => ['update']
         ]);
         $form->add('submit', SubmitType::class, [
             'label' => 'label.save'

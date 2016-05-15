@@ -2,7 +2,7 @@
 namespace AppBundle\Entity;
 
 /**
- * @AppBundle\Validator\Constraints\AttributeName
+ * @AppBundle\Validator\Constraints\AttributeName(groups={"insert"})
  */
 class Attribute
 {

@@ -23,7 +23,6 @@ use AppBundle\Form\ServiceForm;
 
 class AttributeType extends AbstractType
 {
-    use ServiceForm;
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -33,7 +32,7 @@ class AttributeType extends AbstractType
                 'readonly' => true
             ]
         ]);
-        
+
         $builder->add('schemaUid', TextType::class, [
             'label' => 'label.attribute.schemaUid',
             'attr' => [
@@ -41,10 +40,7 @@ class AttributeType extends AbstractType
             ]
         ]);
 
-        $readonly = false;
-        if($options['goal'] === 'update') {
-            $readonly = true;
-        }
+        $readonly = in_array('update', $options['validation_groups']);
         $builder->add('name', TextType::class, [
             'label' => 'label.attribute.name',
             'attr' => [
@@ -66,7 +62,7 @@ class AttributeType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Attribute::class,
-            'goal' => 'insert'
+            'validation_groups' => ['insert']
         ]);
     }
 }

@@ -24,11 +24,7 @@ class SchemaNameValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint)
     {
-        if ($value->getCreatedAt() !== null) {
-            return;
-        }
-
-        $valid = $this->repo->isNameUniqueForCurrentUser($value->getName());
+        $valid = $this->repo->isNameUniqueForCurrentUser($value);
 
         if (!$valid) {
             $this->context->buildViolation($constraint->message)->addViolation();

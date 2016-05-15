@@ -1,11 +1,11 @@
 <?php
 namespace AppBundle\Entity;
 
-/**
- * @AppBundle\Validator\Constraints\SchemaName
- */
 class Schema
 {
+    /**
+     * @AppBundle\Validator\Constraints\SchemaName(groups={"insert"})
+     */
     private $name;
 
     private $createdAt;

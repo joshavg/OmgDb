@@ -11,7 +11,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SchemaType extends AbstractType
 {
-    use ServiceForm;
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -19,10 +18,7 @@ class SchemaType extends AbstractType
             'label' => 'label.save'
         ]);
 
-        $readonly = false;
-        if ($options['goal'] === 'update') {
-            $readonly = true;
-        }
+        $readonly = in_array('update', $options['validation_groups']);
 
         $builder->add('name', TextType::class, [
             'label' => 'label.schema.name',
@@ -35,7 +31,9 @@ class SchemaType extends AbstractType
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefault('goal', 'insert');
+        $resolver->setDefault('validation_groups', [
+            'insert'
+        ]);
     }
 
     public function getBlockPrefix()
