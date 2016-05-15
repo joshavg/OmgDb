@@ -69,14 +69,14 @@ class AttributeRepository extends Neo4jRepository
         $count = $this->getClient()->cypher('
             MATCH (a:attribute)-[:attribute_of]->(s:schema),
                   (s)-[:created_by]->(u:user)
-            WHERE s.name = {schemaname}
+            WHERE s.uid = {schemaUid}
               AND u.name = {username}
-              AND a.name = {attributename}
+              AND a.uid = {attributeUid}
            RETURN COUNT(a) AS cnt
         ', [
-            'schemaname' => $attr->getSchemaName(),
+            'schemaUid' => $attr->getSchemaUid(),
             'username' => $this->user->getUsername(),
-            'attributename' => $attr->getName()
+            'attributeUid' => $attr->getUid()
         ])->firstRecord()->get('cnt');
 
         return $count < 1;
@@ -91,32 +91,6 @@ class AttributeRepository extends Neo4jRepository
         $a->setDataType(AttributeDataType::getByName($row->get('datatype')));
         $a->setUid($row->get('uid'));
         return $a;
-    }
-
-    /**
-     * @param $schemaName
-     * @param $name
-     * @return Attribute
-     * @deprecated
-     */
-    public function fetch($schemaName, $name)
-    {
-        $row = $this->getClient()->cypher('
-            MATCH (a:attribute)-[:attribute_of]->(s:schema),
-                  (s)-[:created_by]->(u:user)
-            WHERE s.name = {schemaname}
-              AND u.name = {username}
-              AND a.name = {attributename}
-           RETURN a
-        ', [
-            'schemaname' => $schemaName,
-            'username' => $this->user->getUsername(),
-            'attributename' => $name
-        ])->firstRecord()->get('a');
-
-        $attr = $this->createFromRow($row);
-        $attr->setSchemaName($schemaName);
-        return $attr;
     }
 
     public function fetchByUid($schemaUid, $uid)
@@ -139,7 +113,7 @@ class AttributeRepository extends Neo4jRepository
         $schema = $row->get('s');
         $attr->setSchemaName($schema->get('name'));
         $attr->setSchemaUid($schema->get('uid'));
-        
+
         return $attr;
     }
 
