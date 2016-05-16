@@ -52,13 +52,13 @@
         <div class="container-fluid">
             {% if app.user %}
                 <section class="col-md-2">
-                    <ul class="list-group">
+                    <div class="list-group">
                         {% for schema in repo_schema.fetchAllForCurrentUser %}
-                            <li class="list-group-item">
+                            <a class="list-group-item" href="#{{ schema.uid }}">
                                 {{ schema.name }}
-                            </li>
+                            </a>
                         {% endfor %}
-                    </ul>
+                    </div>
                 </section>
                 <section class="col-md-10">
             {% endif %}
