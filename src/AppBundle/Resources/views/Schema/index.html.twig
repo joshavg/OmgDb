@@ -27,7 +27,8 @@
                                 <span class="glyphicon glyphicon-pencil"></span>
                             </a>
                             <a href="{{ path('schema_delete', {'uid': s.uid}) }}"
-                               class="btn btn-danger btn-confirm-href">
+                               class="btn btn-danger btn-confirm-href"
+                               data-confirm-title="{{ 'title.confirm.delete'|trans }}">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </a>
                         </div>

@@ -29,7 +29,8 @@
                                 <span class="glyphicon glyphicon-pencil"></span>
                             </a>
                             <a href="{{ path('attribute_delete', {'uid': a.uid }) }}"
-                               class="btn btn-danger btn-confirm-href">
+                               class="btn btn-danger btn-confirm-href"
+                               data-confirm-title="{{ 'title.confirm.delete'|trans }}">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </a>
                         </div>
