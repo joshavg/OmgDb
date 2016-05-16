@@ -18,6 +18,12 @@ class Attribute
     
     private $schemaName;
 
+    public function __construct()
+    {
+        $this->dataType = AttributeDataType::getByName(AttributeDataType::$TEXT);
+        $this->uid = uniqid('attribute');
+    }
+
     public function getSchemaName()
     {
         return $this->schemaName;
@@ -27,12 +33,6 @@ class Attribute
     {
         $this->schemaName = $schemaName;
         return $this;
-    }
-
-    public function __construct()
-    {
-        $this->dataType = AttributeDataType::getByName(AttributeDataType::$TEXT);
-        $this->uid = uniqid('attribute', true);
     }
 
     public function getUid()

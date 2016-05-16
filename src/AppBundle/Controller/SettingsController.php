@@ -11,8 +11,6 @@ use AppBundle\Architecture\RepositoryServices;
 
 /**
  * @Route("/settings")
- *
- * @author laniger
  */
 class SettingsController extends Controller
 {

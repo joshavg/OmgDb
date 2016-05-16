@@ -54,7 +54,8 @@
                 <section class="col-md-2">
                     <div class="list-group">
                         {% for schema in repo_schema.fetchAllForCurrentUser %}
-                            <a class="list-group-item" href="#{{ schema.uid }}">
+                            <a class="list-group-item"
+                               href="{{ path('instance_overview', {'schema_uid': schema.uid}) }}">
                                 {{ schema.name }}
                             </a>
                         {% endfor %}

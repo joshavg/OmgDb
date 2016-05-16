@@ -8,8 +8,6 @@ use AppBundle\Architecture\ContainerServices;
 
 /**
  * provides routes and functions for security routines
- *
- * @author laniger
  */
 class SecurityController extends Controller
 {

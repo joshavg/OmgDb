@@ -13,8 +13,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 /**
  * @Route("/attribute")
- *
- * @author laniger
  */
 class AttributeController extends Controller
 {

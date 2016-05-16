@@ -14,7 +14,7 @@ class Schema
 
     public function __construct()
     {
-        $this->uid = uniqid('schema', true);
+        $this->uid = uniqid('schema');
     }
 
     public function getUid()

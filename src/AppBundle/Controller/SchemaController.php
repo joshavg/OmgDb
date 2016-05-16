@@ -12,8 +12,6 @@ use AppBundle\Entity\Schema;
 
 /**
  * @Route("/schema")
- *
- * @author laniger
  */
 class SchemaController extends Controller
 {
