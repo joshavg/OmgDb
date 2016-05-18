@@ -21,7 +21,6 @@ class Neo4jClientWrapper
     public function __construct($host, $port, $user, $pw, LoggerInterface $logger)
     {
         $this->logger = $logger;
-        ClientBuilder::create()->addConnection('default', '');
         $this->client =
             ClientBuilder::create()->addConnection('default', "http://$user:$pw@$host:$port")
                 ->build();
