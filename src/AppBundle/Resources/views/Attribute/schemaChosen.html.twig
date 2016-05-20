@@ -10,9 +10,10 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th>{{ 'label.attribute.name' }}</th>
-                <th>{{ 'label.attribute.dataType' }}</th>
-                <th>{{ 'label.attribute.createdAt' }}</th>
+                <th>{{ 'label.attribute.name'|trans }}</th>
+                <th>{{ 'label.attribute.dataType'|trans }}</th>
+                <th>{{ 'label.attribute.order'|trans }}</th>
+                <th>{{ 'label.attribute.createdAt'|trans }}</th>
                 <th></th>
             </tr>
         </thead>
@@ -21,6 +22,7 @@
                 <tr>
                     <td>{{ a.name }}</td>
                     <td>{{ a.dataType }}</td>
+                    <td>{{ a.order }}</td>
                     <td>{{ a.createdAt|date }}</td>
                     <td>
                         <div class="btn-group">

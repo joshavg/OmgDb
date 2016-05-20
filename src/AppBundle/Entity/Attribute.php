@@ -17,11 +17,14 @@ class Attribute
     private $uid;
     
     private $schemaName;
+    
+    private $order;
 
     public function __construct()
     {
         $this->dataType = AttributeDataType::getByName(AttributeDataType::$TEXT);
         $this->uid = uniqid('attribute');
+        $this->order = 100;
     }
 
     public function getSchemaName()
@@ -98,5 +101,15 @@ class Attribute
     public function getSchemaUid()
     {
         return $this->schemaUid;
+    }
+
+    public function getOrder()
+    {
+        return $this->order;
+    }
+
+    public function setOrder($order)
+    {
+        $this->order = $order;
     }
 }

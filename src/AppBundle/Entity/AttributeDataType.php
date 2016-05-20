@@ -6,7 +6,11 @@ class AttributeDataType
 
     public static $TEXT = 'text';
 
+    public static $MARKDOWN = 'markdown';
+
     public static $NUMBER = 'number';
+
+    public static $LABEL = 'label';
 
     public static $BOOLEAN = 'boolean';
 
@@ -16,9 +20,11 @@ class AttributeDataType
     public static function getTypes()
     {
         return [
-            new AttributeDataType('text'),
-            new AttributeDataType('number'),
-            new AttributeDataType('boolean')
+            new AttributeDataType(static::$TEXT),
+            new AttributeDataType(static::$MARKDOWN),
+            new AttributeDataType(static::$LABEL),
+            new AttributeDataType(static::$NUMBER),
+            new AttributeDataType(static::$BOOLEAN)
         ];
     }
 

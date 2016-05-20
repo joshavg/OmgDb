@@ -23,11 +23,11 @@ class AttributeRepository extends Neo4jRepository
     {
         $attr = $this->getClient()->cypher('
             MATCH (s:schema)<-[:attribute_of]-(a:attribute)
-            WHERE s.name = {name}
+            WHERE s.uid = {uid}
            RETURN a
-            ORDER BY s.name
+            ORDER BY a.order, a.name
         ', [
-            'name' => $schema->getName()
+            'uid' => $schema->getUid()
         ])->records();
 
         $attributes = [];
@@ -53,14 +53,16 @@ class AttributeRepository extends Neo4jRepository
               SET a.name = {attrname},
                   a.datatype = {datatype},
                   a.created_at = {date},
-                  a.uid = {uid}
+                  a.uid = {uid},
+                  a.order = {order}
         ', [
             'username' => $this->user->getUsername(),
             'schemaname' => $attr->getSchemaName(),
             'attrname' => $attr->getName(),
             'datatype' => $attr->getDataType()->getName(),
             'date' => date(\DateTime::ISO8601),
-            'uid' => $attr->getUid()
+            'uid' => $attr->getUid(),
+            'order' => $attr->getOrder()
         ]);
     }
 
@@ -90,6 +92,7 @@ class AttributeRepository extends Neo4jRepository
             $row->get('created_at')));
         $a->setDataType(AttributeDataType::getByName($row->get('datatype')));
         $a->setUid($row->get('uid'));
+        $a->setOrder($row->get('order'));
         return $a;
     }
 
@@ -124,13 +127,15 @@ class AttributeRepository extends Neo4jRepository
               AND u.name = {username}
               AND a.uid = {attributeUid}
               SET a.name = {newname},
-                  a.datatype = {newdatatype}
+                  a.datatype = {newdatatype},
+                  a.order = {order}
         ', [
             'schemaname' => $attr->getSchemaName(),
             'username' => $this->user->getUsername(),
             'attributeUid' => $uid,
             'newname' => $attr->getName(),
-            'newdatatype' => $attr->getDataType()->getName()
+            'newdatatype' => $attr->getDataType()->getName(),
+            'order' => $attr->getOrder()
         ]);
     }
 
