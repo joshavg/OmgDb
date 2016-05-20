@@ -7,6 +7,7 @@ use AppBundle\Entity\AttributeDataType;
 use AppBundle\Entity\Schema;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormFactory;
@@ -63,6 +64,8 @@ class InstanceFormFactory
             case AttributeDataType::$NUMBER:
                 return NumberType::class;
             case AttributeDataType::$TEXT:
+            case AttributeDataType::$MARKDOWN:
+                return TextareaType::class;
             default:
                 return TextType::class;
         }
