@@ -39,17 +39,17 @@ class InstanceFormFactory
                 'readonly' => true
             ]
         ]);
-        $builder->add('schema_uid', TextType::class, [
-            'label' => 'label.schema.uid',
-            'attr' => [
-                'readonly' => true
-            ]
+
+        $builder->add('name', TextType::class, [
+            'label' => 'label.instance.name',
+            'required' => true
         ]);
 
         foreach ($attributes as $attr) {
             $type = $attr->getDataType();
-            $builder->add(static::childName($attr), static::getFieldType($type), [
-                'label' => $attr->getName()
+            $builder->add($attr->getFormFieldName(), static::getFieldType($type), [
+                'label' => $attr->getName(),
+                'required' => false
             ]);
         }
 
@@ -69,11 +69,6 @@ class InstanceFormFactory
             default:
                 return TextType::class;
         }
-    }
-
-    private static function childName(Attribute $attr)
-    {
-        return 'a' . $attr->getUid();
     }
 
 }

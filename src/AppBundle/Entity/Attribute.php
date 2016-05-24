@@ -13,11 +13,11 @@ class Attribute
     private $dataType;
 
     private $schemaUid;
-    
+
     private $uid;
-    
+
     private $schemaName;
-    
+
     private $order;
 
     public function __construct()
@@ -25,6 +25,11 @@ class Attribute
         $this->dataType = AttributeDataType::getByName(AttributeDataType::$TEXT);
         $this->uid = uniqid('attribute');
         $this->order = 100;
+    }
+
+    public function getFormFieldName()
+    {
+        return $this->uid;
     }
 
     public function getSchemaName()
