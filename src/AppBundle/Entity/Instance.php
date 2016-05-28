@@ -26,6 +26,16 @@ class Instance
     private $attributeData;
 
     /**
+     * @var string
+     */
+    private $uid;
+
+    public function __construct()
+    {
+        $this->uid = uniqid('instance');
+    }
+
+    /**
      * @return \mixed[]
      */
     public function getAttributeData()
@@ -95,6 +105,14 @@ class Instance
     {
         $this->attributes = $attributes;
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSchemaName()
+    {
+        return $this->schema->getName();
     }
 
 }
