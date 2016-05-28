@@ -3,6 +3,7 @@ namespace AppBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -34,7 +35,7 @@ class AttributeType extends AbstractType
             ]
         ]);
 
-        $builder->add('schemaUid', TextType::class, [
+        $builder->add('schemaUid', HiddenType::class, [
             'label' => 'label.attribute.schemaUid',
             'attr' => [
                 'readonly' => true
@@ -57,7 +58,7 @@ class AttributeType extends AbstractType
             'choices' => $choices,
             'choices_as_values' => true
         ]);
-        
+
         $builder->add('order', NumberType::class, [
             'label' => 'label.attribute.order'
         ]);
