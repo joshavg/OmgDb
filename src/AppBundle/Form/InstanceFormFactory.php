@@ -2,9 +2,8 @@
 
 namespace AppBundle\Form;
 
-use AppBundle\Entity\Attribute;
 use AppBundle\Entity\AttributeDataType;
-use AppBundle\Entity\Schema;
+use AppBundle\Entity\Instance;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -25,11 +24,11 @@ class InstanceFormFactory
     }
 
     /**
-     * @param Schema $schema
-     * @param Attribute[] $attributes
+     * @param Instance $instance
+     * @param string $action
      * @return Form
      */
-    public function createForm(Schema $schema, array $attributes = null)
+    public function createForm(Instance $instance, $action)
     {
         $builder = $this->ff->createBuilder();
 
@@ -45,13 +44,15 @@ class InstanceFormFactory
             'required' => true
         ]);
 
-        foreach ($attributes as $attr) {
+        foreach ($instance->getAttributes() as $attr) {
             $type = $attr->getDataType();
             $builder->add($attr->getFormFieldName(), static::getFieldType($type), [
                 'label' => $attr->getName(),
                 'required' => false
             ]);
         }
+        
+        $builder->setAction($action);
 
         return $builder->getForm();
     }
