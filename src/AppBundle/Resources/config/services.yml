@@ -20,6 +20,12 @@ services:
       - "@neo4j.client"
       - "@security.token_storage"
 
+  repo.instance:
+    class: AppBundle\Entity\InstanceRepository
+    arguments:
+      - "@neo4j.client"
+      - "@security.token_storage"
+
   factory.instance_form:
     class: AppBundle\Form\InstanceFormFactory
     arguments:
