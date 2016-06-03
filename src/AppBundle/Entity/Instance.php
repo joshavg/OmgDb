@@ -33,6 +33,7 @@ class Instance
     public function __construct()
     {
         $this->uid = uniqid('instance');
+        $this->attributeData = [];
     }
 
     /**
@@ -113,6 +114,13 @@ class Instance
     public function getSchemaName()
     {
         return $this->schema->getName();
+    }
+
+    public function toArray()
+    {
+        return array_merge([
+            'schemaName' => $this->getSchemaName()
+        ], $this->attributeData);
     }
 
 }

@@ -32,7 +32,7 @@ class InstanceFormFactory
     {
         $builder = $this->ff->createBuilder();
 
-        $builder->add('schema_name', TextType::class, [
+        $builder->add('schemaName', TextType::class, [
             'label' => 'label.schema.name',
             'attr' => [
                 'readonly' => true
@@ -51,8 +51,9 @@ class InstanceFormFactory
                 'required' => false
             ]);
         }
-        
+
         $builder->setAction($action);
+        $builder->setData($instance->toArray());
 
         return $builder->getForm();
     }
