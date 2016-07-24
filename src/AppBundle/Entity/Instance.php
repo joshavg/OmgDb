@@ -16,42 +16,23 @@ class Instance
     private $schema;
 
     /**
-     * @var Attribute[]
-     */
-    private $attributes;
-
-    /**
-     * @var mixed[]
-     */
-    private $attributeData;
-
-    /**
      * @var string
      */
     private $uid;
 
+    /**
+     * @var DateTime
+     */
+    private $createdAt;
+
+    /**
+     * @var Property[]
+     */
+    private $properties;
+
     public function __construct()
     {
         $this->uid = uniqid('instance');
-        $this->attributeData = [];
-    }
-
-    /**
-     * @return \mixed[]
-     */
-    public function getAttributeData()
-    {
-        return $this->attributeData;
-    }
-
-    /**
-     * @param \mixed[] $attributeData
-     * @return Instance
-     */
-    public function setAttributeData($attributeData)
-    {
-        $this->attributeData = $attributeData;
-        return $this;
     }
 
     /**
@@ -91,24 +72,6 @@ class Instance
     }
 
     /**
-     * @return Attribute[]
-     */
-    public function getAttributes()
-    {
-        return $this->attributes;
-    }
-
-    /**
-     * @param Attribute[] $attributes
-     * @return Instance
-     */
-    public function setAttributes($attributes)
-    {
-        $this->attributes = $attributes;
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getSchemaName()
@@ -116,11 +79,58 @@ class Instance
         return $this->schema->getName();
     }
 
-    public function toArray()
+    /**
+     * @return string
+     */
+    public function getUid()
     {
-        return array_merge([
-            'schemaName' => $this->getSchemaName()
-        ], $this->attributeData);
+        return $this->uid;
+    }
+
+    /**
+     * @param string $uid
+     * @return Instance
+     */
+    public function setUid($uid)
+    {
+        $this->uid = $uid;
+        return $this;
+    }
+
+    /**
+     * @return DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param DateTime $createdAt
+     * @return Instance
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    /**
+     * @return Property[]
+     */
+    public function getProperties()
+    {
+        return $this->properties;
+    }
+
+    /**
+     * @param Property[] $properties
+     * @return Instance
+     */
+    public function setProperties($properties)
+    {
+        $this->properties = $properties;
+        return $this;
     }
 
 }

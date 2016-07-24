@@ -44,18 +44,32 @@ class InstanceFormFactory
             'required' => true
         ]);
 
-        foreach ($instance->getAttributes() as $attr) {
+        foreach($instance->getProperties() as $prop) {
+            $attr = $prop->getAttribute();
             $type = $attr->getDataType();
-            $builder->add($attr->getFormFieldName(), static::getFieldType($type), [
+
+            $builder->add($prop->getFormFieldName(), static::getFieldType($type), [
                 'label' => $attr->getName(),
                 'required' => false
             ]);
         }
 
         $builder->setAction($action);
-        $builder->setData($instance->toArray());
+        $builder->setData(static::createDataArray($instance));
 
         return $builder->getForm();
+    }
+
+    private static function createDataArray(Instance $instance)
+    {
+        $dat = [
+            'schemaName' => $instance->getName(),
+            'name' => $instance->getName()
+        ];
+        foreach($instance->getProperties() as $prop) {
+            $dat[$prop->getFormFieldName()] = $prop->getValue();
+        }
+        return $dat;
     }
 
     private static function getFieldType(AttributeDataType $type)

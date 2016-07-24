@@ -31,6 +31,12 @@ services:
     arguments:
       - "@form.factory"
 
+  factory.instance:
+    class: AppBundle\Architecture\InstanceFactory
+    arguments:
+      - "@repo.schema"
+      - "@repo.attribute"
+
   validator.schemaname:
     class: AppBundle\Validator\Constraints\SchemaNameValidator
     arguments:

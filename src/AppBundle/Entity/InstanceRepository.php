@@ -24,21 +24,16 @@ class InstanceRepository extends Neo4jRepository
         $this->getClient()->cypher('
             MATCH (u:user)<-[:created_by]-(s:schema)
             WHERE u.name = {username}
-              AND s.name = {schemaname}
-           CREATE (a:attribute)-[:attribute_of]->(s)
-              SET a.name = {attrname},
-                  a.datatype = {datatype},
-                  a.created_at = {date},
-                  a.uid = {uid},
-                  a.order = {order}
+              AND s.name = {schemauid}
+           CREATE (i:instance)-[:created_by]->(u),
+                  (i)-[:instance_of]->(s)
+              SET i.name = {name},
+                  i.uid = {uid}
         ', [
             'username' => $this->user->getUsername(),
-            'schemaname' => $attr->getSchemaName(),
-            'attrname' => $attr->getName(),
-            'datatype' => $attr->getDataType()->getName(),
-            'date' => date(\DateTime::ISO8601),
-            'uid' => $attr->getUid(),
-            'order' => $attr->getOrder()
+            'schemauid' => $inst->getSchema()->getUid(),
+            'uid' => $inst->getUid(),
+            'name' => $inst->getName()
         ]);
     }
 

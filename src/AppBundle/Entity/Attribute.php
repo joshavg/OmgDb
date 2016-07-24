@@ -27,11 +27,6 @@ class Attribute
         $this->order = 100;
     }
 
-    public function getFormFieldName()
-    {
-        return $this->uid;
-    }
-
     public function getSchemaName()
     {
         return $this->schemaName;

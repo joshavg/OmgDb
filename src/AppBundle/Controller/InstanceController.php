@@ -44,11 +44,7 @@ class InstanceController extends Controller
      */
     private function createEmptyInstance($schema_uid)
     {
-        $schema = $this->getSchemaRepository()->fetchByUid($schema_uid);
-        $attrs = $this->getAttributeRepository()->getForSchema($schema);
-
-        $instance = new Instance();
-        return $instance->setSchema($schema)->setAttributes($attrs);
+        return $this->get('factory.instance')->createEmptyInstance($schema_uid);
     }
 
     /**
