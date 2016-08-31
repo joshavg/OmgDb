@@ -1,11 +1,12 @@
 {
     "name": "josha/28",
-    "license": "GNU GPL",
+    "license": "GPL-3.0",
     "type": "project",
     "description": "document database based heavily on relations",
     "autoload": {
         "psr-4": {
-            "": "src/"
+            "AppBundle\\": "src/AppBundle",
+            "laniger\\": "src/laniger"
         },
         "files": [
             "app/AppKernel.php"

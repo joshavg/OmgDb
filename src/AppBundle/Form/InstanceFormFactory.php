@@ -32,19 +32,12 @@ class InstanceFormFactory
     {
         $builder = $this->ff->createBuilder();
 
-        $builder->add('schemaName', TextType::class, [
-            'label' => 'label.schema.name',
-            'attr' => [
-                'readonly' => true
-            ]
-        ]);
-
         $builder->add('name', TextType::class, [
             'label' => 'label.instance.name',
             'required' => true
         ]);
 
-        foreach($instance->getProperties() as $prop) {
+        foreach ($instance->getProperties() as $prop) {
             $attr = $prop->getAttribute();
             $type = $attr->getDataType();
 
@@ -66,7 +59,7 @@ class InstanceFormFactory
             'schemaName' => $instance->getName(),
             'name' => $instance->getName()
         ];
-        foreach($instance->getProperties() as $prop) {
+        foreach ($instance->getProperties() as $prop) {
             $dat[$prop->getFormFieldName()] = $prop->getValue();
         }
         return $dat;

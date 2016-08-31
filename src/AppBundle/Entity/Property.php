@@ -106,6 +106,6 @@ class Property
      */
     public function getFormFieldName()
     {
-        return $this->uid;
+        return $this->attribute->getUid();
     }
 }
