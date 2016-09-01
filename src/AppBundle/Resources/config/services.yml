@@ -30,6 +30,7 @@ services:
     class: AppBundle\Form\InstanceFormFactory
     arguments:
       - "@form.factory"
+      - "@factory.instance"
 
   factory.instance:
     class: AppBundle\Architecture\InstanceFactory

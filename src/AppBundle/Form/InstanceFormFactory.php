@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Architecture\InstanceFactory;
 use AppBundle\Entity\AttributeDataType;
 use AppBundle\Entity\Instance;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -18,9 +19,15 @@ class InstanceFormFactory
      */
     private $ff;
 
-    public function __construct(FormFactory $ff)
+    /**
+     * @var InstanceFactory
+     */
+    private $if;
+
+    public function __construct(FormFactory $ff, InstanceFactory $if)
     {
         $this->ff = $ff;
+        $this->if = $if;
     }
 
     /**
@@ -48,21 +55,9 @@ class InstanceFormFactory
         }
 
         $builder->setAction($action);
-        $builder->setData(static::createDataArray($instance));
+        $builder->setData($this->if->createDataArray($instance));
 
         return $builder->getForm();
-    }
-
-    private static function createDataArray(Instance $instance)
-    {
-        $dat = [
-            'schemaName' => $instance->getName(),
-            'name' => $instance->getName()
-        ];
-        foreach ($instance->getProperties() as $prop) {
-            $dat[$prop->getFormFieldName()] = $prop->getValue();
-        }
-        return $dat;
     }
 
     private static function getFieldType(AttributeDataType $type)

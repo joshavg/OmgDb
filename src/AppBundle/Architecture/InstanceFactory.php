@@ -46,4 +46,16 @@ class InstanceFactory
         return $instance->setSchema($schema)->setProperties($properties);
     }
 
+    public function createDataArray(Instance $instance)
+    {
+        $dat = [
+            'schemaName' => $instance->getName(),
+            'name' => $instance->getName()
+        ];
+        foreach ($instance->getProperties() as $prop) {
+            $dat[$prop->getFormFieldName()] = $prop->getValue();
+        }
+        return $dat;
+    }
+
 }
