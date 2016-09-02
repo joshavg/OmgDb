@@ -29,7 +29,8 @@
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",
-        "symfony/phpunit-bridge": "~2.7"
+        "symfony/phpunit-bridge": "~2.7",
+        "pdepend/pdepend": "^2.2"
     },
     "scripts": {
         "post-install-cmd": [
@@ -47,6 +48,9 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
+        ],
+        "pdepend": [
+            "./bin/pdepend --overview-pyramid=docs/overview-pyramid.svg src"
         ]
     },
     "config": {
