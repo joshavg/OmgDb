@@ -1,4 +1,4 @@
 # OmgDb
 
-[pdepend overview chart](docs/overview-pyramid.svg)
+[[https://github.com/joshavg/OmgDb/docs/overview-pyramid.svg|alt=pdepend-overview-chart]]
 
