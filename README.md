@@ -1,4 +1,6 @@
 # OmgDb
 
-![pdepend-overview-chart](docs/overview-pyramid.svg?raw=true)
+Pdepend overview statistic from development branch:
+
+![pdepend-overview-chart](https://rawgit.com/joshavg/OmgDb/develop/docs/overview-pyramid.svg)
 
