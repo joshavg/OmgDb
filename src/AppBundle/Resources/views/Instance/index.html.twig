@@ -4,6 +4,7 @@
     <h1>
         {{ 'label.instance.overview'|trans }} {{ schema.name }}
     </h1>
+
     <p>
         <button type="button" class="btn btn-primary"
                 data-toggle="modal" data-target="#instance-add">
@@ -11,6 +12,23 @@
             {{ 'label.instance.add'|trans }}
         </button>
     </p>
+
+    <table class="table table-responsive table-striped">
+        <thead>
+            <tr>
+                <th>{{ 'label.instance.name'|trans }}</th>
+                <th>{{ 'label.instance.created_at'|trans }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in instances %}
+                <tr>
+                    <td>{{ i.name }}</td>
+                    <td>{{ i.createdAt|date }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
     <div class="modal fade" tabindex="-1" role="dialog" id="instance-add">
         <div class="modal-dialog modal-lg">

@@ -19,6 +19,10 @@ class AttributeRepository extends Neo4jRepository
         $this->user = $storage->getToken()->getUser();
     }
 
+    /**
+     * @param Schema $schema
+     * @return Attribute[]
+     */
     public function getForSchema(Schema $schema)
     {
         $attr = $this->getClient()->cypher('
@@ -49,7 +53,8 @@ class AttributeRepository extends Neo4jRepository
             MATCH (u:user)<-[:created_by]-(s:schema)
             WHERE u.name = {username}
               AND s.name = {schemaname}
-           CREATE (a:attribute)-[:attribute_of]->(s)
+           CREATE (a:attribute)-[:attribute_of]->(s),
+                  (a)-[:created_by]->(u)
               SET a.name = {attrname},
                   a.datatype = {datatype},
                   a.created_at = {date},

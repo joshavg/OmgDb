@@ -133,4 +133,14 @@ class Instance
         return $this;
     }
 
+    /**
+     * @param Property $p
+     * @return Instance
+     */
+    public function addProperty(Property $p)
+    {
+        $this->properties[] = $p;
+        return $this;
+    }
+
 }

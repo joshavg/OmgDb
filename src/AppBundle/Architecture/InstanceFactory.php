@@ -36,26 +36,42 @@ class InstanceFactory
         $attrs = $this->attrRepo->getForSchema($schema);
 
         $properties = [];
-        foreach($attrs as $attr) {
+        foreach ($attrs as $attr) {
             $prop = new Property();
-            $prop->setAttribute($attr);
+            $prop->setAttributeUid($attr->getUid());
             $properties[] = $prop;
         }
 
         $instance = new Instance();
-        return $instance->setSchema($schema)->setProperties($properties);
+        $instance->setSchema($schema)->setProperties($properties);
+
+        return $instance;
     }
 
     public function createDataArray(Instance $instance)
     {
         $dat = [
-            'schemaName' => $instance->getName(),
-            'name' => $instance->getName()
+            'name' => $instance->getName(),
+            'schemauid' => $instance->getSchema()->getUid()
         ];
+
         foreach ($instance->getProperties() as $prop) {
             $dat[$prop->getFormFieldName()] = $prop->getValue();
         }
+
         return $dat;
+    }
+
+    public function createFromDataArray(array $data)
+    {
+        $instance = $this->createEmptyInstance($data['schemauid']);
+        $instance->setName($data['name']);
+
+        foreach ($instance->getProperties() as $prop) {
+            $prop->setValue($data[$prop->getFormFieldName()]);
+        }
+
+        return $instance;
     }
 
 }

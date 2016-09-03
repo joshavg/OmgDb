@@ -32,9 +32,11 @@ class InstanceController extends Controller
             'schema_uid' => $schema_uid
         ]));
 
+        $schema = $this->get('repo.schema')->fetchByUid($schema_uid);
         return [
             'form' => $form->createView(),
-            'schema' => $instance->getSchema()
+            'schema' => $instance->getSchema(),
+            'instances' => $this->get('repo.instance')->fetchAllForSchema($schema)
         ];
     }
 
@@ -59,18 +61,24 @@ class InstanceController extends Controller
     {
         $instance = $this->createEmptyInstance($schema_uid);
         $form = $this->get('factory.instance_form')
-            ->createForm($instance, $this->generateUrl('instance_new', [
-                'schema_uid' => $schema_uid
-            ]));
+                     ->createForm($instance, $this->generateUrl('instance_new', [
+                         'schema_uid' => $schema_uid
+                     ]));
 
         if ($form->handleRequest($req)->isValid()) {
-            // save instance
-            // redirect
+            $instance = $this->get('factory.instance')->createFromDataArray($form->getData());
+            $this->get('repo.instance')->newInstance($instance);
+
+            return $this->redirectToRoute('instance_overview', [
+                'schema_uid' => $schema_uid
+            ]);
         }
 
+        $schema = $this->get('repo.schema')->fetchByUid($schema_uid);
         return [
             'form' => $form->createView(),
-            'schema' => $instance->getSchema()
+            'schema' => $instance->getSchema(),
+            'instances' => $this->get('repo.instance')->fetchAllForSchema($schema)
         ];
     }
 }

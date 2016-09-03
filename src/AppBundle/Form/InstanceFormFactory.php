@@ -4,13 +4,16 @@ namespace AppBundle\Form;
 
 use AppBundle\Architecture\InstanceFactory;
 use AppBundle\Entity\AttributeDataType;
+use AppBundle\Entity\AttributeRepository;
 use AppBundle\Entity\Instance;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormFactory;
+use Symfony\Component\Form\FormInterface;
 
 class InstanceFormFactory
 {
@@ -24,16 +27,22 @@ class InstanceFormFactory
      */
     private $if;
 
-    public function __construct(FormFactory $ff, InstanceFactory $if)
+    /**
+     * @var AttributeRepository
+     */
+    private $attrrepo;
+
+    public function __construct(FormFactory $ff, InstanceFactory $if, AttributeRepository $attrrepo)
     {
         $this->ff = $ff;
         $this->if = $if;
+        $this->attrrepo = $attrrepo;
     }
 
     /**
      * @param Instance $instance
      * @param string $action
-     * @return Form
+     * @return FormInterface
      */
     public function createForm(Instance $instance, $action)
     {
@@ -43,9 +52,10 @@ class InstanceFormFactory
             'label' => 'label.instance.name',
             'required' => true
         ]);
+        $builder->add('schemuid', HiddenType::class);
 
         foreach ($instance->getProperties() as $prop) {
-            $attr = $prop->getAttribute();
+            $attr = $this->attrrepo->fetchByUid($prop->getAttributeUid());
             $type = $attr->getDataType();
 
             $builder->add($prop->getFormFieldName(), static::getFieldType($type), [

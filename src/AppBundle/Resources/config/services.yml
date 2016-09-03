@@ -31,6 +31,7 @@ services:
     arguments:
       - "@form.factory"
       - "@factory.instance"
+      - "@repo.attribute"
 
   factory.instance:
     class: AppBundle\Architecture\InstanceFactory
