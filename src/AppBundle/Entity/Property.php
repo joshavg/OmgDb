@@ -20,6 +20,11 @@ class Property
     private $attributeuid;
 
     /**
+     * @var Attribute
+     */
+    private $attribute;
+
+    /**
      * @var \DateTime
      */
     private $createdAt;
@@ -107,5 +112,23 @@ class Property
     public function getFormFieldName()
     {
         return $this->attributeuid;
+    }
+
+    /**
+     * @return Attribute
+     */
+    public function getAttribute()
+    {
+        return $this->attribute;
+    }
+
+    /**
+     * @param Attribute $a
+     * @return Property
+     */
+    public function setAttribute($a)
+    {
+        $this->attribute = $a;
+        return $this;
     }
 }

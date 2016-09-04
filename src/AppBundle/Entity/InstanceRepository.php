@@ -13,10 +13,17 @@ class InstanceRepository extends Neo4jRepository
      */
     private $user;
 
-    public function __construct(Neo4jClientWrapper $client, TokenStorage $storage)
+    /**
+     * @var AttributeRepository
+     */
+    private $attrrepo;
+
+    public function __construct(Neo4jClientWrapper $client, TokenStorage $storage,
+                                AttributeRepository $attrrepo)
     {
         parent::__construct($client);
         $this->user = $storage->getToken()->getUser();
+        $this->attrrepo = $attrrepo;
     }
 
     public function newInstance(Instance $inst)
@@ -104,15 +111,16 @@ class InstanceRepository extends Neo4jRepository
 
     /**
      * @param Node $proprow
-     * @param Node $attrnode
+     * @param Node $attrrow
      * @return Property
      */
-    private function createPropertyFromRow(Node $proprow, Node $attrnode)
+    private function createPropertyFromRow(Node $proprow, Node $attrrow)
     {
         $p = new Property();
         $p->setUid($proprow->get('uid'));
         $p->setValue($proprow->get('value'));
-        $p->setAttributeUid($attrnode->get('uid'));
+        $p->setAttributeUid($attrrow->get('uid'));
+        $p->setAttribute($this->attrrepo->createFromRow($attrrow));
 
         $date = $proprow->get('created_at');
         $date = \DateTime::createFromFormat(\DateTime::ISO8601, $date);
@@ -136,17 +144,27 @@ class InstanceRepository extends Neo4jRepository
 
     public function fetchByUid($uid)
     {
-        $row = $this->getClient()->cypher('
+        $rows = $this->getClient()->cypher('
             MATCH (i:instance)<-[:property_of]-(p:property),
+                  (i)-[:instance_of]->(s:schema),
                   (p)-[:instance_of]->(a:attribute)
             WHERE i.uid = {uid}
-           RETURN i, p
+           RETURN i, s, p, a
             ORDER BY a.order
         ', [
             'uid' => $uid
-        ])->firstRecord();
+        ])->records();
 
-        return $attr;
+        $i = null;
+        if(count($rows)) {
+            $i = $this->createInstanceFromRow($rows[0]->get('i'));
+            $i->setSchemaUid($rows[0]->get('s')->get('uid'));
+            foreach($rows as $row) {
+                $i->addProperty($this->createPropertyFromRow($row->get('p'), $row->get('a')));
+            }
+        }
+
+        return $i;
     }
 
     public function update($uid, Attribute $attr)

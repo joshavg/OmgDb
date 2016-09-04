@@ -89,12 +89,12 @@ class AttributeRepository extends Neo4jRepository
         return $count < 1;
     }
 
-    private function createFromRow(Node $row)
+    public function createFromRow(Node $row)
     {
         $a = new Attribute();
         $a->setName($row->get('name'));
         $a->setCreatedAt(\DateTime::createFromFormat(\DateTime::ISO8601,
-            $row->get('created_at')));
+                                                     $row->get('created_at')));
         $a->setDataType(AttributeDataType::getByName($row->get('datatype')));
         $a->setUid($row->get('uid'));
         $a->setOrder($row->get('order'));

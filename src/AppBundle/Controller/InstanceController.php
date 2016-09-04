@@ -83,13 +83,19 @@ class InstanceController extends Controller
     }
 
     /**
-     * @Route("/show/{schema_uid}", name="instance_show")
+     * @Route("/show/{uid}", name="instance_show")
      * @Template()
      *
-     * @param string $instance_uid
+     * @param string $uid
+     * @return array
      */
-    public function showAction($instance_uid)
+    public function showAction($uid)
     {
-        $this->getInstanceRepository()->fetchByUid($instance_uid);
+        $instance = $this->getInstanceRepository()->fetchByUid($uid);
+        $schema = $this->getSchemaRepository()->fetchByUid($instance->getSchemaUid());
+        return [
+            'instance' => $instance,
+            'schema' => $schema
+        ];
     }
 }

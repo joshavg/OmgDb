@@ -1,0 +1,16 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+{% block body %}
+    <h1>{{ instance.name }} <small>{{ schema.name }}</small></h1>
+
+    {% for p in instance.properties %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{ p.attribute.name }}</h3>
+            </div>
+            <div class="panel-body">
+                {{ p.value }}
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

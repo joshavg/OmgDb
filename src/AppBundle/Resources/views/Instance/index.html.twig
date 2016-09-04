@@ -18,6 +18,7 @@
             <tr>
                 <th>{{ 'label.instance.name'|trans }}</th>
                 <th>{{ 'label.instance.created_at'|trans }}</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -25,6 +26,12 @@
                 <tr>
                     <td>{{ i.name }}</td>
                     <td>{{ i.createdAt|date }}</td>
+                    <td>
+                        <a href="{{ path('instance_show', {'uid': i.uid}) }}"
+                           class="btn btn-primary">
+                            <span class="glyphicon glyphicon-arrow-right"></span>
+                        </a>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -58,7 +65,7 @@
 
     {% if not form.vars.valid %}
         <script type="text/javascript">
-            $(window).load(function(){
+            $(window).load(function () {
                 $('#instance-add').modal('show');
             });
         </script>
