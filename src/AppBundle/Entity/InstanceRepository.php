@@ -98,6 +98,7 @@ class InstanceRepository extends Neo4jRepository
                 if (!isset($instancemap[$iuid])) {
                     $instance = $this->createInstanceFromRow($row->get('i'));
                     $instance->setSchemaUid($schema->getUid());
+                    $instance->setCreatedBy($this->user->getUsername());
                     $instancemap[$iuid] = $instance;
                 }
 
@@ -163,6 +164,7 @@ class InstanceRepository extends Neo4jRepository
         if (count($rows)) {
             $i = $this->createInstanceFromRow($rows[0]->get('i'));
             $i->setSchemaUid($rows[0]->get('s')->get('uid'));
+            $i->setCreatedBy($this->user->getUsername());
             foreach ($rows as $row) {
                 $i->addProperty($this->createPropertyFromRow($row->get('p'), $row->get('a')));
             }

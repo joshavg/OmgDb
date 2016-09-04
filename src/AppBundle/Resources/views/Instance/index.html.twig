@@ -20,6 +20,7 @@
             <tr>
                 <th>{{ 'label.instance.name'|trans }}</th>
                 <th>{{ 'label.instance.created_at'|trans }}</th>
+                <th>{{ 'label.instance.created_by'|trans }}</th>
                 <th></th>
             </tr>
         </thead>
@@ -28,6 +29,7 @@
                 <tr>
                     <td>{{ i.name }}</td>
                     <td>{{ i.createdAt|date }}</td>
+                    <td>{{ i.createdBy }}</td>
                     <td>
                         <div class="btn-group">
                             <a href="{{ path('instance_show', {'uid': i.uid}) }}"

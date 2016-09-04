@@ -26,6 +26,11 @@ class Instance
     private $createdAt;
 
     /**
+     * @var string
+     */
+    private $createdBy;
+
+    /**
      * @var Property[]
      */
     private $properties;
@@ -132,6 +137,24 @@ class Instance
     public function addProperty(Property $p)
     {
         $this->properties[] = $p;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
+     * @param string $createdBy
+     * @return Instance
+     */
+    public function setCreatedBy($createdBy)
+    {
+        $this->createdBy = $createdBy;
         return $this;
     }
 
