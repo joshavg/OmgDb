@@ -32,11 +32,11 @@ class InstanceController extends Controller
             'schema_uid' => $schema_uid
         ]));
 
-        $schema = $this->get('repo.schema')->fetchByUid($schema_uid);
+        $schema = $this->getSchemaRepository()->fetchByUid($schema_uid);
         return [
             'form' => $form->createView(),
             'schema' => $instance->getSchema(),
-            'instances' => $this->get('repo.instance')->fetchAllForSchema($schema)
+            'instances' => $this->getInstanceRepository()->fetchAllForSchema($schema)
         ];
     }
 
@@ -67,18 +67,20 @@ class InstanceController extends Controller
 
         if ($form->handleRequest($req)->isValid()) {
             $instance = $this->get('factory.instance')->createFromDataArray($form->getData());
-            $this->get('repo.instance')->newInstance($instance);
+            $this->getInstanceRepository()->newInstance($instance);
 
             return $this->redirectToRoute('instance_overview', [
                 'schema_uid' => $schema_uid
             ]);
         }
 
-        $schema = $this->get('repo.schema')->fetchByUid($schema_uid);
+        $schema = $this->getSchemaRepository()->fetchByUid($schema_uid);
         return [
             'form' => $form->createView(),
             'schema' => $instance->getSchema(),
-            'instances' => $this->get('repo.instance')->fetchAllForSchema($schema)
+            'instances' => $this->getInstanceRepository()->fetchAllForSchema($schema)
         ];
     }
+
+
 }
