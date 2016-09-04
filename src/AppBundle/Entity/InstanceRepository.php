@@ -78,7 +78,7 @@ class InstanceRepository extends Neo4jRepository
     {
         $ins = $this->getClient()->cypher('
             MATCH (i:instance)-[:instance_of]->(s:schema),
-                  (i)<-[:property_of]-(p:property),
+                  (p:property)-[:property_of]->(i),
                   (p)-[:instance_of]->(a:attribute)
             WHERE s.uid = {schemauid}
            RETURN i, p, a
@@ -117,8 +117,12 @@ class InstanceRepository extends Neo4jRepository
     private function createPropertyFromRow(Node $proprow, Node $attrrow)
     {
         $p = new Property();
+
+        if ($proprow->containsKey('value')) {
+            $p->setValue($proprow->get('value'));
+        }
+
         $p->setUid($proprow->get('uid'));
-        $p->setValue($proprow->get('value'));
         $p->setAttributeUid($attrrow->get('uid'));
         $p->setAttribute($this->attrrepo->createFromRow($attrrow));
 
@@ -156,10 +160,10 @@ class InstanceRepository extends Neo4jRepository
         ])->records();
 
         $i = null;
-        if(count($rows)) {
+        if (count($rows)) {
             $i = $this->createInstanceFromRow($rows[0]->get('i'));
             $i->setSchemaUid($rows[0]->get('s')->get('uid'));
-            foreach($rows as $row) {
+            foreach ($rows as $row) {
                 $i->addProperty($this->createPropertyFromRow($row->get('p'), $row->get('a')));
             }
         }

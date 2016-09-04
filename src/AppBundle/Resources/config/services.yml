@@ -53,3 +53,10 @@ services:
       - "@repo.attribute"
     tags:
       - { name: validator.constraint_validator, alias: validator.attributename }
+
+  filter.formatter.property.value:
+    class: AppBundle\Architecture\PropertyValueFormatter
+    arguments:
+      - "@translator.default"
+    tags:
+      - name: twig.extension
