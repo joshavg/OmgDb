@@ -4,15 +4,15 @@ namespace AppBundle\Entity;
 class AttributeDataType
 {
 
-    public static $TEXT = 'text';
+    const TEXT = 'text';
 
-    public static $MARKDOWN = 'markdown';
+    const MARKDOWN = 'markdown';
 
-    public static $NUMBER = 'number';
+    const NUMBER = 'number';
 
-    public static $LABEL = 'label';
+    const LABEL = 'label';
 
-    public static $BOOLEAN = 'boolean';
+    const BOOLEAN = 'boolean';
 
     /**
      * @return AttributeDataType[]
@@ -20,16 +20,17 @@ class AttributeDataType
     public static function getTypes()
     {
         return [
-            new AttributeDataType(static::$TEXT),
-            new AttributeDataType(static::$MARKDOWN),
-            new AttributeDataType(static::$LABEL),
-            new AttributeDataType(static::$NUMBER),
-            new AttributeDataType(static::$BOOLEAN)
+            new AttributeDataType(static::TEXT),
+            new AttributeDataType(static::MARKDOWN),
+            new AttributeDataType(static::LABEL),
+            new AttributeDataType(static::NUMBER),
+            new AttributeDataType(static::BOOLEAN)
         ];
     }
 
     public static function getByName($name)
     {
+        // TODO make the instances somewhat singleton-ish
         return new AttributeDataType($name);
     }
 

@@ -73,12 +73,12 @@ class InstanceFormFactory
     private static function getFieldType(AttributeDataType $type)
     {
         switch ($type->getName()) {
-            case AttributeDataType::$BOOLEAN:
+            case AttributeDataType::BOOLEAN:
                 return CheckboxType::class;
-            case AttributeDataType::$NUMBER:
+            case AttributeDataType::NUMBER:
                 return NumberType::class;
-            case AttributeDataType::$TEXT:
-            case AttributeDataType::$MARKDOWN:
+            case AttributeDataType::TEXT:
+            case AttributeDataType::MARKDOWN:
                 return TextareaType::class;
             default:
                 return TextType::class;

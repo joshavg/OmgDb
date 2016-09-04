@@ -22,7 +22,7 @@ class Attribute
 
     public function __construct()
     {
-        $this->dataType = AttributeDataType::getByName(AttributeDataType::$TEXT);
+        $this->dataType = AttributeDataType::getByName(AttributeDataType::TEXT);
         $this->uid = uniqid('attribute');
         $this->order = 100;
     }
