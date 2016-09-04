@@ -171,25 +171,31 @@ class InstanceRepository extends Neo4jRepository
         return $i;
     }
 
-    public function update($uid, Attribute $attr)
+    public function update(Instance $instance)
     {
-        $this->getClient()->cypher('
-            MATCH (a:attribute)-[:attribute_of]->(s:schema),
-                  (s)-[:created_by]->(u:user)
-            WHERE s.name = {schemaname}
-              AND u.name = {username}
-              AND a.uid = {attributeUid}
-              SET a.name = {newname},
-                  a.datatype = {newdatatype},
-                  a.order = {order}
+        $trans = $this->getClient()->getClient()->transaction();
+
+        $trans->push('
+            MATCH (i:instance)
+            WHERE i.uid = {uid}
+              SET i.name = {newname}
         ', [
-            'schemaname' => $attr->getSchemaName(),
-            'username' => $this->user->getUsername(),
-            'attributeUid' => $uid,
-            'newname' => $attr->getName(),
-            'newdatatype' => $attr->getDataType()->getName(),
-            'order' => $attr->getOrder()
+            'uid' => $instance->getUid(),
+            'newname' => $instance->getName()
         ]);
+
+        foreach ($instance->getProperties() as $prop) {
+            $trans->push('
+                MATCH (p:property)
+                WHERE p.uid = {uid}
+                  SET p.value = {newvalue}
+            ', [
+                'uid' => $prop->getUid(),
+                'newvalue' => $prop->getValue()
+            ]);
+        }
+
+        $trans->commit();
     }
 
     public function deleteByUid($uid)

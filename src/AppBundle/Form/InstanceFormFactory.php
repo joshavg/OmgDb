@@ -48,19 +48,24 @@ class InstanceFormFactory
     {
         $builder = $this->ff->createBuilder();
 
+        $builder->add('schemauid', HiddenType::class);
+        $builder->add('created_at', HiddenType::class);
+        $builder->add('instanceuid', HiddenType::class);
+
         $builder->add('name', TextType::class, [
             'label' => 'label.instance.name',
             'required' => true
         ]);
-        $builder->add('schemuid', HiddenType::class);
 
         foreach ($instance->getProperties() as $prop) {
             $attr = $this->attrrepo->fetchByUid($prop->getAttributeUid());
             $type = $attr->getDataType();
 
+            $builder->add($prop->getFormFieldName() . '-uid', HiddenType::class);
             $builder->add($prop->getFormFieldName(), static::getFieldType($type), [
                 'label' => $attr->getName(),
-                'required' => false
+                'required' => false,
+                'attr' => static::getExtraAttributes($type)
             ]);
         }
 
@@ -68,6 +73,17 @@ class InstanceFormFactory
         $builder->setData($this->if->createDataArray($instance));
 
         return $builder->getForm();
+    }
+
+    private static function getExtraAttributes(AttributeDataType $type)
+    {
+        if ($type->getName() === AttributeDataType::MARKDOWN) {
+            return [
+                'rows' => 10
+            ];
+        }
+
+        return [];
     }
 
     private static function getFieldType(AttributeDataType $type)

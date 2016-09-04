@@ -93,9 +93,48 @@ class InstanceController extends Controller
     {
         $instance = $this->getInstanceRepository()->fetchByUid($uid);
         $schema = $this->getSchemaRepository()->fetchByUid($instance->getSchemaUid());
+
+        $form = $this->get('factory.instance_form')
+                     ->createForm($instance, $this->generateUrl('instance_update', [
+                         'uid' => $uid
+                     ]));
+
         return [
             'instance' => $instance,
-            'schema' => $schema
+            'schema' => $schema,
+            'form' => $form->createView()
+        ];
+    }
+
+    /**
+     * @Route("/update/{uid}", name="instance_update")
+     * @Template("@App/Instance/show.html.twig")
+     *
+     * @param string $uid
+     * @param Request $req
+     * @return mixed
+     */
+    public function updateAction($uid, Request $req)
+    {
+        $instance = $this->getInstanceRepository()->fetchByUid($uid);
+        $form = $this->get('factory.instance_form')
+                     ->createForm($instance, $this->generateUrl('instance_update', [
+                         'uid' => $uid
+                     ]));
+
+        if($form->handleRequest($req)->isValid()) {
+            $instance = $this->get('factory.instance')->createFromDataArray($form->getData());
+            $this->getInstanceRepository()->update($instance);
+
+            return $this->redirectToRoute('instance_show', [
+                'uid' => $uid
+            ]);
+        }
+
+        return [
+            'instance' => $instance,
+            'schema' => $this->getSchemaRepository()->fetchByUid($instance->getSchemaUid()),
+            'form' => $form->createView()
         ];
     }
 }

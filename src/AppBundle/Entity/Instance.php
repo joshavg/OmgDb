@@ -21,7 +21,7 @@ class Instance
     private $uid;
 
     /**
-     * @var DateTime
+     * @var \DateTime
      */
     private $createdAt;
 
@@ -90,7 +90,7 @@ class Instance
     }
 
     /**
-     * @return DateTime
+     * @return \DateTime
      */
     public function getCreatedAt()
     {
@@ -98,7 +98,7 @@ class Instance
     }
 
     /**
-     * @param DateTime $createdAt
+     * @param \DateTime $createdAt
      * @return Instance
      */
     public function setCreatedAt($createdAt)

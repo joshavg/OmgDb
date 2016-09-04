@@ -7,11 +7,12 @@
 
     <p>
         <button type="button" class="btn btn-primary"
-                data-toggle="modal" data-target="#instance-add">
+                data-toggle="modal" data-target="#instance-form-dialog">
             <span class="glyphicon glyphicon-plus"></span>
             {{ 'label.instance.add'|trans }}
         </button>
     </p>
+    {% include 'AppBundle:Instance:form-dialog.html.twig' %}
 
     <table class="table table-responsive table-striped">
         <thead>
@@ -36,38 +37,4 @@
             {% endfor %}
         </tbody>
     </table>
-
-    <div class="modal fade" tabindex="-1" role="dialog" id="instance-add">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">{{ 'title.instance.add'|trans }}</h4>
-                </div>
-                {{ form_start(form) }}
-                <div class="modal-body">
-                    {{ form_errors(form) }}
-                    {% for child in form.children %}
-                        {{ form_row(child) }}
-                    {% endfor %}
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">
-                        {{ 'label.cancel'|trans }}
-                    </button>
-                    <button type="submit" class="btn btn-primary">
-                        {{ 'label.save'|trans }}
-                    </button>
-                </div>
-                {{ form_end(form) }}
-            </div>
-        </div>
-    </div>
-
-    {% if not form.vars.valid %}
-        <script type="text/javascript">
-            $(window).load(function () {
-                $('#instance-add').modal('show');
-            });
-        </script>
-    {% endif %}
 {% endblock %}

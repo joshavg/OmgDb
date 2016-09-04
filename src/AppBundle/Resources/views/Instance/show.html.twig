@@ -1,7 +1,18 @@
 {% extends 'AppBundle::layout.html.twig' %}
 
 {% block body %}
-    <h1>{{ instance.name }} <small>{{ schema.name }}</small></h1>
+    <h1>{{ instance.name }}
+        <small>{{ schema.name }}</small>
+    </h1>
+
+    <p>
+        <button type="button" class="btn btn-primary" data-toggle="modal"
+                data-target="#instance-form-dialog">
+            <span class="glyphicon glyphicon-pencil"></span>
+            {{ 'label.instance.edit'|trans }}
+        </button>
+    </p>
+    {% include 'AppBundle:Instance:form-dialog.html.twig' %}
 
     {% for p in instance.properties %}
         <div class="panel panel-default">
