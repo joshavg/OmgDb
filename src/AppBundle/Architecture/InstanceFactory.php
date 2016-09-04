@@ -43,7 +43,7 @@ class InstanceFactory
         }
 
         $instance = new Instance();
-        $instance->setSchema($schema)->setProperties($properties);
+        $instance->setSchemaUid($schemaUid)->setProperties($properties);
 
         return $instance;
     }
@@ -52,7 +52,7 @@ class InstanceFactory
     {
         $dat = [
             'name' => $instance->getName(),
-            'schemauid' => $instance->getSchema()->getUid()
+            'schemauid' => $instance->getSchemaUid()
         ];
 
         foreach ($instance->getProperties() as $prop) {

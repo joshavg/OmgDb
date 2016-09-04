@@ -11,9 +11,9 @@ class Instance
     private $name;
 
     /**
-     * @var Schema
+     * @var string
      */
-    private $schema;
+    private $schemauid;
 
     /**
      * @var string
@@ -54,29 +54,21 @@ class Instance
     }
 
     /**
-     * @return Schema
-     */
-    public function getSchema()
-    {
-        return $this->schema;
-    }
-
-    /**
-     * @param Schema $schema
-     * @return Instance
-     */
-    public function setSchema($schema)
-    {
-        $this->schema = $schema;
-        return $this;
-    }
-
-    /**
      * @return string
      */
-    public function getSchemaName()
+    public function getSchemaUid()
     {
-        return $this->schema->getName();
+        return $this->schemauid;
+    }
+
+    /**
+     * @param string $uid
+     * @return Instance
+     */
+    public function setSchemaUid($uid)
+    {
+        $this->schemauid = $uid;
+        return $this;
     }
 
     /**

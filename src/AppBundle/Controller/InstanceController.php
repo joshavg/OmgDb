@@ -35,7 +35,7 @@ class InstanceController extends Controller
         $schema = $this->getSchemaRepository()->fetchByUid($schema_uid);
         return [
             'form' => $form->createView(),
-            'schema' => $instance->getSchema(),
+            'schema' => $this->getSchemaRepository()->fetchByUid($instance->getSchemaUid()),
             'instances' => $this->getInstanceRepository()->fetchAllForSchema($schema)
         ];
     }
@@ -77,10 +77,19 @@ class InstanceController extends Controller
         $schema = $this->getSchemaRepository()->fetchByUid($schema_uid);
         return [
             'form' => $form->createView(),
-            'schema' => $instance->getSchema(),
+            'schema' => $this->getSchemaRepository()->fetchByUid($instance->getSchemaUid()),
             'instances' => $this->getInstanceRepository()->fetchAllForSchema($schema)
         ];
     }
 
-
+    /**
+     * @Route("/show/{schema_uid}", name="instance_show")
+     * @Template()
+     *
+     * @param string $instance_uid
+     */
+    public function showAction($instance_uid)
+    {
+        $this->getInstanceRepository()->fetchByUid($instance_uid);
+    }
 }

@@ -35,7 +35,7 @@ class InstanceRepository extends Neo4jRepository
                   i.created_at = {date}
         ', [
             'username' => $this->user->getUsername(),
-            'schemauid' => $inst->getSchema()->getUid(),
+            'schemauid' => $inst->getSchemaUid(),
             'uid' => $inst->getUid(),
             'name' => $inst->getName(),
             'date' => $createdAt
@@ -90,7 +90,7 @@ class InstanceRepository extends Neo4jRepository
 
                 if (!isset($instancemap[$iuid])) {
                     $instance = $this->createInstanceFromRow($row->get('i'));
-                    $instance->setSchema($schema);
+                    $instance->setSchemaUid($schema->getUid());
                     $instancemap[$iuid] = $instance;
                 }
 
@@ -137,21 +137,14 @@ class InstanceRepository extends Neo4jRepository
     public function fetchByUid($uid)
     {
         $row = $this->getClient()->cypher('
-            MATCH (a:attribute)-[:attribute_of]->(s:schema),
-                  (s)-[:created_by]->(u:user)
-            WHERE u.name = {username}
-              AND a.uid = {uid}
-           RETURN a, s
+            MATCH (i:instance)<-[:property_of]-(p:property),
+                  (p)-[:instance_of]->(a:attribute)
+            WHERE i.uid = {uid}
+           RETURN i, p
+            ORDER BY a.order
         ', [
-            'username' => $this->user->getUsername(),
             'uid' => $uid
         ])->firstRecord();
-
-        $attr = $this->createInstanceFromRow($row->get('a'));
-
-        $schema = $row->get('s');
-        $attr->setSchemaName($schema->get('name'));
-        $attr->setSchemaUid($schema->get('uid'));
 
         return $attr;
     }
