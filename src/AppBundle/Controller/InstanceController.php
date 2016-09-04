@@ -137,4 +137,17 @@ class InstanceController extends Controller
             'form' => $form->createView()
         ];
     }
+
+    /**
+     * @Route("/delete/{uid}", name="instance_delete")
+     *
+     * @param $uid
+     * @return mixed
+     */
+    public function deleteAction($uid)
+    {
+        return $this->redirectToRoute('instance_show', [
+            'uid' => $uid
+        ]);
+    }
 }

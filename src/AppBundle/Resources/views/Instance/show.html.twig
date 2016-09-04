@@ -1,16 +1,21 @@
 {% extends 'AppBundle::layout.html.twig' %}
 
 {% block body %}
-    <h1>{{ instance.name }}
+    <h1>
+        {{ instance.name }}
         <small>{{ schema.name }}</small>
     </h1>
 
-    <p>
+    <p class="btn-group">
         <button type="button" class="btn btn-primary" data-toggle="modal"
                 data-target="#instance-form-dialog">
             <span class="glyphicon glyphicon-pencil"></span>
-            {{ 'label.instance.edit'|trans }}
         </button>
+        <a href="{{ path('instance_delete', {'uid': instance.uid}) }}"
+           class="btn btn-danger btn-confirm-href"
+           data-confirm-title="{{ 'title.confirm.delete'|trans }}">
+            <span class="glyphicon glyphicon-trash"></span>
+        </a>
     </p>
     {% include 'AppBundle:Instance:form-dialog.html.twig' %}
 

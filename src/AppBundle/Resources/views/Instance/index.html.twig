@@ -2,7 +2,8 @@
 
 {% block body %}
     <h1>
-        {{ 'label.instance.overview'|trans }} {{ schema.name }}
+        {{ 'label.instance.overview'|trans }}
+        <small>{{ schema.name }}</small>
     </h1>
 
     <p>
@@ -28,10 +29,17 @@
                     <td>{{ i.name }}</td>
                     <td>{{ i.createdAt|date }}</td>
                     <td>
-                        <a href="{{ path('instance_show', {'uid': i.uid}) }}"
-                           class="btn btn-primary">
-                            <span class="glyphicon glyphicon-arrow-right"></span>
-                        </a>
+                        <div class="btn-group">
+                            <a href="{{ path('instance_show', {'uid': i.uid}) }}"
+                               class="btn btn-primary">
+                                <span class="glyphicon glyphicon-arrow-right"></span>
+                            </a>
+                            <a href="{{ path('instance_delete', {'uid': i.uid}) }}"
+                               class="btn btn-danger btn-confirm-href"
+                               data-confirm-title="{{ 'title.confirm.delete'|trans }}">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
+                        </div>
                     </td>
                 </tr>
             {% endfor %}
