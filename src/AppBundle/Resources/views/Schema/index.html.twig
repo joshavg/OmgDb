@@ -24,12 +24,12 @@
                         <div class="btn-group">
                             <a href="{{ path('schema_edit', {'uid': s.uid}) }}"
                                class="btn btn-primary">
-                                <span class="glyphicon glyphicon-pencil"></span>
+                                {{ bootstrap.glyphicon('pencil') }}
                             </a>
                             <a href="{{ path('schema_delete', {'uid': s.uid}) }}"
                                class="btn btn-danger btn-confirm-href"
                                data-confirm-title="{{ 'title.confirm.delete'|trans }}">
-                                <span class="glyphicon glyphicon-trash"></span>
+                                {{ bootstrap.glyphicon('trash') }}
                             </a>
                         </div>
                     </td>

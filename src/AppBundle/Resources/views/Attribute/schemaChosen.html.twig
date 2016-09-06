@@ -28,12 +28,12 @@
                         <div class="btn-group">
                             <a href="{{ path('attribute_edit', {'uid': a.uid }) }}"
                                class="btn btn-primary">
-                                <span class="glyphicon glyphicon-pencil"></span>
+                                {{ bootstrap.glyphicon('pencil') }}
                             </a>
                             <a href="{{ path('attribute_delete', {'uid': a.uid }) }}"
                                class="btn btn-danger btn-confirm-href"
                                data-confirm-title="{{ 'title.confirm.delete'|trans }}">
-                                <span class="glyphicon glyphicon-trash"></span>
+                                {{ bootstrap.glyphicon('trash') }}
                             </a>
                         </div>
                     </td>

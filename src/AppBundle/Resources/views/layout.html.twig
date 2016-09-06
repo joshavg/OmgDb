@@ -1,3 +1,4 @@
+{% import '@lanigerBootstrap/bootstrap.macro.twig' as bootstrap %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -87,10 +88,11 @@
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-default" data-dismiss="modal">
+                            {{ bootstrap.glyphicon('remove') }}
                             {{ 'label.cancel'|trans }}
                         </button>
-                        <button class="btn btn-primary" id="modal-confirm-confirm"
-                                autofocus="autofocus">
+                        <button class="btn btn-primary" id="modal-confirm-confirm">
+                            {{ bootstrap.glyphicon('ok') }}
                             {{ 'label.confirm'|trans }}
                         </button>
                     </div>

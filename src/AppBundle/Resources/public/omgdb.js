@@ -13,8 +13,9 @@ $(document).ready(function () {
         modalConfirm.on('hide.bs.modal', function() {
             modalConfirmConfirm.off('click');
         });
-
         modalConfirmTitle.text($(this).attr('data-confirm-title'));
+
         modalConfirm.modal('show');
+        modalConfirmConfirm.focus();
     });
 });
