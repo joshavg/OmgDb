@@ -203,14 +203,13 @@ class InstanceRepository extends Neo4jRepository
     public function deleteByUid($uid)
     {
         $this->getClient()->cypher('
-            MATCH (a:attribute)-[r:attribute_of]->(s:schema),
-                  (s)-[:created_by]->(u:user)
-            WHERE a.uid = {uid}
-              AND u.name = {username}
-            DELETE r, a
+            MATCH (i:instance)-[ir]-(),
+                  (p:property)-[pr:property_of]->(i),
+                  (p)-[r2]-()
+            WHERE i.uid = {uid}
+            DELETE r2, pr, p, ir, i
         ', [
-            'uid' => $uid,
-            'username' => $this->user->getUsername()
+            'uid' => $uid
         ]);
     }
 }

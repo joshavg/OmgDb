@@ -146,8 +146,11 @@ class InstanceController extends Controller
      */
     public function deleteAction($uid)
     {
-        return $this->redirectToRoute('instance_show', [
-            'uid' => $uid
+        $instance = $this->getInstanceRepository()->fetchByUid($uid);
+        $this->getInstanceRepository()->deleteByUid($uid);
+
+        return $this->redirectToRoute('instance_overview', [
+            'schema_uid' => $instance->getSchemaUid()
         ]);
     }
 }
