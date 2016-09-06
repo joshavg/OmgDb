@@ -31,14 +31,36 @@
         }
     %}
 
-    {% for p in instance.properties %}
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">{{ p.attribute.name }}</h3>
-            </div>
-            <div class="panel-body">
-                {{ p|propertyvalue|raw }}
-            </div>
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active">
+            <a href="#content" role="tab" data-toggle="tab">
+                {{ 'label.instance.content'|trans }}
+            </a>
+        </li>
+        <li role="presentation">
+            <a href="#outgoing-relations" role="tab" data-toggle="tab">
+                {{ 'label.instance.outgoing-relations'|trans }}
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="content">
+            {% for p in instance.properties %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{ p.attribute.name }}</h3>
+                    </div>
+                    <div class="panel-body">
+                        {{ p|propertyvalue|raw }}
+                    </div>
+                </div>
+            {% endfor %}
         </div>
-    {% endfor %}
+        <div role="tabpanel" class="tab-pane" id="outgoing-relations">
+            <p>
+                Outgoing relationships
+            </p>
+        </div>
+    </div>
 {% endblock %}
