@@ -84,4 +84,12 @@ class InstanceFactory
         return $instance;
     }
 
+    public function prepareForCopy(Instance $instance)
+    {
+        $instance->setUid((new Instance())->getUid());
+        foreach ($instance->getProperties() as $prop) {
+            $prop->setUid((new Property())->getUid());
+        }
+    }
+
 }

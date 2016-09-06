@@ -1,8 +1,8 @@
-<div class="modal fade" tabindex="-1" role="dialog" id="instance-form-dialog">
+<div class="modal fade" tabindex="-1" role="dialog" id="{{ id|default('instance-form-dialog') }}">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">{{ 'title.instance.add'|trans }}</h4>
+                <h4 class="modal-title">{{ title|default('title.instance.add')|trans }}</h4>
             </div>
             {{ form_start(form) }}
             <div class="modal-body">

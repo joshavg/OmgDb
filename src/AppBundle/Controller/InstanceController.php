@@ -99,10 +99,17 @@ class InstanceController extends Controller
                          'uid' => $uid
                      ]));
 
+        $this->get('factory.instance')->prepareForCopy($instance);
+        $copyform = $this->get('factory.instance_form')
+                         ->createForm($instance, $this->generateUrl('instance_new', [
+                             'schema_uid' => $instance->getSchemaUid()
+                         ]));
+
         return [
             'instance' => $instance,
             'schema' => $schema,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'copyform' => $copyform->createView()
         ];
     }
 
@@ -122,7 +129,7 @@ class InstanceController extends Controller
                          'uid' => $uid
                      ]));
 
-        if($form->handleRequest($req)->isValid()) {
+        if ($form->handleRequest($req)->isValid()) {
             $instance = $this->get('factory.instance')->createFromDataArray($form->getData());
             $this->getInstanceRepository()->update($instance);
 
