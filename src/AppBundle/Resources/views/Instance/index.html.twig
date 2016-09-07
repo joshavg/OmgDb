@@ -19,6 +19,7 @@
             <tr>
                 <th>{{ 'label.instance.name'|trans }}</th>
                 <th>{{ 'label.instance.created_at'|trans }}</th>
+                <th>{{ 'label.instance.updated_at'|trans }}</th>
                 <th>{{ 'label.instance.created_by'|trans }}</th>
                 <th></th>
             </tr>
@@ -28,6 +29,7 @@
                 <tr>
                     <td>{{ i.name }}</td>
                     <td>{{ i.createdAt|date }}</td>
+                    <td>{{ i.updatedAt|date }}</td>
                     <td>{{ i.createdBy }}</td>
                     <td>
                         <div class="btn-group">
