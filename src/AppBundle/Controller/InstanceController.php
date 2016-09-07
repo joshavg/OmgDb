@@ -103,11 +103,14 @@ class InstanceController extends Controller
                              'schema_uid' => $instance->getSchemaUid()
                          ]));
 
+        $rels = $this->getRelationshipRepository()->getRelations($instance);
+
         return [
             'instance' => $instance,
             'schema' => $schema,
             'form' => $form->createView(),
-            'copyform' => $copyform->createView()
+            'copyform' => $copyform->createView(),
+            'relationships' => $rels
         ];
     }
 

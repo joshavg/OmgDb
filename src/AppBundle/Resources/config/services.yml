@@ -27,6 +27,12 @@ services:
       - "@security.token_storage"
       - "@repo.attribute"
 
+  repo.relationship:
+    class: AppBundle\Entity\RelationshipRepository
+    arguments:
+      - "@neo4j.client"
+      - "@repo.instance"
+
   factory.instance_form:
     class: AppBundle\Form\InstanceFormFactory
     arguments:

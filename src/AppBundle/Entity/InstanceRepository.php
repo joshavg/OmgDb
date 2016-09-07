@@ -84,7 +84,7 @@ class InstanceRepository extends Neo4jRepository
                   (p)-[:instance_of]->(a:attribute)
             WHERE s.uid = {schemauid}
            RETURN i, p, a
-            ORDER bY i.created_at DESC, a.order
+            ORDER BY i.created_at DESC, a.order
         ', [
             'username' => $this->user->getUsername(),
             'schemauid' => $schemauid

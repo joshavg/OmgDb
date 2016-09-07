@@ -19,12 +19,11 @@
         </a>
     </p>
     {% include 'AppBundle:Instance:form-dialog.html.twig' with
-        {
-            'form': copyform,
-            'id': 'instance-form-dialog-copy',
-            'title': 'title.instance.copy'
-        }
-    %}
+    {
+    'form': copyform,
+    'id': 'instance-form-dialog-copy',
+    'title': 'title.instance.copy'
+    } %}
 
     <ul class="nav nav-tabs" role="tablist">
         <li role="presentation" class="active">
@@ -64,9 +63,27 @@
             {{ form(form) }}
         </div>
         <div role="tabpanel" class="tab-pane" id="outgoing-relations">
-            <p>
-                Outgoing relationships
-            </p>
+            <table class="table table-striped table-responsive table-hover">
+                <thead>
+                    <th>{{ 'label.instance.relationship.to'|trans }}</th>
+                    <th>{{ 'label.instance.relationship.created_at'|trans }}</th>
+                    <th></th>
+                </thead>
+                <tbody>
+                    {% for rel in relationships.from %}
+                        <tr>
+                            <td>{{ rel.to.name }}</td>
+                            <td>{{ rel.to.created_at|date }}</td>
+                            <td>
+                                <a href="{{ path('instance_show', {'uid': rel.to.uid}) }}"
+                                   class="btn btn-primary">
+                                    {{ bootstrap.glyphicon('arrow-right') }}
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 {% endblock %}

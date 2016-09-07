@@ -2,6 +2,7 @@
 namespace AppBundle\Architecture;
 
 use AppBundle\Entity\InstanceRepository;
+use AppBundle\Entity\RelationshipRepository;
 use AppBundle\Entity\UserRepository;
 use AppBundle\Entity\SchemaRepository;
 use AppBundle\Entity\AttributeRepository;
@@ -39,5 +40,13 @@ trait RepositoryServices
     private function getInstanceRepository()
     {
         return $this->container->get('repo.instance');
+    }
+
+    /**
+     * @return RelationshipRepository
+     */
+    private function getRelationshipRepository()
+    {
+        return $this->container->get('repo.relationship');
     }
 }
