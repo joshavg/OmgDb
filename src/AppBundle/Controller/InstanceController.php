@@ -90,6 +90,8 @@ class InstanceController extends Controller
     public function showAction($uid)
     {
         $instance = $this->getInstanceRepository()->fetchByUid($uid);
+        $rels = $this->getRelationshipRepository()->getRelations($instance);
+
         $schema = $this->getSchemaRepository()->fetchByUid($instance->getSchemaUid());
 
         $form = $this->get('factory.instance_form')
@@ -103,7 +105,6 @@ class InstanceController extends Controller
                              'schema_uid' => $instance->getSchemaUid()
                          ]));
 
-        $rels = $this->getRelationshipRepository()->getRelations($instance);
 
         return [
             'instance' => $instance,

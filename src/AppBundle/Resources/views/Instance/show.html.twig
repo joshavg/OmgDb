@@ -44,6 +44,12 @@
                 {{ 'label.instance.outgoing-relations'|trans }}
             </a>
         </li>
+        <li role="presentation">
+            <a href="#incoming-relations" role="tab" data-toggle="tab">
+                {{ bootstrap.glyphicon('resize-small') }}
+                {{ 'label.instance.incoming-relations'|trans }}
+            </a>
+        </li>
     </ul>
 
     <div class="tab-content">
@@ -70,12 +76,35 @@
                     <th></th>
                 </thead>
                 <tbody>
-                    {% for rel in relationships.from %}
+                    {% for rel in relationships.outgoing %}
                         <tr>
                             <td>{{ rel.to.name }}</td>
-                            <td>{{ rel.to.created_at|date }}</td>
+                            <td>{{ rel.to.createdAt|date }}</td>
                             <td>
                                 <a href="{{ path('instance_show', {'uid': rel.to.uid}) }}"
+                                   class="btn btn-primary">
+                                    {{ bootstrap.glyphicon('arrow-right') }}
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="incoming-relations">
+            <table class="table table-striped table-responsive table-hover">
+                <thead>
+                    <th>{{ 'label.instance.relationship.from'|trans }}</th>
+                    <th>{{ 'label.instance.relationship.created_at'|trans }}</th>
+                    <th></th>
+                </thead>
+                <tbody>
+                    {% for rel in relationships.incoming %}
+                        <tr>
+                            <td>{{ rel.from.name }}</td>
+                            <td>{{ rel.from.createdAt|date }}</td>
+                            <td>
+                                <a href="{{ path('instance_show', {'uid': rel.from.uid}) }}"
                                    class="btn btn-primary">
                                     {{ bootstrap.glyphicon('arrow-right') }}
                                 </a>

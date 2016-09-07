@@ -32,8 +32,8 @@ class RelationshipRepository extends Neo4jRepository
         ])->records();
 
         $relations = [
-            'to' => [],
-            'from' => []
+            'outgoing' => [],
+            'incoming' => []
         ];
 
         if (count($rows)) {
@@ -45,20 +45,19 @@ class RelationshipRepository extends Neo4jRepository
                 $rel = new Relationship();
                 $rel->setCreatedAt(\DateTime::createFromFormat(\DateTime::ISO8601, $relCreated));
 
-                $fromUid = $row->get('fromnod')->get('uid');
+                $fromUid = $row->get('fromnode')->get('uid');
                 if ($fromUid === $instance->getUid()) {
                     $rel->setFrom($instance);
                     $rel->setTo($instance2);
-                    $relations['from'][] = $rel;
+                    $relations['outgoing'][] = $rel;
                 } else {
                     $rel->setTo($instance);
                     $rel->setFrom($instance2);
-                    $relations['to'][] = $rel;
+                    $relations['incoming'][] = $rel;
                 }
             }
         }
 
-        var_dump($relations, $rows);
         return $relations;
     }
 
