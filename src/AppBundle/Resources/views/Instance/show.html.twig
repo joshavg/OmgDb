@@ -11,6 +11,10 @@
                 data-target="#instance-form-dialog-copy" title="{{ 'label.instance.copy'|trans }}">
             {{ bootstrap.glyphicon('duplicate') }}
         </button>
+        <a href="{{ path('relationship_new_chooseschema', { 'instanceUid': instance.uid }) }}"
+           class="btn btn-primary" title="{{ 'label.instance.relationship.new'|trans }}">
+            {{ bootstrap.glyphicon('share-alt') }}
+        </a>
         <a href="{{ path('instance_delete', {'uid': instance.uid}) }}"
            class="btn btn-danger btn-confirm-href"
            data-confirm-title="{{ 'title.confirm.delete'|trans }}"
@@ -18,8 +22,7 @@
             {{ bootstrap.glyphicon('trash') }}
         </a>
     </p>
-    {% include 'AppBundle:Instance:form-dialog.html.twig' with
-    {
+    {% include 'AppBundle:Instance:form-dialog.html.twig' with {
     'form': copyform,
     'id': 'instance-form-dialog-copy',
     'title': 'title.instance.copy'
@@ -87,7 +90,8 @@
                             <td>
                                 <div class="btn-group">
                                     <a href="{{ path('instance_show', {'uid': directedInstance.uid}) }}"
-                                       class="btn btn-primary">
+                                       class="btn btn-primary"
+                                       title="{{ 'label.instance.open'|trans }}">
                                         {{ bootstrap.glyphicon('arrow-right') }}
                                     </a>
                                     <a href="{{ path('relationship_delete', {

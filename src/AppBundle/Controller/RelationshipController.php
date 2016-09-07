@@ -19,6 +19,37 @@ class RelationshipController extends Controller
     use RepositoryServices;
 
     /**
+     * @Route("/new/chooseSchema/{instanceUid}", name="relationship_new_chooseschema")
+     * @Template()
+     *
+     * @param $instanceUid
+     * @return array
+     */
+    public function chooseSchemaAction($instanceUid)
+    {
+        $schemas = $this->getSchemaRepository()->fetchAllForCurrentUser();
+        $instance = $this->getInstanceRepository()->fetchByUid($instanceUid);
+        return [
+            'schemas' => $schemas,
+            'instance' => $instance
+        ];
+    }
+
+    /**
+     * @Route("/new/chooseInstance/{schemaUid}/{fromInstanceUid}",
+     *     name="relationship_new_chooseinstance")
+     * @Template()
+     *
+     * @param $schemaUid
+     * @param $fromInstanceUid
+     * @return array
+     */
+    public function chooseInstanceAction($schemaUid, $fromInstanceUid)
+    {
+
+    }
+
+    /**
      * @Route("/delete/{uid}/{instanceUid}", name="relationship_delete")
      *
      * @param string $uid
