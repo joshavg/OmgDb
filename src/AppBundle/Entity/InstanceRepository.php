@@ -74,7 +74,7 @@ class InstanceRepository extends Neo4jRepository
         $trans->commit();
     }
 
-    public function fetchAllForSchema(Schema $schema)
+    public function fetchAllForSchema($schemauid)
     {
         $ins = $this->getClient()->cypher('
             MATCH (i:instance)-[:instance_of]->(s:schema),
@@ -85,7 +85,7 @@ class InstanceRepository extends Neo4jRepository
             ORDER bY i.created_at DESC, a.order
         ', [
             'username' => $this->user->getUsername(),
-            'schemauid' => $schema->getUid()
+            'schemauid' => $schemauid
         ])->records();
 
         /** @var Instance[] */

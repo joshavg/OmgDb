@@ -32,11 +32,10 @@ class InstanceController extends Controller
             'schema_uid' => $schema_uid
         ]));
 
-        $schema = $this->getSchemaRepository()->fetchByUid($schema_uid);
         return [
             'form' => $form->createView(),
             'schema' => $this->getSchemaRepository()->fetchByUid($instance->getSchemaUid()),
-            'instances' => $this->getInstanceRepository()->fetchAllForSchema($schema)
+            'instances' => $this->getInstanceRepository()->fetchAllForSchema($schema_uid)
         ];
     }
 
@@ -74,11 +73,10 @@ class InstanceController extends Controller
             ]);
         }
 
-        $schema = $this->getSchemaRepository()->fetchByUid($schema_uid);
         return [
             'form' => $form->createView(),
             'schema' => $this->getSchemaRepository()->fetchByUid($instance->getSchemaUid()),
-            'instances' => $this->getInstanceRepository()->fetchAllForSchema($schema)
+            'instances' => $this->getInstanceRepository()->fetchAllForSchema($schema_uid)
         ];
     }
 
