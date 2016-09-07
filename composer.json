@@ -54,6 +54,10 @@
         ],
         "pdepend": [
             "./bin/pdepend --overview-pyramid=docs/overview-pyramid.svg src"
+        ],
+        "test": [
+            "php deptrac.phar analyze --formatter-graphviz-display=0",
+            "./bin/phpcpd src"
         ]
     },
     "config": {

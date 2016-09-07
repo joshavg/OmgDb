@@ -7,5 +7,4 @@ php:
 install:
   - composer install --no-interaction
 script:
-  - php deptrac.phar analyze --formatter-graphviz-display=0
-  - ./bin/phpcpd src
+  - composer test
