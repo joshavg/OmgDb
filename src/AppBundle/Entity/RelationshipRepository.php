@@ -4,7 +4,7 @@ namespace AppBundle\Entity;
 use GraphAware\Neo4j\Client\Formatter\Type\Node;
 use laniger\Neo4jBundle\Architecture\Neo4jClientWrapper;
 use laniger\Neo4jBundle\Architecture\Neo4jRepository;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use GraphAware\Neo4j\Client\Formatter\Type\Relationship as Neo4jRelationship;
 
 class RelationshipRepository extends Neo4jRepository
 {
@@ -20,7 +20,41 @@ class RelationshipRepository extends Neo4jRepository
         $this->instanceRepo = $instanceRepo;
     }
 
-    public function getRelations(Instance $instance)
+    public function fetchByUid($uid)
+    {
+        $row = $this->getClient()->cypher('
+            MATCH (i1:instance)-[r:related_to]-(i2:instance)
+            WHERE r.uid = {uid}
+           RETURN i1.uid AS i1uid,
+                  i2.uid AS i2uid,
+                  startnode(r).uid AS fromuid,
+                  r
+        ', [
+            'uid' => $uid
+        ])->firstRecord();
+
+        if ($row) {
+            $i1uid = $row->get('i1uid');
+            $i2uid = $row->get('i2uid');
+            $fromuid = $row->get('fromuid');
+
+            $instance1 = $this->instanceRepo->fetchByUid($i1uid);
+            $instance2 = $this->instanceRepo->fetchByUid($i2uid);
+
+            $rel = $this->createFromRow($row->get('r'));
+            if ($fromuid === $i1uid) {
+                $rel->setFrom($instance1)->setTo($instance2);
+            } else {
+                $rel->setFrom($instance2)->setTo($instance1);
+            }
+
+            return $rel;
+        }
+
+        return null;
+    }
+
+    public function getRelationships(Instance $instance)
     {
         $rows = $this->getClient()->cypher('
             MATCH (i:instance)-[r:related_to]-(i2:instance)
@@ -41,24 +75,47 @@ class RelationshipRepository extends Neo4jRepository
                 $i2uid = $row->get('i2')->get('uid');
                 $instance2 = $this->instanceRepo->fetchByUid($i2uid);
 
-                $relCreated = $row->get('r')->get('created_at');
-                $rel = new Relationship();
-                $rel->setCreatedAt(\DateTime::createFromFormat(\DateTime::ISO8601, $relCreated));
+                $relData = $row->get('r');
+                $rel = $this->createFromRow($relData);
 
                 $fromUid = $row->get('fromnode')->get('uid');
                 if ($fromUid === $instance->getUid()) {
-                    $rel->setFrom($instance);
-                    $rel->setTo($instance2);
+                    $rel->setFrom($instance)->setTo($instance2);
                     $relations['outgoing'][] = $rel;
                 } else {
-                    $rel->setTo($instance);
-                    $rel->setFrom($instance2);
+                    $rel->setTo($instance)->setFrom($instance2);
                     $relations['incoming'][] = $rel;
                 }
             }
         }
 
         return $relations;
+    }
+
+    public function deleteRelationship($uid)
+    {
+        $this->getClient()->cypher('
+            MATCH (:instance)-[r:related_to]-(:instance)
+            WHERE r.uid = {uid}
+           DELETE r
+        ', [
+            'uid' => $uid
+        ]);
+    }
+
+    /**
+     * @param Neo4jRelationship $row
+     * @return Relationship
+     */
+    private function createFromRow(Neo4jRelationship $row)
+    {
+        $rel = new Relationship();
+        $rel->setCreatedAt(
+            \DateTime::createFromFormat(\DateTime::ISO8601, $row->get('created_at')));
+        $rel->setLabel($row->get('label'));
+        $rel->setUid($row->get('uid'));
+
+        return $rel;
     }
 
 }

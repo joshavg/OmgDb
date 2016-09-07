@@ -27,6 +27,34 @@ class Relationship
     private $createdAt;
 
     /**
+     * @var strin
+     */
+    private $uid;
+
+    public function __construct()
+    {
+        $this->uid = uniqid('relationshio');
+    }
+
+    /**
+     * @return strin
+     */
+    public function getUid()
+    {
+        return $this->uid;
+    }
+
+    /**
+     * @param strin $uid
+     * @return Relationship
+     */
+    public function setUid($uid)
+    {
+        $this->uid = $uid;
+        return $this;
+    }
+
+    /**
      * @return Instance
      */
     public function getFrom()

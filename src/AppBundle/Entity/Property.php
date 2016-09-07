@@ -31,7 +31,17 @@ class Property
 
     public function __construct()
     {
-        $this->uid = uniqid('property');
+        $this->uid = $this->createUid();
+    }
+
+    public function __clone()
+    {
+        $this->uid = $this->createUid();
+    }
+
+    private function createUid()
+    {
+        return uniqid('property');
     }
 
     /**

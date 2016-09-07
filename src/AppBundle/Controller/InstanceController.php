@@ -29,7 +29,7 @@ class InstanceController extends Controller
 
         $factory = $this->get('factory.instance_form');
         $form = $factory->createForm($instance, $this->generateUrl('instance_new', [
-            'schema_uid' => $schema_uid
+            'schemaUid' => $schema_uid
         ]));
 
         return [
@@ -49,19 +49,19 @@ class InstanceController extends Controller
     }
 
     /**
-     * @Route("/new/{schema_uid}", name="instance_new")
+     * @Route("/new/{schemaUid}", name="instance_new")
      * @Template("@App/Instance/index.html.twig")
      *
-     * @param string $schema_uid
+     * @param string $schemaUid
      * @param Request $req
      * @return array
      */
-    public function newInstanceAction($schema_uid, Request $req)
+    public function newInstanceAction($schemaUid, Request $req)
     {
-        $instance = $this->createEmptyInstance($schema_uid);
+        $instance = $this->createEmptyInstance($schemaUid);
         $form = $this->get('factory.instance_form')
                      ->createForm($instance, $this->generateUrl('instance_new', [
-                         'schema_uid' => $schema_uid
+                         'schemaUid' => $schemaUid
                      ]));
 
         if ($form->handleRequest($req)->isValid()) {
@@ -69,14 +69,14 @@ class InstanceController extends Controller
             $this->getInstanceRepository()->newInstance($instance);
 
             return $this->redirectToRoute('instance_overview', [
-                'schema_uid' => $schema_uid
+                'schema_uid' => $schemaUid
             ]);
         }
 
         return [
             'form' => $form->createView(),
             'schema' => $this->getSchemaRepository()->fetchByUid($instance->getSchemaUid()),
-            'instances' => $this->getInstanceRepository()->fetchAllForSchema($schema_uid)
+            'instances' => $this->getInstanceRepository()->fetchAllForSchema($schemaUid)
         ];
     }
 
@@ -90,7 +90,7 @@ class InstanceController extends Controller
     public function showAction($uid)
     {
         $instance = $this->getInstanceRepository()->fetchByUid($uid);
-        $rels = $this->getRelationshipRepository()->getRelations($instance);
+        $rels = $this->getRelationshipRepository()->getRelationships($instance);
 
         $schema = $this->getSchemaRepository()->fetchByUid($instance->getSchemaUid());
 
@@ -99,10 +99,10 @@ class InstanceController extends Controller
                          'uid' => $uid
                      ]));
 
-        $this->get('factory.instance')->prepareForCopy($instance);
+        $duplicate = $this->get('factory.instance')->createDuplicate($instance);
         $copyform = $this->get('factory.instance_form')
-                         ->createForm($instance, $this->generateUrl('instance_new', [
-                             'schema_uid' => $instance->getSchemaUid()
+                         ->createForm($duplicate, $this->generateUrl('instance_new', [
+                             'schemaUid' => $instance->getSchemaUid()
                          ]));
 
 

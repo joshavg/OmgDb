@@ -42,7 +42,20 @@ class Instance
 
     public function __construct()
     {
-        $this->uid = uniqid('instance');
+        $this->uid = $this->createUid();
+    }
+
+    public function __clone()
+    {
+        $this->uid = $this->createUid();
+    }
+
+    /**
+     * @return string
+     */
+    private function createUid()
+    {
+        return uniqid('instance');
     }
 
     /**
