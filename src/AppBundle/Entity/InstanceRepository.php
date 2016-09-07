@@ -39,13 +39,15 @@ class InstanceRepository extends Neo4jRepository
                   (i)-[:instance_of]->(s)
               SET i.name = {name},
                   i.uid = {uid},
-                  i.created_at = {date}
+                  i.created_at = {date},
+                  i.updated_at = {updated}
         ', [
             'username' => $this->user->getUsername(),
             'schemauid' => $inst->getSchemaUid(),
             'uid' => $inst->getUid(),
             'name' => $inst->getName(),
-            'date' => $createdAt
+            'date' => $createdAt,
+            'updated' => date(\DateTime::ISO8601)
         ]);
 
         foreach ($inst->getProperties() as $prop) {
@@ -97,7 +99,7 @@ class InstanceRepository extends Neo4jRepository
 
                 if (!isset($instancemap[$iuid])) {
                     $instance = $this->createInstanceFromRow($row->get('i'));
-                    $instance->setSchemaUid($schema->getUid());
+                    $instance->setSchemaUid($schemauid);
                     $instance->setCreatedBy($this->user->getUsername());
                     $instancemap[$iuid] = $instance;
                 }
@@ -144,6 +146,7 @@ class InstanceRepository extends Neo4jRepository
         $i->setName($row->get('name'));
         $i->setUid($row->get('uid'));
         $i->setCreatedAt(\DateTime::createFromFormat(\DateTime::ISO8601, $row->get('created_at')));
+        $i->setUpdatedAt(\DateTime::createFromFormat(\DateTime::ISO8601, $row->get('updated_at')));
         return $i;
     }
 
@@ -177,13 +180,17 @@ class InstanceRepository extends Neo4jRepository
     {
         $trans = $this->getClient()->getClient()->transaction();
 
+        $updated = date(\DateTime::ISO8601);
+        $instance->setUpdatedAt(\DateTime::createFromFormat(\DateTime::ISO8601, $updated));
         $trans->push('
             MATCH (i:instance)
             WHERE i.uid = {uid}
-              SET i.name = {newname}
+              SET i.name = {newname},
+                  i.updated_at = {updated}
         ', [
             'uid' => $instance->getUid(),
-            'newname' => $instance->getName()
+            'newname' => $instance->getName(),
+            'updated' => $updated
         ]);
 
         foreach ($instance->getProperties() as $prop) {

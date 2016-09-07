@@ -26,6 +26,11 @@ class Instance
     private $createdAt;
 
     /**
+     * @var \DateTime
+     */
+    private $updatedAt;
+
+    /**
      * @var string
      */
     private $createdBy;
@@ -156,6 +161,24 @@ class Instance
     {
         $this->createdBy = $createdBy;
         return $this;
+    }
+
+    /**
+     * @param $updatedAt
+     * @return $this
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+        return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
     }
 
 }
