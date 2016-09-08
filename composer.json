@@ -33,7 +33,8 @@
         "symfony/phpunit-bridge": "~2.7",
         "pdepend/pdepend": "^2.2",
         "sebastian/phpcpd": "*",
-        "phpmd/phpmd": "@stable"
+        "phpmd/phpmd": "@stable",
+        "loostro/deptrac-shim": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [
@@ -59,7 +60,7 @@
             "./bin/phpmd src/AppBundle text cleancode,codesize,controversial,design,naming,unusedcode"
         ],
         "test": [
-            "php deptrac.phar analyze --formatter-graphviz-display=0",
+            "./bin/deptrac analyze --formatter-graphviz-display=0",
             "./bin/phpcpd src"
         ]
     },
