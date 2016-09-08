@@ -55,6 +55,9 @@
         "pdepend": [
             "./bin/pdepend --overview-pyramid=docs/overview-pyramid.svg src"
         ],
+        "phpmd": [
+            "./bin/phpmd src/AppBundle text cleancode,codesize,controversial,design,naming,unusedcode"
+        ],
         "test": [
             "php deptrac.phar analyze --formatter-graphviz-display=0",
             "./bin/phpcpd src"
