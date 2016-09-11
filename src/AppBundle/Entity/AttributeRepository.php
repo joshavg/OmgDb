@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Entity;
 
+use AppBundle\Architecture\DateFactory;
 use GraphAware\Neo4j\Client\Formatter\Type\Node;
 use laniger\Neo4jBundle\Architecture\Neo4jClientWrapper;
 use laniger\Neo4jBundle\Architecture\Neo4jRepository;
@@ -13,10 +14,17 @@ class AttributeRepository extends Neo4jRepository
      */
     private $user;
 
-    public function __construct(Neo4jClientWrapper $client, TokenStorage $storage)
+    /**
+     * @var DateFactory
+     */
+    private $dateFactory;
+
+    public function __construct(Neo4jClientWrapper $client, TokenStorage $storage,
+                                DateFactory $dateFactory)
     {
         parent::__construct($client);
         $this->user = $storage->getToken()->getUser();
+        $this->dateFactory = $dateFactory;
     }
 
     /**
@@ -65,7 +73,7 @@ class AttributeRepository extends Neo4jRepository
             'schemaname' => $attr->getSchemaName(),
             'attrname' => $attr->getName(),
             'datatype' => $attr->getDataType()->getName(),
-            'date' => date(\DateTime::ISO8601),
+            'date' => $this->dateFactory->nowString(),
             'uid' => $attr->getUid(),
             'order' => $attr->getOrder()
         ]);
@@ -93,8 +101,7 @@ class AttributeRepository extends Neo4jRepository
     {
         $a = new Attribute();
         $a->setName($row->get('name'));
-        $a->setCreatedAt(\DateTime::createFromFormat(\DateTime::ISO8601,
-                                                     $row->get('created_at')));
+        $a->setCreatedAt($this->dateFactory->fromString($row->get('created_at')));
         $a->setDataType(AttributeDataType::getByName($row->get('datatype')));
         $a->setUid($row->get('uid'));
         $a->setOrder($row->get('order'));

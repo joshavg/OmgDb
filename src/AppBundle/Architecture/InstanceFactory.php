@@ -20,11 +20,18 @@ class InstanceFactory
      */
     private $attrRepo;
 
+    /**
+     * @var DateFactory
+     */
+    private $dateFactory;
+
     public function __construct(SchemaRepository $schemaRepo,
-                                AttributeRepository $attrRepo)
+                                AttributeRepository $attrRepo,
+                                DateFactory $dateFactory)
     {
         $this->schemaRepo = $schemaRepo;
         $this->attrRepo = $attrRepo;
+        $this->dateFactory = $dateFactory;
     }
 
     /**
@@ -73,8 +80,7 @@ class InstanceFactory
         $instance = $this->createEmptyInstance($data['schemauid']);
         $instance->setUid($data['instanceuid']);
         $instance->setName($data['name']);
-        $instance->setCreatedAt(\DateTime::createFromFormat(\DateTime::ISO8601,
-                                                            $data['created_at']));
+        $instance->setCreatedAt($this->dateFactory->fromString($data['created_at']));
 
         foreach ($instance->getProperties() as $prop) {
             $prop->setValue($data[$prop->getFormFieldName()]);

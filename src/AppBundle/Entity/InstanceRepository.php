@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Entity;
 
+use AppBundle\Architecture\DateFactory;
 use GraphAware\Neo4j\Client\Formatter\Type\Node;
 use laniger\Neo4jBundle\Architecture\Neo4jClientWrapper;
 use laniger\Neo4jBundle\Architecture\Neo4jRepository;
@@ -18,19 +19,25 @@ class InstanceRepository extends Neo4jRepository
      */
     private $attrrepo;
 
+    /**
+     * @var DateFactory
+     */
+    private $dateFactory;
+
     public function __construct(Neo4jClientWrapper $client, TokenStorage $storage,
-                                AttributeRepository $attrrepo)
+                                AttributeRepository $attrrepo, DateFactory $dateFactory)
     {
         parent::__construct($client);
         $this->user = $storage->getToken()->getUser();
         $this->attrrepo = $attrrepo;
+        $this->dateFactory = $dateFactory;
     }
 
     public function newInstance(Instance $inst)
     {
         $trans = $this->getClient()->getClient()->transaction();
 
-        $createdAt = date(\DateTime::ISO8601);
+        $createdAt = $this->dateFactory->nowString();
         $trans->push('
             MATCH (u:user)<-[:created_by]-(s:schema)
             WHERE u.name = {username}
@@ -47,7 +54,7 @@ class InstanceRepository extends Neo4jRepository
             'uid' => $inst->getUid(),
             'name' => $inst->getName(),
             'date' => $createdAt,
-            'updated' => date(\DateTime::ISO8601)
+            'updated' => $createdAt
         ]);
 
         foreach ($inst->getProperties() as $prop) {
@@ -130,7 +137,7 @@ class InstanceRepository extends Neo4jRepository
         $p->setAttribute($this->attrrepo->createFromRow($attrrow));
 
         $date = $proprow->get('created_at');
-        $date = \DateTime::createFromFormat(\DateTime::ISO8601, $date);
+        $date = $this->dateFactory->fromString($date);
         $p->setCreatedAt($date);
 
         return $p;
@@ -145,8 +152,8 @@ class InstanceRepository extends Neo4jRepository
         $i = new Instance();
         $i->setName($row->get('name'));
         $i->setUid($row->get('uid'));
-        $i->setCreatedAt(\DateTime::createFromFormat(\DateTime::ISO8601, $row->get('created_at')));
-        $i->setUpdatedAt(\DateTime::createFromFormat(\DateTime::ISO8601, $row->get('updated_at')));
+        $i->setCreatedAt($this->dateFactory->fromString($row->get('created_at')));
+        $i->setUpdatedAt($this->dateFactory->fromString($row->get('updated_at')));
         return $i;
     }
 
@@ -180,8 +187,8 @@ class InstanceRepository extends Neo4jRepository
     {
         $trans = $this->getClient()->getClient()->transaction();
 
-        $updated = date(\DateTime::ISO8601);
-        $instance->setUpdatedAt(\DateTime::createFromFormat(\DateTime::ISO8601, $updated));
+        $updated = $this->dateFactory->nowString();
+        $instance->setUpdatedAt($this->dateFactory->fromString($updated));
         $trans->push('
             MATCH (i:instance)
             WHERE i.uid = {uid}

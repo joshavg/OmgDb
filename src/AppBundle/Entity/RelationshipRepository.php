@@ -1,7 +1,7 @@
 <?php
 namespace AppBundle\Entity;
 
-use GraphAware\Neo4j\Client\Formatter\Type\Node;
+use AppBundle\Architecture\DateFactory;
 use laniger\Neo4jBundle\Architecture\Neo4jClientWrapper;
 use laniger\Neo4jBundle\Architecture\Neo4jRepository;
 use GraphAware\Neo4j\Client\Formatter\Type\Relationship as Neo4jRelationship;
@@ -14,10 +14,17 @@ class RelationshipRepository extends Neo4jRepository
      */
     private $instanceRepo;
 
-    public function __construct(Neo4jClientWrapper $client, InstanceRepository $instanceRepo)
+    /**
+     * @var DateFactory
+     */
+    private $dateFactory;
+
+    public function __construct(Neo4jClientWrapper $client, InstanceRepository $instanceRepo,
+                                DateFactory $dateFactory)
     {
         parent::__construct($client);
         $this->instanceRepo = $instanceRepo;
+        $this->dateFactory = $dateFactory;
     }
 
     public function fetchByUid($uid)
@@ -110,8 +117,7 @@ class RelationshipRepository extends Neo4jRepository
     private function createFromRow(Neo4jRelationship $row)
     {
         $rel = new Relationship();
-        $rel->setCreatedAt(
-            \DateTime::createFromFormat(\DateTime::ISO8601, $row->get('created_at')));
+        $rel->setCreatedAt($this->dateFactory->fromString($row->get('created_at')));
         $rel->setLabel($row->get('label'));
         $rel->setUid($row->get('uid'));
 
@@ -138,7 +144,7 @@ class RelationshipRepository extends Neo4jRepository
                 'to' => $to,
                 'label' => $label,
                 'uid' => (new Relationship())->getUid(),
-                'created_at' => date(\DateTime::ISO8601)
+                'created_at' => $this->dateFactory->nowString()
             ]);
         }
 

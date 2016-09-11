@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Entity;
 
+use AppBundle\Architecture\DateFactory;
 use GraphAware\Neo4j\Client\Formatter\Type\Node;
 use laniger\Neo4jBundle\Architecture\Neo4jClientWrapper;
 use laniger\Neo4jBundle\Architecture\Neo4jRepository;
@@ -13,10 +14,17 @@ class SchemaRepository extends Neo4jRepository
      */
     private $tokenStorage;
 
-    public function __construct(Neo4jClientWrapper $client, TokenStorage $storage)
+    /**
+     * @var DateFactory
+     */
+    private $dateFactory;
+
+    public function __construct(Neo4jClientWrapper $client, TokenStorage $storage,
+                                DateFactory $dateFactory)
     {
         parent::__construct($client);
         $this->tokenStorage = $storage;
+        $this->dateFactory = $dateFactory;
     }
 
     /**
@@ -39,7 +47,7 @@ class SchemaRepository extends Neo4jRepository
         ', [
             'name' => $schema->getName(),
             'username' => $this->getUser()->getUsername(),
-            'date' => date(\DateTime::ISO8601),
+            'date' => $this->dateFactory->nowString(),
             'uid' => $schema->getUid()
         ]);
     }
@@ -72,8 +80,7 @@ class SchemaRepository extends Neo4jRepository
     {
         $schema = new Schema();
         $schema->setName($row->get('name'));
-        $schema->setCreatedAt(\DateTime::createFromFormat(\DateTime::ISO8601,
-            $row->get('created_at')));
+        $schema->setCreatedAt($this->dateFactory->fromString($row->get('created_at')));
         $schema->setUid($row->get('uid'));
         return $schema;
     }
@@ -108,7 +115,7 @@ class SchemaRepository extends Neo4jRepository
 
         return $dat < 1;
     }
-    
+
     public function deleteByUid($uid)
     {
         $this->getClient()->cypher('

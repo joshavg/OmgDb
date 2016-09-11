@@ -13,12 +13,14 @@ services:
     arguments:
       - "@neo4j.client"
       - "@security.token_storage"
+      - "@factory.date"
 
   repo.attribute:
     class: AppBundle\Entity\AttributeRepository
     arguments:
       - "@neo4j.client"
       - "@security.token_storage"
+      - "@factory.date"
 
   repo.instance:
     class: AppBundle\Entity\InstanceRepository
@@ -26,12 +28,14 @@ services:
       - "@neo4j.client"
       - "@security.token_storage"
       - "@repo.attribute"
+      - "@factory.date"
 
   repo.relationship:
     class: AppBundle\Entity\RelationshipRepository
     arguments:
       - "@neo4j.client"
       - "@repo.instance"
+      - "@factory.date"
 
   factory.instance_form:
     class: AppBundle\Form\InstanceFormFactory
@@ -45,6 +49,10 @@ services:
     arguments:
       - "@repo.schema"
       - "@repo.attribute"
+      - "@factory.date"
+
+  factory.date:
+    class: AppBundle\Architecture\DateFactory
 
   validator.schemaname:
     class: AppBundle\Validator\Constraints\SchemaNameValidator
