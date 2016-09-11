@@ -6,8 +6,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\Type\SchemaType;
-use AppBundle\Architecture\RepositoryServices;
-use AppBundle\Form\FormDefinition;
 use AppBundle\Entity\Schema;
 
 /**
@@ -22,7 +20,7 @@ class SchemaController extends Controller
      * @Template("AppBundle:Schema:new.html.twig")
      *
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return mixed
      */
     public function insertSchemaAction(Request $request)
     {
@@ -83,7 +81,7 @@ class SchemaController extends Controller
      *
      * @param string $uid
      * @param Request $req
-     * @return array
+     * @return mixed
      */
     public function updateAction($uid, Request $req)
     {

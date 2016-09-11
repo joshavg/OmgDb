@@ -4,26 +4,26 @@ services:
     class: AppBundle\Architecture\PasswordEncoder
 
   repo.user:
-    class: AppBundle\Entity\UserRepository
+    class: AppBundle\Entity\Repository\UserRepository
     arguments:
       - "@neo4j.client"
 
   repo.schema:
-    class: AppBundle\Entity\SchemaRepository
+    class: AppBundle\Entity\Repository\SchemaRepository
     arguments:
       - "@neo4j.client"
       - "@security.token_storage"
       - "@factory.date"
 
   repo.attribute:
-    class: AppBundle\Entity\AttributeRepository
+    class: AppBundle\Entity\Repository\AttributeRepository
     arguments:
       - "@neo4j.client"
       - "@security.token_storage"
       - "@factory.date"
 
   repo.instance:
-    class: AppBundle\Entity\InstanceRepository
+    class: AppBundle\Entity\Repository\InstanceRepository
     arguments:
       - "@neo4j.client"
       - "@security.token_storage"
@@ -31,7 +31,7 @@ services:
       - "@factory.date"
 
   repo.relationship:
-    class: AppBundle\Entity\RelationshipRepository
+    class: AppBundle\Entity\Repository\RelationshipRepository
     arguments:
       - "@neo4j.client"
       - "@repo.instance"
@@ -52,7 +52,7 @@ services:
       - "@factory.date"
 
   factory.date:
-    class: AppBundle\Architecture\DateFactory
+    class: AppBundle\Entity\Repository\DateFactory
 
   validator.schemaname:
     class: AppBundle\Validator\Constraints\SchemaNameValidator

@@ -10,7 +10,7 @@ layers:
   - name: Repository
     collectors:
       - type: className
-        regex: .+Repository$
+        regex: AppBundle\\Entity\\Repository\\.+
   - name: Service
     collectors:
       - type: className

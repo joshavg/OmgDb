@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Architecture;
 
+use laniger\Neo4jBundle\Architecture\Neo4jClientWrapper;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 
 /**

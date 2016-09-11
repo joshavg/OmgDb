@@ -1,7 +1,8 @@
 <?php
-namespace AppBundle\Entity;
+namespace AppBundle\Entity\Repository;
 
-use AppBundle\Architecture\DateFactory;
+use AppBundle\Entity\Instance;
+use AppBundle\Entity\Relationship;
 use laniger\Neo4jBundle\Architecture\Neo4jClientWrapper;
 use laniger\Neo4jBundle\Architecture\Neo4jRepository;
 use GraphAware\Neo4j\Client\Formatter\Type\Relationship as Neo4jRelationship;

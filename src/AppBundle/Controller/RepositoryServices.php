@@ -1,11 +1,12 @@
 <?php
-namespace AppBundle\Architecture;
+namespace AppBundle\Controller;
 
-use AppBundle\Entity\InstanceRepository;
-use AppBundle\Entity\RelationshipRepository;
-use AppBundle\Entity\UserRepository;
-use AppBundle\Entity\SchemaRepository;
-use AppBundle\Entity\AttributeRepository;
+
+use AppBundle\Entity\Repository\AttributeRepository;
+use AppBundle\Entity\Repository\InstanceRepository;
+use AppBundle\Entity\Repository\RelationshipRepository;
+use AppBundle\Entity\Repository\SchemaRepository;
+use AppBundle\Entity\Repository\UserRepository;
 
 trait RepositoryServices
 {

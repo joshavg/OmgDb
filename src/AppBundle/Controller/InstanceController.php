@@ -2,12 +2,9 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Architecture\RepositoryServices;
 use AppBundle\Entity\Instance;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 

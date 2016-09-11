@@ -1,6 +1,7 @@
 <?php
-namespace AppBundle\Entity;
+namespace AppBundle\Entity\Repository;
 
+use AppBundle\Entity\User;
 use laniger\Neo4jBundle\Architecture\Neo4jRepository;
 
 /**

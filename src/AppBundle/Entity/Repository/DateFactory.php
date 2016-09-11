@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Architecture;
+namespace AppBundle\Entity\Repository;
 
 
 class DateFactory

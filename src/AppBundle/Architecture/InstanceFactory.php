@@ -1,11 +1,11 @@
 <?php
 namespace AppBundle\Architecture;
 
-use AppBundle\Entity\AttributeRepository;
 use AppBundle\Entity\Instance;
 use AppBundle\Entity\Property;
-use AppBundle\Entity\SchemaRepository;
-use Symfony\Component\Validator\Constraints\DateTime;
+use AppBundle\Entity\Repository\AttributeRepository;
+use AppBundle\Entity\Repository\DateFactory;
+use AppBundle\Entity\Repository\SchemaRepository;
 
 class InstanceFactory
 {

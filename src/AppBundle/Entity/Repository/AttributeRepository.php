@@ -1,7 +1,10 @@
 <?php
-namespace AppBundle\Entity;
+namespace AppBundle\Entity\Repository;
 
-use AppBundle\Architecture\DateFactory;
+use AppBundle\Entity\Attribute;
+use AppBundle\Entity\AttributeDataType;
+use AppBundle\Entity\Schema;
+use AppBundle\Entity\User;
 use GraphAware\Neo4j\Client\Formatter\Type\Node;
 use laniger\Neo4jBundle\Architecture\Neo4jClientWrapper;
 use laniger\Neo4jBundle\Architecture\Neo4jRepository;
