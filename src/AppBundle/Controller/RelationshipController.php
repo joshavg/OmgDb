@@ -46,7 +46,34 @@ class RelationshipController extends Controller
      */
     public function chooseInstanceAction($schemaUid, $fromInstanceUid)
     {
+        $instances = $this->getInstanceRepository()->fetchAllForSchema($schemaUid);
+        $fromInstance = $this->getInstanceRepository()->fetchByUid($fromInstanceUid);
 
+        return [
+            'instances' => $instances,
+            'fromInstance' => $fromInstance
+        ];
+    }
+
+    /**
+     * @Route("/new/saveRelationship", name="relationship_create")
+     * @Method("POST")
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function saveRelationshipAction(Request $request)
+    {
+        $postdata = $request->request;
+        $fromInstanceUid = $postdata->get('fromInstance');
+        $label = $postdata->get('label');
+        $instanceUids = $postdata->get('instances');
+
+        $this->getRelationshipRepository()->createRelationships($fromInstanceUid, $label,
+                                                                $instanceUids);
+        return $this->redirectToRoute('instance_show', [
+            'uid' => $fromInstanceUid
+        ]);
     }
 
     /**

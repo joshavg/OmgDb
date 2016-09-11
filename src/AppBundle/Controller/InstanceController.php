@@ -6,6 +6,8 @@ use AppBundle\Architecture\RepositoryServices;
 use AppBundle\Entity\Instance;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\SubmitButton;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -105,7 +107,6 @@ class InstanceController extends Controller
                              'schemaUid' => $instance->getSchemaUid()
                          ]));
 
-
         return [
             'instance' => $instance,
             'schema' => $schema,
@@ -140,11 +141,7 @@ class InstanceController extends Controller
             ]);
         }
 
-        return [
-            'instance' => $instance,
-            'schema' => $this->getSchemaRepository()->fetchByUid($instance->getSchemaUid()),
-            'form' => $form->createView()
-        ];
+        return $this->showAction($uid);
     }
 
     /**

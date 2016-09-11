@@ -118,4 +118,31 @@ class RelationshipRepository extends Neo4jRepository
         return $rel;
     }
 
+    public function createRelationships($fromInstanceUid, $label, array $toInstanceUids)
+    {
+        $trans = $this->getClient()->getClient()->transaction();
+
+        // TODO can this be done in one query?
+        foreach ($toInstanceUids as $to) {
+            $trans->push('
+                MATCH (from:instance),
+                      (to:instance)
+                WHERE from.uid = {from}
+                  AND to.uid = {to}
+               CREATE (from)-[r:related_to]->(to)
+                  SET r.label = {label},
+                      r.uid = {uid},
+                      r.created_at = {created_at}
+            ', [
+                'from' => $fromInstanceUid,
+                'to' => $to,
+                'label' => $label,
+                'uid' => (new Relationship())->getUid(),
+                'created_at' => date(\DateTime::ISO8601)
+            ]);
+        }
+
+        $trans->commit();
+    }
+
 }
