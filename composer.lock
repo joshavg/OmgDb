@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e67094e371c904b578ad64d88a4d4a13",
-    "content-hash": "579efb40d4ea3e65237c57d54df48720",
+    "hash": "87fd1281ae424dcaaab2055c556f0782",
+    "content-hash": "304b5eb96e6ec4cb4f0fc2baed92f8c7",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -2618,6 +2618,34 @@
     ],
     "packages-dev": [
         {
+            "name": "loostro/deptrac-shim",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/loostro/deptrac-shim.git",
+                "reference": "60b55d8ae5488a5ac576f2865e5151e0353d8c42"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/loostro/deptrac-shim/zipball/60b55d8ae5488a5ac576f2865e5151e0353d8c42",
+                "reference": "60b55d8ae5488a5ac576f2865e5151e0353d8c42",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "bin": [
+                "deptrac"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Shim repository for sensiolabs-de/deptrac",
+            "time": "2016-05-05 11:43:44"
+        },
+        {
             "name": "pdepend/pdepend",
             "version": "2.2.4",
             "source": {
@@ -3050,7 +3078,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "phpmd/phpmd": 0
+        "phpmd/phpmd": 0,
+        "loostro/deptrac-shim": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
