@@ -2,7 +2,7 @@
 namespace AppBundle\Validator\Constraints;
 
 use AppBundle\Entity\Attribute;
-use AppBundle\Entity\AttributeRepository;
+use AppBundle\Entity\Repository\AttributeRepository;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Constraint;
 

@@ -1,8 +1,8 @@
 <?php
 namespace AppBundle\Validator\Constraints;
 
+use AppBundle\Entity\Repository\SchemaRepository;
 use AppBundle\Entity\Schema;
-use AppBundle\Entity\SchemaRepository;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Constraint;
 

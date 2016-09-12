@@ -22,4 +22,18 @@ class UserRepository extends Neo4jRepository
             'email' => $user->getEmail()
         ]);
     }
+
+    public function createUser(User $user)
+    {
+        $this->getClient()->cypher('
+            CREATE (u:user)
+               SET u.name = {name},
+                   u.password = {password},
+                   u.email = {email}
+        ', [
+            'name' => $user->getUsername(),
+            'password' => $user->getPassword(),
+            'email' => $user->getEmail()
+        ]);
+    }
 }
