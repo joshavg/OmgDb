@@ -14,18 +14,12 @@ class SchemaType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('save', SubmitType::class, [
-            'label' => 'label.save'
+        $builder->add('name', TextType::class, [
+            'label' => 'label.schema.name'
         ]);
 
-        $readonly = in_array('update', $options['validation_groups']);
-
-        $builder->add('name', TextType::class, [
-            'label' => 'label.schema.name',
-            'attr' => [
-                'readonly' => $readonly
-            ],
-            'position' => 'first'
+        $builder->add('save', SubmitType::class, [
+            'label' => 'label.save'
         ]);
     }
 

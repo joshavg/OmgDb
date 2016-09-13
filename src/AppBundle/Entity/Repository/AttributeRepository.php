@@ -114,10 +114,8 @@ class AttributeRepository extends Neo4jRepository
     public function fetchByUid($uid)
     {
         $row = $this->getClient()->cypher('
-            MATCH (a:attribute)-[:attribute_of]->(s:schema),
-                  (s)-[:created_by]->(u:user)
-            WHERE u.name = {username}
-              AND a.uid = {uid}
+            MATCH (a:attribute)-[:attribute_of]->(s:schema)
+            WHERE a.uid = {uid}
            RETURN a, s
         ', [
             'username' => $this->user->getUsername(),
@@ -136,17 +134,12 @@ class AttributeRepository extends Neo4jRepository
     public function update($uid, Attribute $attr)
     {
         $this->getClient()->cypher('
-            MATCH (a:attribute)-[:attribute_of]->(s:schema),
-                  (s)-[:created_by]->(u:user)
-            WHERE s.name = {schemaname}
-              AND u.name = {username}
-              AND a.uid = {attributeUid}
+            MATCH (a:attribute)
+            WHERE a.uid = {attributeUid}
               SET a.name = {newname},
                   a.datatype = {newdatatype},
                   a.order = {order}
         ', [
-            'schemaname' => $attr->getSchemaName(),
-            'username' => $this->user->getUsername(),
             'attributeUid' => $uid,
             'newname' => $attr->getName(),
             'newdatatype' => $attr->getDataType()->getName(),

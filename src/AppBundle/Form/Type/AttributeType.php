@@ -42,12 +42,8 @@ class AttributeType extends AbstractType
             ]
         ]);
 
-        $readonly = in_array('update', $options['validation_groups']);
         $builder->add('name', TextType::class, [
-            'label' => 'label.attribute.name',
-            'attr' => [
-                'readonly' => $readonly
-            ]
+            'label' => 'label.attribute.name'
         ]);
 
         $choices = [];
@@ -66,8 +62,8 @@ class AttributeType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Attribute::class,
-            'validation_groups' => ['insert']
-        ]);
+                                   'data_class' => Attribute::class,
+                                   'validation_groups' => ['insert']
+                               ]);
     }
 }

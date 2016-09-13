@@ -89,12 +89,10 @@ class SchemaRepository extends Neo4jRepository
     public function fetchByUid($uid)
     {
         $dat = $this->getClient()->cypher('
-            MATCH (n:schema)-[r:created_by]->(u:user)
-            WHERE u.name = {user}
-              AND n.uid = {uid}
+            MATCH (n:schema)
+            WHERE n.uid = {uid}
            RETURN n
         ', [
-            'user' => $this->getUser()->getUsername(),
             'uid' => $uid
         ])->records()[0];
 
@@ -120,14 +118,25 @@ class SchemaRepository extends Neo4jRepository
     public function deleteByUid($uid)
     {
         $this->getClient()->cypher('
-            MATCH (s:schema)-[r:created_by]->(u:user),
-                  (a:attribute)-[ar:attribute_of]->(s)
+            MATCH (s:schema)-[r:created_by]->(:user),
+                  (a:attribute)-[ar:attribute_of]->(s:schema),
+                  (a)-[cr:created_by]->(:user)
             WHERE s.uid = {uid}
-              AND u.name = {username}
-            DELETE r, ar, a, s
+            DELETE r, ar, cr, a, s
         ', [
-            'username' => $this->getUser()->getUsername(),
             'uid' => $uid
+        ]);
+    }
+
+    public function update(Schema $schema)
+    {
+        $this->getClient()->cypher('
+            MATCH (s:schema)
+            WHERE s.uid = {uid}
+              SET s.name = {name}
+        ', [
+            'uid' => $schema->getUid(),
+            'name' => $schema->getName()
         ]);
     }
 }

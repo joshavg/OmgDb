@@ -92,6 +92,7 @@ class SchemaController extends Controller
 
         $form->handleRequest($req);
         if ($form->isValid()) {
+            $this->getSchemaRepository()->update($schema);
             return $this->redirect($this->generateUrl('schema_index'));
         }
 
