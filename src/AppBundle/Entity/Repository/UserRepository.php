@@ -1,6 +1,7 @@
 <?php
-namespace AppBundle\Entity;
+namespace AppBundle\Entity\Repository;
 
+use AppBundle\Entity\User;
 use laniger\Neo4jBundle\Architecture\Neo4jRepository;
 
 /**
@@ -18,6 +19,20 @@ class UserRepository extends Neo4jRepository
         ', [
             'name' => $user->getName(),
             'pw' => $user->getPassword(),
+            'email' => $user->getEmail()
+        ]);
+    }
+
+    public function createUser(User $user)
+    {
+        $this->getClient()->cypher('
+            CREATE (u:user)
+               SET u.name = {name},
+                   u.password = {password},
+                   u.email = {email}
+        ', [
+            'name' => $user->getUsername(),
+            'password' => $user->getPassword(),
             'email' => $user->getEmail()
         ]);
     }

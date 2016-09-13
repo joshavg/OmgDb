@@ -4,10 +4,6 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Form\SchemaType;
-use AppBundle\Architecture\RepositoryServices;
-use AppBundle\Form\Type\SchemaFilterType;
-use AppBundle\Entity\Schema;
 use AppBundle\Entity\Attribute;
 use AppBundle\Form\Type\AttributeType;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,8 +12,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 /**
  * @Route("/attribute")
- *
- * @author laniger
  */
 class AttributeController extends Controller
 {
@@ -27,10 +21,9 @@ class AttributeController extends Controller
      * @Route("/index", name="attribute_index")
      * @Template()
      *
-     * @param Request $request
      * @return array
      */
-    public function indexAction(Request $request)
+    public function indexAction()
     {
         $schemas = $this->getSchemaRepository()->fetchAllForCurrentUser();
         return [
@@ -39,18 +32,19 @@ class AttributeController extends Controller
     }
 
     /**
-     * @Route("/forSchema/{schema_name}", name="attribute_for_schema")
+     * @Route("/forSchema/{uid}", name="attribute_for_schema")
      * @Template()
      *
-     * @param $schema_name
+     * @param $uid
      * @return array
      */
-    public function schemaChosenAction($schema_name)
+    public function schemaChosenAction($uid)
     {
-        $schema = $this->getSchemaRepository()->fetch($schema_name);
+        $schema = $this->getSchemaRepository()->fetchByUid($uid);
         $attributes = $this->getAttributeRepository()->getForSchema($schema);
 
         $attr = new Attribute();
+        $attr->setSchemaUid($schema->getUid());
         $attr->setSchemaName($schema->getName());
         $newform = $this->createNewForm($attr);
 
@@ -88,11 +82,11 @@ class AttributeController extends Controller
         if ($form->handleRequest($req)->isValid()) {
             $this->getAttributeRepository()->newAttribute($attr);
             return $this->redirectToRoute('attribute_for_schema', [
-                'schema_name' => $attr->getSchemaName()
+                'uid' => $attr->getSchemaUid()
             ]);
         }
 
-        $schema = $this->getSchemaRepository()->fetch($attr->getSchemaName());
+        $schema = $this->getSchemaRepository()->fetchByUid($attr->getSchemaUid());
         $attributes = $this->getAttributeRepository()->getForSchema($schema);
         return [
             'schema' => $schema,
@@ -102,16 +96,15 @@ class AttributeController extends Controller
     }
 
     /**
-     * @Route("/{schema_name}/{attribute_name}/edit", name="attribute_edit")
+     * @Route("/{uid}/edit", name="attribute_edit")
      * @Template()
      *
-     * @param string $schema_name
-     * @param string $attribute_name
+     * @param string $uid
      * @return array
      */
-    public function editAction($schema_name, $attribute_name)
+    public function editAction($uid)
     {
-        $attr = $this->getAttributeRepository()->fetch($schema_name, $attribute_name);
+        $attr = $this->getAttributeRepository()->fetchByUid($uid);
         $form = $this->createEditForm($attr);
 
         return [
@@ -123,10 +116,9 @@ class AttributeController extends Controller
     {
         $form = $this->createForm(AttributeType::class, $attr, [
             'action' => $this->generateUrl('attribute_update', [
-                'attribute_name' => $attr->getName(),
-                'schema_name' => $attr->getSchemaName()
+                'uid' => $attr->getUid(),
             ]),
-            'goal' => 'update'
+            'validation_groups' => ['update']
         ]);
         $form->add('submit', SubmitType::class, [
             'label' => 'label.save'
@@ -135,29 +127,43 @@ class AttributeController extends Controller
     }
 
     /**
-     * @Route("/{schema_name}/{attribute_name}/update", methods={"POST", "PUT"},
-     *     name="attribute_update")
+     * @Route("/{uid}/update", methods={"POST", "PUT"}, name="attribute_update")
      * @Template("AppBundle:Schema:edit.html.twig")
      *
-     * @param string $schema_name
-     * @param string $attribute_name
+     * @param string $uid
      * @param Request $req
      * @return array
      */
-    public function updateAction($schema_name, $attribute_name, Request $req)
+    public function updateAction($uid, Request $req)
     {
-        $attr = $this->getAttributeRepository()->fetch($schema_name, $attribute_name);
+        $attr = $this->getAttributeRepository()->fetchByUid($uid);
         $form = $this->createEditForm($attr);
 
         if ($form->handleRequest($req)->isValid()) {
-            $this->getAttributeRepository()->update($attribute_name, $attr);
+            $this->getAttributeRepository()->update($uid, $attr);
             return $this->redirectToRoute('attribute_for_schema', [
-                'schema_name' => $schema_name
+                'uid' => $attr->getSchemaUid()
             ]);
         }
 
         return [
             'form' => $form->createView()
         ];
+    }
+
+    /**
+     * @Route("/{uid}/delete", methods={"GET", "DELETE"}, name="attribute_delete")
+     *
+     * @param $uid
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteAction($uid)
+    {
+        $attr = $this->getAttributeRepository()->fetchByUid($uid);
+        $this->getAttributeRepository()->deleteByUid($uid);
+
+        return $this->redirectToRoute('attribute_for_schema', [
+            'uid' => $attr->getSchemaUid()
+        ]);
     }
 }

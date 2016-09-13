@@ -1,3 +1,4 @@
+{% import '@lanigerBootstrap/bootstrap.macro.twig' as bootstrap %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -5,12 +6,21 @@
         <title>{{ 'title'|trans }}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         {% include 'lanigerBootstrapBundle::assets.include.twig' %}
+        {% javascripts '@AppBundle/Resources/public/omgdb.js' %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+        <style>
+            .nav-tabs {
+                margin-bottom: 15px;
+            }
+        </style>
     </head>
     <body>
         <div class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                            data-target="#navbar-collapse">
                         <span class="sr-only">{{ 'label.toggle.nav'|trans }}</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -22,22 +32,26 @@
                     <ul class="nav navbar-nav navbar-right">
                         {% if app.user %}
                             <li>
-                                <a href="{{ path('schema_index') }}" title="{{ 'nav.schema.index'|trans }}" accesskey="s">
+                                <a href="{{ path('schema_index') }}"
+                                   title="{{ 'nav.schema.index'|trans }}" accesskey="s">
                                     <span class="glyphicon glyphicon-th-large"></span>
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ path('attribute_index') }}" title="{{ 'nav.attribute.index'|trans }}" accesskey="a">
+                                <a href="{{ path('attribute_index') }}"
+                                   title="{{ 'nav.attribute.index'|trans }}" accesskey="a">
                                     <span class="glyphicon glyphicon-th"></span>
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ path('settings_index') }}" title="{{ 'nav.settings.index'|trans }}" accesskey="q">
+                                <a href="{{ path('settings_index') }}"
+                                   title="{{ 'nav.settings.index'|trans }}" accesskey="q">
                                     <span class="glyphicon glyphicon-cog"></span>
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ path('logout') }}" title="{{ 'nav.logout'|trans }}" accesskey="l">
+                                <a href="{{ path('logout') }}" title="{{ 'nav.logout'|trans }}"
+                                   accesskey="l">
                                     <span class="glyphicon glyphicon-off"></span>
                                 </a>
                             </li>
@@ -47,7 +61,48 @@
             </div>
         </div>
         <div class="container-fluid">
-            {% block body %}{% endblock %}
+            {% if app.user %}
+            <section class="col-md-2">
+                <div class="list-group">
+                    {% for schema in repo_schema.fetchAllForCurrentUser %}
+                        <a class="list-group-item"
+                           href="{{ path('instance_overview', {'schema_uid': schema.uid}) }}">
+                            {{ schema.name }}
+                        </a>
+                    {% endfor %}
+                </div>
+            </section>
+            <section class="col-md-10">
+                {% endif %}
+
+                {% block body %}{% endblock %}
+
+                {% if app.user %}
+            </section>
+            {% endif %}
+        </div>
+
+        <div class="modal" tabindex="-1" role="dialog" id="modal-confirm">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modal-confirm-title"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>{{ 'text.confirm-action' }}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-default" data-dismiss="modal">
+                            {{ bootstrap.glyphicon('remove') }}
+                            {{ 'label.cancel'|trans }}
+                        </button>
+                        <button class="btn btn-primary" id="modal-confirm-confirm">
+                            {{ bootstrap.glyphicon('ok') }}
+                            {{ 'label.confirm'|trans }}
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </body>
 </html>

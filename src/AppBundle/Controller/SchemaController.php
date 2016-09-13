@@ -6,14 +6,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\Type\SchemaType;
-use AppBundle\Architecture\RepositoryServices;
-use AppBundle\Form\FormDefinition;
 use AppBundle\Entity\Schema;
 
 /**
  * @Route("/schema")
- *
- * @author laniger
  */
 class SchemaController extends Controller
 {
@@ -24,7 +20,7 @@ class SchemaController extends Controller
      * @Template("AppBundle:Schema:new.html.twig")
      *
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return mixed
      */
     public function insertSchemaAction(Request $request)
     {
@@ -60,18 +56,18 @@ class SchemaController extends Controller
     }
 
     /**
-     * @Route("/{name}/edit", name="schema_edit")
+     * @Route("/{uid}/edit", name="schema_edit")
      * @Template()
      *
-     * @param string $name
+     * @param string $uid
      * @return array
      */
-    public function editAction($name)
+    public function editAction($uid)
     {
-        $schema = $this->getSchemaRepository()->fetch($name);
+        $schema = $this->getSchemaRepository()->fetchByUid($uid);
         $form = $this->createForm(SchemaType::class, $schema, [
-            'action' => $this->generateUrl('schema_update', ['name' => $name]),
-            'goal' => 'update'
+            'action' => $this->generateUrl('schema_update', ['uid' => $uid]),
+            'validation_groups' => ['update']
         ]);
 
         return [
@@ -80,27 +76,40 @@ class SchemaController extends Controller
     }
 
     /**
-     * @Route("/{name}/update", methods={"POST", "PUT"}, name="schema_update")
+     * @Route("/{uid}/update", methods={"POST", "PUT"}, name="schema_update")
      * @Template("AppBundle:Schema:edit.html.twig")
      *
-     * @param string $name
+     * @param string $uid
      * @param Request $req
-     * @return array
+     * @return mixed
      */
-    public function updateAction($name, Request $req)
+    public function updateAction($uid, Request $req)
     {
-        $schema = $this->getSchemaRepository()->fetch($name);
+        $schema = $this->getSchemaRepository()->fetchByUid($uid);
         $form = $this->createForm(SchemaType::class, $schema, [
-            'goal' => 'update'
+            'validation_groups' => ['update']
         ]);
 
         $form->handleRequest($req);
         if ($form->isValid()) {
+            $this->getSchemaRepository()->update($schema);
             return $this->redirect($this->generateUrl('schema_index'));
         }
 
         return [
             'form' => $form->createView()
         ];
+    }
+
+    /**
+     * @Route("/{uid}/delete", methods={"GET", "DELETE"}, name="schema_delete")
+     *
+     * @param $uid
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteAction($uid)
+    {
+        $this->getSchemaRepository()->deleteByUid($uid);
+        return $this->redirectToRoute('schema_index');
     }
 }

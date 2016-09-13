@@ -7,12 +7,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Form\Type\SettingsType;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\Architecture\RepositoryServices;
 
 /**
  * @Route("/settings")
- *
- * @author laniger
  */
 class SettingsController extends Controller
 {
@@ -44,7 +41,7 @@ class SettingsController extends Controller
      * @Template("AppBundle:Settings:settings.html.twig")
      *
      * @param Request $req
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return mixed
      */
     public function userSettingsSaveAction(Request $req)
     {

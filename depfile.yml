@@ -1,0 +1,52 @@
+paths:
+  - ./src/AppBundle
+exclude_files:
+  - .*test.*
+layers:
+  - name: Controller
+    collectors:
+      - type: className
+        regex: AppBundle\\Controller\\.+Controller$
+  - name: Repository
+    collectors:
+      - type: className
+        regex: AppBundle\\Entity\\Repository\\.+
+  - name: Service
+    collectors:
+      - type: className
+        regex: AppBundle\\Architecture\\.+
+      - type: className
+        regex: AppBundle\\Form\\InstanceFormFactory
+  - name: Entity
+    collectors:
+      - type: bool
+        must:
+          - type: className
+            regex: AppBundle\\Entity\\.+
+        must_not:
+          - type: className
+            regex: AppBundle\\Entity\\.+Repository$
+  - name: Validator
+    collectors:
+      - type: className
+        regex: AppBundle\\Validator\\.+
+  - name: FormType
+    collectors:
+      - type: className
+        regex: AppBundle\\Form\\Type\\.+
+ruleset:
+  Controller:
+    - Service
+    - Entity
+    - FormType
+  Service:
+    - Repository
+    - Entity
+  Repository:
+    - Entity
+  Validator:
+    - Repository
+    - Entity
+  FormType:
+    - Validator
+    - Entity

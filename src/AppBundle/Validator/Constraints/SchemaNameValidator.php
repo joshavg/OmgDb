@@ -1,8 +1,8 @@
 <?php
 namespace AppBundle\Validator\Constraints;
 
+use AppBundle\Entity\Repository\SchemaRepository;
 use AppBundle\Entity\Schema;
-use AppBundle\Entity\SchemaRepository;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Constraint;
 
@@ -24,11 +24,7 @@ class SchemaNameValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint)
     {
-        if ($value->getCreatedAt() !== null) {
-            return;
-        }
-
-        $valid = $this->repo->isNameUniqueForCurrentUser($value->getName());
+        $valid = $this->repo->isNameUniqueForCurrentUser($value);
 
         if (!$valid) {
             $this->context->buildViolation($constraint->message)->addViolation();

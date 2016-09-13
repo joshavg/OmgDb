@@ -3,6 +3,8 @@ namespace AppBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -23,7 +25,6 @@ use AppBundle\Form\ServiceForm;
 
 class AttributeType extends AbstractType
 {
-    use ServiceForm;
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -34,15 +35,15 @@ class AttributeType extends AbstractType
             ]
         ]);
 
-        $readonly = false;
-        if($options['goal'] === 'update') {
-            $readonly = true;
-        }
-        $builder->add('name', TextType::class, [
-            'label' => 'label.attribute.name',
+        $builder->add('schemaUid', HiddenType::class, [
+            'label' => 'label.attribute.schemaUid',
             'attr' => [
-                'readonly' => $readonly
+                'readonly' => true
             ]
+        ]);
+
+        $builder->add('name', TextType::class, [
+            'label' => 'label.attribute.name'
         ]);
 
         $choices = [];
@@ -50,16 +51,19 @@ class AttributeType extends AbstractType
             $choices[$type->getName()] = $type->getName();
         }
         $builder->add('dataType', ChoiceType::class, [
-            'choices' => $choices,
-            'choices_as_values' => true
+            'choices' => $choices
+        ]);
+
+        $builder->add('order', NumberType::class, [
+            'label' => 'label.attribute.order'
         ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Attribute::class,
-            'goal' => 'insert'
-        ]);
+                                   'data_class' => Attribute::class,
+                                   'validation_groups' => ['insert']
+                               ]);
     }
 }

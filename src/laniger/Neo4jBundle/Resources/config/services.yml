@@ -2,37 +2,27 @@ services:
   neo4j.client:
     class: laniger\Neo4jBundle\Architecture\Neo4jClientWrapper
     arguments:
-      - "%laniger.neo4j.host%"
-      - "%laniger.neo4j.port%"
-      - "%laniger.neo4j.user%"
-      - "%laniger.neo4j.pw%"
+      - "%database_host%"
+      - "%database_port%"
+      - "%database_user%"
+      - "%database_password%"
       - "@logger"
 
   neo4j.userprovider:
     class: laniger\Neo4jBundle\Architecture\Neo4jUserProvider
     arguments:
       - "@neo4j.client"
-      
+
   neo4j.validator.uniquelabel:
     class: laniger\Neo4jBundle\Validator\Constraints\Neo4jUniqueLabelConstraintValidator
     arguments:
       - "@neo4j.client"
     tags:
       - { name: validator.constraint_validator, alias: neo4j.validator.uniquelabel }
-      
+
   neo4j.validator.uniquename:
     class: laniger\Neo4jBundle\Validator\Constraints\Neo4jUniqueNameConstraintValidator
     arguments:
       - "@neo4j.client"
     tags:
       - { name: validator.constraint_validator, alias: neo4j.validator.uniquename }
-  
-  neo4j.validator.label:
-    class: laniger\Neo4jBundle\Validator\Constraints\Neo4jLabelConstraintValidator
-    tags:
-      - { name: validator.constraint_validator, alias: neo4j.validator.label }
-  
-  neo4j.validator.callback:
-    class: laniger\Neo4jBundle\Validator\Constraints\Neo4jCallbackConstraintValidator
-    tags:
-      - { name: validator.constraint_validator, alias: neo4j.validator.callback }

@@ -1,16 +1,31 @@
 <?php
 namespace AppBundle\Entity;
 
-/**
- * @AppBundle\Validator\Constraints\SchemaName
- */
 class Schema
 {
+    /**
+     * @AppBundle\Validator\Constraints\SchemaName(groups={"insert"})
+     */
     private $name;
 
     private $createdAt;
 
-    private $attributes;
+    private $uid;
+
+    public function __construct()
+    {
+        $this->uid = uniqid('schema');
+    }
+
+    public function getUid()
+    {
+        return $this->uid;
+    }
+
+    public function setUid($uid)
+    {
+        $this->uid = $uid;
+    }
 
     public function getName()
     {
@@ -31,17 +46,6 @@ class Schema
     public function setCreatedAt($createdAt)
     {
         $this->createdAt = $createdAt;
-        return $this;
-    }
-
-    public function getAttributes()
-    {
-        return $this->attributes;
-    }
-
-    public function setAttributes($attributes)
-    {
-        $this->attributes = $attributes;
         return $this;
     }
 

@@ -1,0 +1,126 @@
+{% extends 'AppBundle::layout.html.twig' %}
+
+{% block body %}
+    <h1>
+        {{ instance.name }}
+        <small>{{ schema.name }}</small>
+    </h1>
+
+    <p class="btn-group">
+        <button type="button" class="btn btn-primary" data-toggle="modal"
+                data-target="#instance-form-dialog-copy" title="{{ 'label.instance.copy'|trans }}">
+            {{ bootstrap.glyphicon('duplicate') }}
+        </button>
+        <a href="{{ path('relationship_new_chooseschema', { 'instanceUid': instance.uid }) }}"
+           class="btn btn-primary" title="{{ 'label.instance.relationship.new'|trans }}">
+            {{ bootstrap.glyphicon('share-alt') }}
+        </a>
+        <a href="{{ path('instance_delete', {'uid': instance.uid}) }}"
+           class="btn btn-danger btn-confirm-href"
+           data-confirm-title="{{ 'title.confirm.delete'|trans }}"
+           title="{{ 'label.instance.delete'|trans }}">
+            {{ bootstrap.glyphicon('trash') }}
+        </a>
+    </p>
+    {% include 'AppBundle:Instance:form-dialog.html.twig' with {
+    'form': copyform,
+    'id': 'instance-form-dialog-copy',
+    'title': 'title.instance.copy'
+    } %}
+
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active">
+            <a href="#content" role="tab" data-toggle="tab">
+                {{ bootstrap.glyphicon('file') }}
+                {{ 'label.instance.content'|trans }}
+            </a>
+        </li>
+        <li role="presentation">
+            <a href="#edit-instance" role="tab" data-toggle="tab">
+                {{ bootstrap.glyphicon('pencil') }}
+                {{ 'label.instance.edit'|trans }}
+            </a>
+        </li>
+        <li role="presentation">
+            <a href="#outgoing-relations" role="tab" data-toggle="tab">
+                {{ bootstrap.glyphicon('resize-full') }}
+                {{ 'label.instance.outgoing-relations'|trans }}
+            </a>
+        </li>
+        <li role="presentation">
+            <a href="#incoming-relations" role="tab" data-toggle="tab">
+                {{ bootstrap.glyphicon('resize-small') }}
+                {{ 'label.instance.incoming-relations'|trans }}
+            </a>
+        </li>
+    </ul>
+
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="content">
+            {% for p in instance.properties %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{ p.attribute.name }}</h3>
+                    </div>
+                    <div class="panel-body">
+                        {{ p|propertyvalue|raw }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div role="tabpanel" class="tab-pane" id="edit-instance">
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <div class="form-group">
+                    <button type="submit" class="btn btn-default">
+                        {{ 'label.save'|trans }}
+                    </button>
+                </div>
+            {{ form_end(form) }}
+        </div>
+        {% macro reltable(data, direction, instance) %}
+            {% import '@lanigerBootstrap/bootstrap.macro.twig' as bootstrap %}
+            <table class="table table-striped table-responsive table-hover">
+                <thead>
+                    <th>{{ ('label.instance.relationship.' ~ direction)|trans }}</th>
+                    <th>{{ 'label.instance.relationship.label'|trans }}</th>
+                    <th>{{ 'label.instance.relationship.created_at'|trans }}</th>
+                    <th></th>
+                </thead>
+                <tbody>
+                    {% for rel in data %}
+                        {% set directedInstance = attribute(rel, direction) %}
+                        <tr>
+                            <td>{{ directedInstance.name }}</td>
+                            <td>{{ rel.label }}</td>
+                            <td>{{ directedInstance.createdAt|date }}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a href="{{ path('instance_show', {'uid': directedInstance.uid}) }}"
+                                       class="btn btn-primary"
+                                       title="{{ 'label.instance.open'|trans }}">
+                                        {{ bootstrap.glyphicon('arrow-right') }}
+                                    </a>
+                                    <a href="{{ path('relationship_delete', {
+                                        'uid': rel.uid, 'instanceUid': instance.uid}) }}"
+                                       class="btn btn-danger btn-confirm-href"
+                                       data-confirm-title="{{ 'title.confirm.delete'|trans }}"
+                                       title="{{ 'label.instance.relationship.delete'|trans }}">
+                                        {{ bootstrap.glyphicon('trash') }}
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endmacro %}
+        {% import _self as tables %}
+        <div role="tabpanel" class="tab-pane" id="outgoing-relations">
+            {{ tables.reltable(relationships.outgoing, 'to', instance) }}
+        </div>
+        <div role="tabpanel" class="tab-pane" id="incoming-relations">
+            {{ tables.reltable(relationships.incoming, 'from', instance) }}
+        </div>
+    </div>
+{% endblock %}

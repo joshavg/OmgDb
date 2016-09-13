@@ -4,28 +4,55 @@ services:
     class: AppBundle\Architecture\PasswordEncoder
 
   repo.user:
-    class: AppBundle\Entity\UserRepository
+    class: AppBundle\Entity\Repository\UserRepository
     arguments:
       - "@neo4j.client"
 
   repo.schema:
-    class: AppBundle\Entity\SchemaRepository
+    class: AppBundle\Entity\Repository\SchemaRepository
     arguments:
       - "@neo4j.client"
       - "@security.token_storage"
+      - "@factory.date"
 
   repo.attribute:
-    class: AppBundle\Entity\AttributeRepository
+    class: AppBundle\Entity\Repository\AttributeRepository
     arguments:
       - "@neo4j.client"
       - "@security.token_storage"
+      - "@factory.date"
 
-  form.schema.filter:
-    class: AppBundle\Form\Type\SchemaFilterType
+  repo.instance:
+    class: AppBundle\Entity\Repository\InstanceRepository
+    arguments:
+      - "@neo4j.client"
+      - "@security.token_storage"
+      - "@repo.attribute"
+      - "@factory.date"
+
+  repo.relationship:
+    class: AppBundle\Entity\Repository\RelationshipRepository
+    arguments:
+      - "@neo4j.client"
+      - "@repo.instance"
+      - "@factory.date"
+
+  factory.instance_form:
+    class: AppBundle\Form\InstanceFormFactory
+    arguments:
+      - "@form.factory"
+      - "@factory.instance"
+      - "@repo.attribute"
+
+  factory.instance:
+    class: AppBundle\Architecture\InstanceFactory
     arguments:
       - "@repo.schema"
-    tags:
-      - { name: form.type }
+      - "@repo.attribute"
+      - "@factory.date"
+
+  factory.date:
+    class: AppBundle\Entity\Repository\DateFactory
 
   validator.schemaname:
     class: AppBundle\Validator\Constraints\SchemaNameValidator
@@ -40,3 +67,10 @@ services:
       - "@repo.attribute"
     tags:
       - { name: validator.constraint_validator, alias: validator.attributename }
+
+  filter.formatter.property.value:
+    class: AppBundle\Architecture\PropertyValueFormatter
+    arguments:
+      - "@translator.default"
+    tags:
+      - name: twig.extension

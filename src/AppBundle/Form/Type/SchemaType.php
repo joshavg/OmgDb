@@ -11,31 +11,23 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SchemaType extends AbstractType
 {
-    use ServiceForm;
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('save', SubmitType::class, [
-            'label' => 'label.save'
+        $builder->add('name', TextType::class, [
+            'label' => 'label.schema.name'
         ]);
 
-        $readonly = false;
-        if ($options['goal'] === 'update') {
-            $readonly = true;
-        }
-
-        $builder->add('name', TextType::class, [
-            'label' => 'label.schema.name',
-            'attr' => [
-                'readonly' => $readonly
-            ],
-            'position' => 'first'
+        $builder->add('save', SubmitType::class, [
+            'label' => 'label.save'
         ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefault('goal', 'insert');
+        $resolver->setDefault('validation_groups', [
+            'insert'
+        ]);
     }
 
     public function getBlockPrefix()

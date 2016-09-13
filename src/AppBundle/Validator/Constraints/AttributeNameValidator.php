@@ -2,7 +2,7 @@
 namespace AppBundle\Validator\Constraints;
 
 use AppBundle\Entity\Attribute;
-use AppBundle\Entity\AttributeRepository;
+use AppBundle\Entity\Repository\AttributeRepository;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Constraint;
 
@@ -24,10 +24,6 @@ class AttributeNameValidator extends ConstraintValidator
      */
     public function validate($value, Constraint $constraint)
     {
-        if ($value->getCreatedAt() !== null) {
-            return;
-        }
-
         $valid = $this->repo->isNameUniqueForCurrentUser($value);
 
         if (!$valid) {

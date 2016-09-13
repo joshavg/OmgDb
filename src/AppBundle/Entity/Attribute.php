@@ -2,7 +2,7 @@
 namespace AppBundle\Entity;
 
 /**
- * @AppBundle\Validator\Constraints\AttributeName
+ * @AppBundle\Validator\Constraints\AttributeName(groups={"insert"})
  */
 class Attribute
 {
@@ -12,11 +12,40 @@ class Attribute
 
     private $dataType;
 
+    private $schemaUid;
+
+    private $uid;
+
     private $schemaName;
+
+    private $order;
 
     public function __construct()
     {
-        $this->dataType = AttributeDataType::getByName(AttributeDataType::$TEXT);
+        $this->dataType = AttributeDataType::getByName(AttributeDataType::TEXT);
+        $this->uid = uniqid('attribute');
+        $this->order = 100;
+    }
+
+    public function getSchemaName()
+    {
+        return $this->schemaName;
+    }
+
+    public function setSchemaName($schemaName)
+    {
+        $this->schemaName = $schemaName;
+        return $this;
+    }
+
+    public function getUid()
+    {
+        return $this->uid;
+    }
+
+    public function setUid($uid)
+    {
+        $this->uid = $uid;
     }
 
     public function getName()
@@ -63,14 +92,24 @@ class Attribute
         return $this->dataType;
     }
 
-    public function setSchemaName($schema)
+    public function setSchemaUid($uid)
     {
-        $this->schemaName = $schema;
+        $this->schemaUid = $uid;
         return $this;
     }
 
-    public function getSchemaName()
+    public function getSchemaUid()
     {
-        return $this->schemaName;
+        return $this->schemaUid;
+    }
+
+    public function getOrder()
+    {
+        return $this->order;
+    }
+
+    public function setOrder($order)
+    {
+        $this->order = $order;
     }
 }

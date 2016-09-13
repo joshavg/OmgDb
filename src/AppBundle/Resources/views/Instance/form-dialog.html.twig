@@ -1,0 +1,35 @@
+<div class="modal fade" tabindex="-1" role="dialog" id="{{ id|default('instance-form-dialog') }}">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{ title|default('title.instance.add')|trans }}</h4>
+            </div>
+            {{ form_start(form) }}
+            <div class="modal-body">
+                {{ form_errors(form) }}
+                {% for child in form.children %}
+                    {{ form_row(child) }}
+                {% endfor %}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    {{ bootstrap.glyphicon('remove') }}
+                    {{ 'label.cancel'|trans }}
+                </button>
+                <button type="submit" class="btn btn-primary" autofocus="autofocus">
+                    {{ bootstrap.glyphicon('ok') }}
+                    {{ 'label.save'|trans }}
+                </button>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+
+{% if not form.vars.valid %}
+    <script type="text/javascript">
+        $(window).load(function () {
+            $('#instance-add').modal('show');
+        });
+    </script>
+{% endif %}
