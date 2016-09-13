@@ -26,7 +26,11 @@ class Neo4jUserProvider implements UserProviderInterface
      */
     public function loadUserByUsername($username)
     {
-        $res = $this->client->cypher('MATCH (n:user) WHERE n.name = {name} RETURN n', [
+        $res = $this->client->cypher('
+            MATCH (n:user)
+            WHERE LOWER(n.name) = LoWER({name})
+           RETURN n
+        ', [
             'name' => $username
         ]);
 
@@ -35,7 +39,7 @@ class Neo4jUserProvider implements UserProviderInterface
 
         if (!count($rows)) {
             throw new UsernameNotFoundException(sprintf('Username "%s" does not exist.',
-                $username));
+                                                        $username));
         }
 
         $row = $rows[0]->get('n');
