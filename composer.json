@@ -36,7 +36,7 @@
         "sebastian/phpcpd": "*",
         "phpmd/phpmd": "@stable",
         "loostro/deptrac-shim": "dev-master",
-        "joshavg/sonar-runner": "2.7"
+        "joshavg/sonar-runner": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [

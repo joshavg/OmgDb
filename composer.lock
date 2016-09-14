@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8bd84dddb28180ae225f51f65900a83c",
-    "content-hash": "cda0401c1cfc83357e9d038dc3c2ffac",
+    "hash": "3e17bc107a9ec49d2bdcc42c4fb3cbd5",
+    "content-hash": "fbf5851acbac2e5c094fc4db705342bb",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -2619,21 +2619,18 @@
     "packages-dev": [
         {
             "name": "joshavg/sonar-runner",
-            "version": "2.7",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joshavg/sonar-runner.git",
-                "reference": "608668bf47312cc18a6713f7e25b1017000434a8"
+                "reference": "1c4d23be74e5fc5b19c996d8f772663ecb997a36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joshavg/sonar-runner/zipball/608668bf47312cc18a6713f7e25b1017000434a8",
-                "reference": "608668bf47312cc18a6713f7e25b1017000434a8",
+                "url": "https://api.github.com/repos/joshavg/sonar-runner/zipball/1c4d23be74e5fc5b19c996d8f772663ecb997a36",
+                "reference": "1c4d23be74e5fc5b19c996d8f772663ecb997a36",
                 "shasum": ""
             },
-            "bin": [
-                "bin/sonar-runner"
-            ],
             "type": "library",
             "notification-url": "https://packagist.org/downloads/",
             "authors": [
@@ -2646,7 +2643,7 @@
                 }
             ],
             "description": "Sonar Runner binaries to work with Packagist - fork of neuralys/sonar-runner",
-            "time": "2016-09-14 10:05:10"
+            "time": "2016-09-14 10:28:26"
         },
         {
             "name": "loostro/deptrac-shim",
@@ -3110,7 +3107,8 @@
     "minimum-stability": "stable",
     "stability-flags": {
         "phpmd/phpmd": 0,
-        "loostro/deptrac-shim": 20
+        "loostro/deptrac-shim": 20,
+        "joshavg/sonar-runner": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

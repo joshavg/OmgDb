@@ -8,4 +8,4 @@ install:
   - composer install --no-interaction
 script:
   - composer test
-  - ./bin/sonar-runner -Dsonar.login=$sonarlogin
+  - ./vendor/joshavg/sonar-runner/bin/sonar-scanner -Dsonar.login=$sonarlogin
