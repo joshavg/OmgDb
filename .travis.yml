@@ -6,8 +6,9 @@ addons:
         packages:
             - oracle-java8-installer
 
-jdk:
-    - oraclejdk8
+env:
+    global:
+        - JAVA_HOME=/usr/lib/jvm/java-8-oracle
 
 php:
     - 5.6
