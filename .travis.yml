@@ -10,4 +10,5 @@ install:
   - composer install --no-interaction
 script:
   - composer test
+  - jdk_switcher use oraclejdk8
   - ./vendor/joshavg/sonar-runner/bin/sonar-scanner -Dsonar.login=$sonarlogin
