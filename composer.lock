@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "87fd1281ae424dcaaab2055c556f0782",
-    "content-hash": "304b5eb96e6ec4cb4f0fc2baed92f8c7",
+    "hash": "8bd84dddb28180ae225f51f65900a83c",
+    "content-hash": "cda0401c1cfc83357e9d038dc3c2ffac",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -286,16 +286,16 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "v2.5.4",
+            "version": "v2.5.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "abbdfd1cff43a7b99d027af3be709bc8fc7d4769"
+                "reference": "9f8c05cd5225a320d56d4bfdb4772f10d045a0c9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/abbdfd1cff43a7b99d027af3be709bc8fc7d4769",
-                "reference": "abbdfd1cff43a7b99d027af3be709bc8fc7d4769",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/9f8c05cd5225a320d56d4bfdb4772f10d045a0c9",
+                "reference": "9f8c05cd5225a320d56d4bfdb4772f10d045a0c9",
                 "shasum": ""
             },
             "require": {
@@ -304,7 +304,7 @@
             },
             "require-dev": {
                 "phpunit/phpunit": "4.*",
-                "symfony/console": "2.*"
+                "symfony/console": "2.*||^3.0"
             },
             "suggest": {
                 "symfony/console": "For helpful console commands such as SQL execution and import of files."
@@ -353,7 +353,7 @@
                 "persistence",
                 "queryobject"
             ],
-            "time": "2016-01-05 22:11:12"
+            "time": "2016-09-09 19:13:33"
         },
         {
             "name": "doctrine/doctrine-bundle",
@@ -701,16 +701,16 @@
         },
         {
             "name": "doctrine/orm",
-            "version": "v2.5.4",
+            "version": "v2.5.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/doctrine2.git",
-                "reference": "bc4ddbfb0114cb33438cc811c9a740d8aa304aab"
+                "reference": "73e4be7c7b3ba26f96b781a40b33feba4dfa6d45"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/bc4ddbfb0114cb33438cc811c9a740d8aa304aab",
-                "reference": "bc4ddbfb0114cb33438cc811c9a740d8aa304aab",
+                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/73e4be7c7b3ba26f96b781a40b33feba4dfa6d45",
+                "reference": "73e4be7c7b3ba26f96b781a40b33feba4dfa6d45",
                 "shasum": ""
             },
             "require": {
@@ -773,7 +773,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2016-01-05 21:34:58"
+            "time": "2016-09-10 18:51:13"
         },
         {
             "name": "egeloen/ordered-form",
@@ -973,16 +973,16 @@
         },
         {
             "name": "graphaware/neo4j-php-client",
-            "version": "4.5.3",
+            "version": "4.5.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/graphaware/neo4j-php-client.git",
-                "reference": "af8f01475a3cf63549498449574eb9c4bb8e7254"
+                "reference": "1da1ad5d8be44afa1c8b89264edeedb03c37095f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/graphaware/neo4j-php-client/zipball/af8f01475a3cf63549498449574eb9c4bb8e7254",
-                "reference": "af8f01475a3cf63549498449574eb9c4bb8e7254",
+                "url": "https://api.github.com/repos/graphaware/neo4j-php-client/zipball/1da1ad5d8be44afa1c8b89264edeedb03c37095f",
+                "reference": "1da1ad5d8be44afa1c8b89264edeedb03c37095f",
                 "shasum": ""
             },
             "require": {
@@ -1026,7 +1026,7 @@
                 "http",
                 "neo4j"
             ],
-            "time": "2016-09-04 22:05:14"
+            "time": "2016-09-09 21:54:45"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -1734,16 +1734,16 @@
         },
         {
             "name": "sensio/distribution-bundle",
-            "version": "v5.0.9",
+            "version": "v5.0.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioDistributionBundle.git",
-                "reference": "e5e0d8d06b07864b2752bd865537b0817edf4c5a"
+                "reference": "fc3d3998527726761e140715e6e439780a31eec4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/e5e0d8d06b07864b2752bd865537b0817edf4c5a",
-                "reference": "e5e0d8d06b07864b2752bd865537b0817edf4c5a",
+                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/fc3d3998527726761e140715e6e439780a31eec4",
+                "reference": "fc3d3998527726761e140715e6e439780a31eec4",
                 "shasum": ""
             },
             "require": {
@@ -1782,7 +1782,7 @@
                 "configuration",
                 "distribution"
             ],
-            "time": "2016-09-06 01:05:01"
+            "time": "2016-09-12 14:16:31"
         },
         {
             "name": "sensio/framework-extra-bundle",
@@ -2617,6 +2617,37 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "joshavg/sonar-runner",
+            "version": "2.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/joshavg/sonar-runner.git",
+                "reference": "608668bf47312cc18a6713f7e25b1017000434a8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/joshavg/sonar-runner/zipball/608668bf47312cc18a6713f7e25b1017000434a8",
+                "reference": "608668bf47312cc18a6713f7e25b1017000434a8",
+                "shasum": ""
+            },
+            "bin": [
+                "bin/sonar-runner"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Nicolas BELIN",
+                    "email": "nico@neuralys.com"
+                },
+                {
+                    "name": "Josha von Gizycki"
+                }
+            ],
+            "description": "Sonar Runner binaries to work with Packagist - fork of neuralys/sonar-runner",
+            "time": "2016-09-14 10:05:10"
+        },
         {
             "name": "loostro/deptrac-shim",
             "version": "dev-master",
