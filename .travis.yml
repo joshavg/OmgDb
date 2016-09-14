@@ -2,6 +2,9 @@ language: php
 
 addons:
     sonarqube: true
+    apt:
+        packages:
+            - oracle-java8-installer
 
 php:
     - 5.6
@@ -14,5 +17,4 @@ install:
 
 script:
     - composer test
-    # - sonar-scanner -Dsonar.login=$sonarlogin
-    - mvn sonar:sonar -Dsonar.login=$sonarlogin
+    - sonar-scanner -Dsonar.login=$sonarlogin
