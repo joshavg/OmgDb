@@ -14,4 +14,5 @@ install:
 
 script:
     - composer test
-    - sonar-scanner -Dsonar.login=$sonarlogin
+    # - sonar-scanner -Dsonar.login=$sonarlogin
+    - mvn sonar:sonar -Dsonar.login=$sonarlogin
