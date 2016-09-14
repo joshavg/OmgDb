@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class DefaultController extends Controller
 {
+    use RepositoryServices;
 
     /**
      * @Route("/", name="index")
@@ -14,7 +15,10 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
+        $starred = $this->getInstanceRepository()->fetchStarredForCurrentUser();
+
         return [
+            'starred' => $starred
         ];
     }
 }

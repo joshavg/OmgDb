@@ -6,23 +6,46 @@
         <small>{{ schema.name }}</small>
     </h1>
 
-    <p class="btn-group">
-        <button type="button" class="btn btn-primary" data-toggle="modal"
-                data-target="#instance-form-dialog-copy" title="{{ 'label.instance.copy'|trans }}">
-            {{ bootstrap.glyphicon('duplicate') }}
-        </button>
-        <a href="{{ path('relationship_new_chooseschema', { 'instanceUid': instance.uid }) }}"
-           class="btn btn-primary" title="{{ 'label.instance.relationship.new'|trans }}">
-            {{ bootstrap.glyphicon('share-alt') }}
-        </a>
-        <a href="{{ path('instance_delete', {'uid': instance.uid}) }}"
-           class="btn btn-danger btn-confirm-href"
-           data-confirm-title="{{ 'title.confirm.delete'|trans }}"
-           title="{{ 'label.instance.delete'|trans }}">
-            {{ bootstrap.glyphicon('trash') }}
-        </a>
+    <p>
+        <span class="btn-group">
+            {% if instance.starred %}
+                <a href="{{ path('instance_starred', {
+                    'uid': instance.uid,
+                    'starred': 'false'
+                }) }}"
+                   class="btn btn-default active" title="{{ 'label.instance.star.off'|trans }}">
+                    {{ bootstrap.glyphicon('star') }}
+                </a>
+            {% else %}
+                <a href="{{ path('instance_starred', {
+                    'uid': instance.uid,
+                    'starred': 'true'
+                }) }}"
+                   class="btn btn-default" title="{{ 'label.instance.star.on'|trans }}">
+                    {{ bootstrap.glyphicon('star-empty') }}
+                </a>
+            {% endif %}
+            <a href="{{ path('relationship_new_chooseschema', { 'instanceUid': instance.uid }) }}"
+               class="btn btn-default" title="{{ 'label.instance.relationship.new'|trans }}">
+                {{ bootstrap.glyphicon('share-alt') }}
+            </a>
+        </span>
+        <span class="btn-group">
+            <button type="button" class="btn btn-primary" data-toggle="modal"
+                    data-target="#instance-form-dialog-copy"
+                    title="{{ 'label.instance.copy'|trans }}">
+                {{ bootstrap.glyphicon('duplicate') }}
+            </button>
+            <a href="{{ path('instance_delete', {'uid': instance.uid}) }}"
+               class="btn btn-danger btn-confirm-href"
+               data-confirm-title="{{ 'title.confirm.delete'|trans }}"
+               title="{{ 'label.instance.delete'|trans }}">
+                {{ bootstrap.glyphicon('trash') }}
+            </a>
+        </span>
     </p>
-    {% include 'AppBundle:Instance:form-dialog.html.twig' with {
+    {% include 'AppBundle:Instance:form-dialog.html.twig' with
+    {
     'form': copyform,
     'id': 'instance-form-dialog-copy',
     'title': 'title.instance.copy'
@@ -57,25 +80,16 @@
 
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="content">
-            {% for p in instance.properties %}
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">{{ p.attribute.name }}</h3>
-                    </div>
-                    <div class="panel-body">
-                        {{ p|propertyvalue|raw }}
-                    </div>
-                </div>
-            {% endfor %}
+            {% include 'AppBundle:Instance:display.html.twig' with {'instance': instance} %}
         </div>
         <div role="tabpanel" class="tab-pane" id="edit-instance">
             {{ form_start(form) }}
-                {{ form_widget(form) }}
-                <div class="form-group">
-                    <button type="submit" class="btn btn-default">
-                        {{ 'label.save'|trans }}
-                    </button>
-                </div>
+            {{ form_widget(form) }}
+            <div class="form-group">
+                <button type="submit" class="btn btn-default">
+                    {{ 'label.save'|trans }}
+                </button>
+            </div>
             {{ form_end(form) }}
         </div>
         {% macro reltable(data, direction, instance) %}

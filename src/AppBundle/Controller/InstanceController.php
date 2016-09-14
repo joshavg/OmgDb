@@ -145,7 +145,7 @@ class InstanceController extends Controller
      * @Route("/delete/{uid}", name="instance_delete")
      *
      * @param $uid
-     * @return mixed
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function deleteAction($uid)
     {
@@ -154,6 +154,22 @@ class InstanceController extends Controller
 
         return $this->redirectToRoute('instance_overview', [
             'schema_uid' => $instance->getSchemaUid()
+        ]);
+    }
+
+    /**
+     * @Route("/starred/{uid}/{starred}", name="instance_starred")
+     *
+     * @param $uid
+     * @param $starred
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function starAction($uid, $starred)
+    {
+        $this->getInstanceRepository()->updateStarred($uid, $starred == 'true');
+
+        return $this->redirectToRoute('instance_show', [
+            'uid' => $uid
         ]);
     }
 }

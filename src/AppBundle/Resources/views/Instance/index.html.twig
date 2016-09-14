@@ -17,6 +17,7 @@
     <table class="table table-responsive table-striped table-hover">
         <thead>
             <tr>
+                <th></th>
                 <th>{{ 'label.instance.name'|trans }}</th>
                 <th>{{ 'label.instance.created_at'|trans }}</th>
                 <th>{{ 'label.instance.updated_at'|trans }}</th>
@@ -27,6 +28,11 @@
         <tbody>
             {% for i in instances %}
                 <tr>
+                    <td>
+                        {% if i.starred %}
+                            {{ bootstrap.glyphicon('star') }}
+                        {% endif     %}
+                    </td>
                     <td>{{ i.name }}</td>
                     <td>{{ i.createdAt|date }}</td>
                     <td>{{ i.updatedAt|date }}</td>

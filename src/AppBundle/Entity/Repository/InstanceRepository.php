@@ -92,33 +92,66 @@ class InstanceRepository extends Neo4jRepository
                   (p:property)-[:property_of]->(i),
                   (p)-[:instance_of]->(a:attribute)
             WHERE s.uid = {schemauid}
-           RETURN i, p, a
+           RETURN s, i, p, a
             ORDER BY i.created_at DESC, a.order
         ', [
             'username' => $this->user->getUsername(),
             'schemauid' => $schemauid
         ])->records();
 
-        /** @var Instance[] */
+        if (count($ins)) {
+            return $this->createInstancesFromResult($ins);
+        }
+
+        return null;
+    }
+
+    /**
+     * @param $ins
+     * @return array
+     */
+    private function createInstancesFromResult(array $ins)
+    {
         $instancemap = [];
 
-        if (count($ins)) {
-            foreach ($ins as $row) {
-                $iuid = $row->get('i')->get('uid');
+        foreach ($ins as $row) {
+            /** @var Node $row */
+            $iuid = $row->get('i')->get('uid');
 
-                if (!isset($instancemap[$iuid])) {
-                    $instance = $this->createInstanceFromRow($row->get('i'));
-                    $instance->setSchemaUid($schemauid);
-                    $instance->setCreatedBy($this->user->getUsername());
-                    $instancemap[$iuid] = $instance;
-                }
-
-                $prop = $this->createPropertyFromRow($row->get('p'), $row->get('a'));
-                $instancemap[$iuid]->addProperty($prop);
+            if (!isset($instancemap[$iuid])) {
+                $instance = $this->createInstanceFromRow($row->get('i'));
+                $instance->setSchemaUid($row->get('s')->get('uid'));
+                $instance->setCreatedBy($this->user->getUsername());
+                $instancemap[$iuid] = $instance;
             }
+
+            $prop = $this->createPropertyFromRow($row->get('p'), $row->get('a'));
+            $instancemap[$iuid]->addProperty($prop);
         }
 
         return array_values($instancemap);
+    }
+
+    public function fetchStarredForCurrentUser()
+    {
+        $rows = $this->getClient()->cypher('
+            MATCH (i:instance)-[:created_by]->(u:user),
+                  (i)-[:instance_of]->(s:schema),
+                  (p:property)-[:property_of]->(i),
+                  (p)-[:instance_of]->(a:attribute)
+            WHERE u.name = {user}
+              AND i.starred = true
+           RETURN s, i, p, a
+            ORDER BY i.updated_at DESC
+        ', [
+            'user' => $this->user->getUsername()
+        ])->records();
+
+        if(count($rows)) {
+            return $this->createInstancesFromResult($rows);
+        }
+
+        return null;
     }
 
     /**
@@ -156,6 +189,7 @@ class InstanceRepository extends Neo4jRepository
         $i->setUid($row->get('uid'));
         $i->setCreatedAt($this->dateFactory->fromString($row->get('created_at')));
         $i->setUpdatedAt($this->dateFactory->fromString($row->get('updated_at')));
+        $i->setStarred($row->containsKey('starred') ? $row->get('starred') : false);
         return $i;
     }
 
@@ -226,6 +260,18 @@ class InstanceRepository extends Neo4jRepository
             DELETE r2, pr, p, ir, i
         ', [
             'uid' => $uid
+        ]);
+    }
+
+    public function updateStarred($uid, $starred)
+    {
+        $this->getClient()->cypher('
+            MATCH (i:instance)
+            WHERE i.uid = {uid}
+              SET i.starred = {starred}
+        ', [
+            'uid' => $uid,
+            'starred' => $starred
         ]);
     }
 }

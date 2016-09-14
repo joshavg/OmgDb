@@ -40,6 +40,11 @@ class Instance
      */
     private $properties;
 
+    /**
+     * @var boolean
+     */
+    private $starred;
+
     public function __construct()
     {
         $this->uid = $this->createUid();
@@ -194,4 +199,21 @@ class Instance
         return $this->updatedAt;
     }
 
+    /**
+     * @return boolean
+     */
+    public function isStarred()
+    {
+        return $this->starred;
+    }
+
+    /**
+     * @param boolean $starred
+     * @return Instance
+     */
+    public function setStarred($starred)
+    {
+        $this->starred = $starred;
+        return $this;
+    }
 }

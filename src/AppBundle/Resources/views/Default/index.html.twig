@@ -5,4 +5,12 @@
         {{ 'label.hello'|trans }}
         {{ app.user.name }}
     </h1>
+
+    {% if starred %}
+        <h2>{{ 'label.instances.starred'|trans }}</h2>
+        {% for instance in starred %}
+            <h3>{{ instance.name }}</h3>
+            {% include 'AppBundle:Instance:display.html.twig' with {'instance': instance} %}
+        {% endfor %}
+    {% endif %}
 {% endblock %}
