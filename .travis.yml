@@ -1,14 +1,19 @@
 language: php
-jdk:
-  - oraclejdk8
+
+addons:
+    - sonarqube: true
+
 php:
-  - 5.6
-  - 7
-  - hhvm
-  - nightly
+    - 5.6
+    - 7
+    - hhvm
+    - nightly
+
 install:
-  - composer install --no-interaction
+    - composer install --no-interaction
+
 script:
-  - composer test
-  - jdk_switcher use oraclejdk8
-  - ./vendor/joshavg/sonar-runner/bin/sonar-scanner -Dsonar.login=$sonarlogin
+    - composer test
+    - jdk_switcher use oraclejdk8
+    #- ./vendor/joshavg/sonar-runner/bin/sonar-scanner -Dsonar.login=$sonarlogin
+    - sonar-scanner -Dsonar.login=$sonarlogin
