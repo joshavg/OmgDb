@@ -9,7 +9,11 @@
     {% if starred %}
         <h2>{{ 'label.instances.starred'|trans }}</h2>
         {% for instance in starred %}
-            <h3>{{ instance.name }}</h3>
+            <h3>
+                <a href="{{ path('instance_show', {'uid': instance.uid}) }}">
+                    {{ instance.name }}
+                </a>
+            </h3>
             {% include 'AppBundle:Instance:display.html.twig' with {'instance': instance} %}
         {% endfor %}
     {% endif %}
