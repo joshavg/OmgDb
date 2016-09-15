@@ -4,6 +4,7 @@ namespace AppBundle\Command;
 
 use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -23,7 +24,7 @@ class OmgdbCreateUserCommand extends ContainerAwareCommand
     {
         $validator = function ($value) {
             if (trim($value) == '') {
-                throw new \Exception('Can not be empty');
+                throw new InvalidArgumentException('Can not be empty');
             }
 
             return $value;
