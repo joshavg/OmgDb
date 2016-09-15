@@ -31,9 +31,13 @@
                     <td>
                         {% if i.starred %}
                             {{ bootstrap.glyphicon('star') }}
-                        {% endif     %}
+                        {% endif %}
                     </td>
-                    <td>{{ i.name }}</td>
+                    <td>
+                        <a href="{{ path('instance_show', {'uid': i.uid}) }}">
+                            {{ i.name }}
+                        </a>
+                    </td>
                     <td>{{ i.createdAt|date }}</td>
                     <td>{{ i.updatedAt|date }}</td>
                     <td>{{ i.createdBy }}</td>

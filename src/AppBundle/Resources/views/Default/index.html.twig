@@ -13,6 +13,10 @@
                 <a href="{{ path('instance_show', {'uid': instance.uid}) }}">
                     {{ instance.name }}
                 </a>
+                <small>
+                    {{ 'label.instance.updated_at'|trans }}
+                    {{ instance.updatedAt|date }}
+                </small>
             </h3>
             {% include 'AppBundle:Instance:display.html.twig' with {'instance': instance} %}
         {% endfor %}
