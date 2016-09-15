@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Controller;
 
+use AppBundle\Architecture\ContainerServices;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +16,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
  */
 class AttributeController extends Controller
 {
-    use RepositoryServices;
+    use RepositoryServices, ContainerServices;
 
     /**
      * @Route("/index", name="attribute_index")
@@ -81,6 +82,8 @@ class AttributeController extends Controller
 
         if ($form->handleRequest($req)->isValid()) {
             $this->getAttributeRepository()->newAttribute($attr);
+
+            $this->getFlashbagHandler()->addSaveSuccess();
             return $this->redirectToRoute('attribute_for_schema', [
                 'uid' => $attr->getSchemaUid()
             ]);
@@ -141,6 +144,8 @@ class AttributeController extends Controller
 
         if ($form->handleRequest($req)->isValid()) {
             $this->getAttributeRepository()->update($uid, $attr);
+
+            $this->getFlashbagHandler()->addSaveSuccess();
             return $this->redirectToRoute('attribute_for_schema', [
                 'uid' => $attr->getSchemaUid()
             ]);
@@ -162,6 +167,7 @@ class AttributeController extends Controller
         $attr = $this->getAttributeRepository()->fetchByUid($uid);
         $this->getAttributeRepository()->deleteByUid($uid);
 
+        $this->getFlashbagHandler()->addDeleteSuccess();
         return $this->redirectToRoute('attribute_for_schema', [
             'uid' => $attr->getSchemaUid()
         ]);

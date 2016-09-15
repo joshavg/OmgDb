@@ -75,6 +75,19 @@
             <section class="col-md-10">
                 {% endif %}
 
+                {% for type, messages in app.session.flashbag.all() %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ type }}" role="alert">
+                            <button type="button" class="close" data-dismiss="alert"
+                                    aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <strong>{{ ('label.alert.' ~ type)|trans }}</strong>
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+
                 {% block body %}{% endblock %}
 
                 {% if app.user %}

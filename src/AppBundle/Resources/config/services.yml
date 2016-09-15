@@ -74,3 +74,9 @@ services:
       - "@translator.default"
     tags:
       - name: twig.extension
+
+  handler.flashbag:
+    class: AppBundle\Architecture\FlashbagHandler
+    arguments:
+      - "@session"
+      - "@translator.default"

@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Controller;
 
+use AppBundle\Architecture\ContainerServices;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -13,7 +14,7 @@ use AppBundle\Entity\Schema;
  */
 class SchemaController extends Controller
 {
-    use RepositoryServices;
+    use RepositoryServices, ContainerServices;
 
     /**
      * @Route("/new", methods={"POST"}, name="schema_insert")
@@ -29,6 +30,8 @@ class SchemaController extends Controller
 
         if ($form->isValid()) {
             $this->getSchemaRepository()->newSchema($form->getData());
+
+            $this->getFlashbagHandler()->addSaveSuccess();
             return $this->redirect($this->generateUrl('schema_index'));
         }
 
@@ -93,6 +96,8 @@ class SchemaController extends Controller
         $form->handleRequest($req);
         if ($form->isValid()) {
             $this->getSchemaRepository()->update($schema);
+
+            $this->getFlashbagHandler()->addSaveSuccess();
             return $this->redirect($this->generateUrl('schema_index'));
         }
 
@@ -110,6 +115,8 @@ class SchemaController extends Controller
     public function deleteAction($uid)
     {
         $this->getSchemaRepository()->deleteByUid($uid);
+
+        $this->getFlashbagHandler()->addDeleteSuccess();
         return $this->redirectToRoute('schema_index');
     }
 }

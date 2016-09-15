@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Architecture\ContainerServices;
 use AppBundle\Entity\Instance;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -13,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class InstanceController extends Controller
 {
-    use RepositoryServices;
+    use RepositoryServices, ContainerServices;
 
     /**
      * @Route("/{schema_uid}", name="instance_overview")
@@ -67,6 +68,7 @@ class InstanceController extends Controller
             $instance = $this->get('factory.instance')->createFromDataArray($form->getData());
             $this->getInstanceRepository()->newInstance($instance);
 
+            $this->getFlashbagHandler()->addSaveSuccess();
             return $this->redirectToRoute('instance_overview', [
                 'schema_uid' => $schemaUid
             ]);
@@ -133,6 +135,7 @@ class InstanceController extends Controller
             $instance = $this->get('factory.instance')->createFromDataArray($form->getData());
             $this->getInstanceRepository()->update($instance);
 
+            $this->getFlashbagHandler()->addSaveSuccess();
             return $this->redirectToRoute('instance_show', [
                 'uid' => $uid
             ]);
@@ -152,6 +155,7 @@ class InstanceController extends Controller
         $instance = $this->getInstanceRepository()->fetchByUid($uid);
         $this->getInstanceRepository()->deleteByUid($uid);
 
+        $this->getFlashbagHandler()->addDeleteSuccess();
         return $this->redirectToRoute('instance_overview', [
             'schema_uid' => $instance->getSchemaUid()
         ]);
@@ -168,6 +172,7 @@ class InstanceController extends Controller
     {
         $this->getInstanceRepository()->updateStarred($uid, $starred == 'true');
 
+        $this->getFlashbagHandler()->addSaveSuccess();
         return $this->redirectToRoute('instance_show', [
             'uid' => $uid
         ]);
