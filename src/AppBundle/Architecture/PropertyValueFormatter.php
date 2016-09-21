@@ -33,8 +33,9 @@ class PropertyValueFormatter extends \Twig_Extension
     {
         switch ($prop->getAttribute()->getDataType()) {
             case AttributeDataType::BOOLEAN:
-                return $prop->getValue() ? 'label.property.value.true' :
+                $label = $prop->getValue() ? 'label.property.value.true' :
                     'label.property.value.false';
+                return $this->trans->trans($trans);
             case AttributeDataType::NUMBER:
             case AttributeDataType::TEXT:
                 return $prop->getValue();
