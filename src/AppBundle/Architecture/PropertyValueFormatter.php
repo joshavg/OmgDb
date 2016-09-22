@@ -41,8 +41,9 @@ class PropertyValueFormatter extends \Twig_Extension
                 return $prop->getValue();
             case AttributeDataType::MARKDOWN:
                 return MarkdownExtra::defaultTransform($prop->getValue());
+            default:
+                return $prop->getValue();
         }
-        return $prop->getValue();
     }
 
     public function getName()
