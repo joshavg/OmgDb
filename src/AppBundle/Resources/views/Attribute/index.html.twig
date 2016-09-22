@@ -7,26 +7,28 @@
 
     <h2>{{ 'label.attribute.select-schema'|trans }}</h2>
 
-    <table class="table table-striped table-responsive table-hover">
-        <thead>
-            <tr>
-                <th>{{ 'label.attribute.schema.name'|trans }}</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for s in schemas %}
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
                 <tr>
-                    <td>{{ s.name }}</td>
-                    <td>
-                        <a href="{{ path('attribute_for_schema',
-                                        {'uid': s.uid}) }}" class="btn btn-primary">
-                            {{ bootstrap.glyphicon('arrow-right') }}
-                        </a>
-                    </td>
+                    <th>{{ 'label.attribute.schema.name'|trans }}</th>
+                    <th></th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for s in schemas %}
+                    <tr>
+                        <td>{{ s.name }}</td>
+                        <td>
+                            <a href="{{ path('attribute_for_schema',
+                                            {'uid': s.uid}) }}" class="btn btn-primary">
+                                {{ bootstrap.glyphicon('arrow-right') }}
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
 {% endblock %}

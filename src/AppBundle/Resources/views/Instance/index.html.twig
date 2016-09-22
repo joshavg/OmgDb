@@ -14,48 +14,50 @@
     </p>
     {% include 'AppBundle:Instance:form-dialog.html.twig' %}
 
-    <table class="table table-responsive table-striped table-hover">
-        <thead>
-            <tr>
-                <th></th>
-                <th>{{ 'label.instance.name'|trans }}</th>
-                <th>{{ 'label.instance.created_at'|trans }}</th>
-                <th>{{ 'label.instance.updated_at'|trans }}</th>
-                <th>{{ 'label.instance.created_by'|trans }}</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for i in instances %}
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead>
                 <tr>
-                    <td>
-                        {% if i.starred %}
-                            {{ bootstrap.glyphicon('star') }}
-                        {% endif %}
-                    </td>
-                    <td>
-                        <a href="{{ path('instance_show', {'uid': i.uid}) }}">
-                            {{ i.name }}
-                        </a>
-                    </td>
-                    <td>{{ i.createdAt|date }}</td>
-                    <td>{{ i.updatedAt|date }}</td>
-                    <td>{{ i.createdBy }}</td>
-                    <td>
-                        <div class="btn-group">
-                            <a href="{{ path('instance_show', {'uid': i.uid}) }}"
-                               class="btn btn-primary">
-                                {{ bootstrap.glyphicon('arrow-right') }}
-                            </a>
-                            <a href="{{ path('instance_delete', {'uid': i.uid}) }}"
-                               class="btn btn-danger btn-confirm-href"
-                               data-confirm-title="{{ 'title.confirm.delete'|trans }}">
-                                {{ bootstrap.glyphicon('trash') }}
-                            </a>
-                        </div>
-                    </td>
+                    <th></th>
+                    <th>{{ 'label.instance.name'|trans }}</th>
+                    <th>{{ 'label.instance.created_at'|trans }}</th>
+                    <th>{{ 'label.instance.updated_at'|trans }}</th>
+                    <th>{{ 'label.instance.created_by'|trans }}</th>
+                    <th></th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for i in instances %}
+                    <tr>
+                        <td>
+                            {% if i.starred %}
+                                {{ bootstrap.glyphicon('star') }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ path('instance_show', {'uid': i.uid}) }}">
+                                {{ i.name }}
+                            </a>
+                        </td>
+                        <td>{{ i.createdAt|date }}</td>
+                        <td>{{ i.updatedAt|date }}</td>
+                        <td>{{ i.createdBy }}</td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="{{ path('instance_show', {'uid': i.uid}) }}"
+                                   class="btn btn-primary">
+                                    {{ bootstrap.glyphicon('arrow-right') }}
+                                </a>
+                                <a href="{{ path('instance_delete', {'uid': i.uid}) }}"
+                                   class="btn btn-danger btn-confirm-href"
+                                   data-confirm-title="{{ 'title.confirm.delete'|trans }}">
+                                    {{ bootstrap.glyphicon('trash') }}
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 {% endblock %}
