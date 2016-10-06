@@ -17,43 +17,45 @@
             <input type="text" required="required" class="form-control" id="rel-label" name="label">
         </div>
 
-        <table class="table table-striped table-hover table-responsive">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>
-                        {{ 'label.instance.name'|trans }}
-                    </th>
-                    <th>
-                        {{ 'label.instance.created_at'|trans }}
-                    </th>
-                    <th>
-                        {{ 'label.instance.updated_at'|trans }}
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for instance in instances %}
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead>
                     <tr>
-                        <td>
-                            <input class="checkbox" type="checkbox" name="instances[]"
-                                   value="{{ instance.uid }}" id="check-{{ instance.uid }}">
-                        </td>
-                        <td>
-                            <label for="check-{{ instance.uid }}">
-                                {{ instance.name }}
-                            </label>
-                        </td>
-                        <td>
-                            {{ instance.createdAt|date }}
-                        </td>
-                        <td>
-                            {{ instance.updatedAt|date }}
-                        </td>
+                        <th></th>
+                        <th>
+                            {{ 'label.instance.name'|trans }}
+                        </th>
+                        <th>
+                            {{ 'label.instance.created_at'|trans }}
+                        </th>
+                        <th>
+                            {{ 'label.instance.updated_at'|trans }}
+                        </th>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    {% for instance in instances %}
+                        <tr>
+                            <td>
+                                <input class="checkbox" type="checkbox" name="instances[]"
+                                       value="{{ instance.uid }}" id="check-{{ instance.uid }}">
+                            </td>
+                            <td>
+                                <label for="check-{{ instance.uid }}">
+                                    {{ instance.name }}
+                                </label>
+                            </td>
+                            <td>
+                                {{ instance.createdAt|date }}
+                            </td>
+                            <td>
+                                {{ instance.updatedAt|date }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
         <div class="form-group">
             <button class="btn btn-default" type="submit">
