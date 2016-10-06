@@ -2,6 +2,7 @@
 namespace AppBundle\Entity;
 
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -23,6 +24,8 @@ class AttributeDataType
 
     const DATE = 'date';
 
+    const DATETIME = 'datetime';
+
     /**
      * @return AttributeDataType[]
      */
@@ -35,7 +38,9 @@ class AttributeDataType
             new AttributeDataType(static::LABEL, TextType::class),
             new AttributeDataType(static::NUMBER, NumberType::class),
             new AttributeDataType(static::BOOLEAN, CheckboxType::class),
-            new AttributeDataType(static::DATE, DateType::class, 'transformer.property.date')
+            new AttributeDataType(static::DATE, DateType::class, 'transformer.property.date'),
+            new AttributeDataType(static::DATETIME, DateTimeType::class,
+                                  'transformer.property.date')
         ];
     }
 
