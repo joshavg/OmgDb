@@ -1,8 +1,10 @@
 <?php
 namespace AppBundle\Entity\Repository;
 
+use AppBundle\Entity\AttributeDataType;
 use AppBundle\Entity\Instance;
 use AppBundle\Entity\Property;
+use AppBundle\Entity\PropertyTransformer\PropertyTransformerRepository;
 use AppBundle\Entity\User;
 use GraphAware\Neo4j\Client\Formatter\Type\Node;
 use laniger\Neo4jBundle\Architecture\Neo4jClientWrapper;
@@ -26,13 +28,21 @@ class InstanceRepository extends Neo4jRepository
      */
     private $dateFactory;
 
+    /**
+     * @var PropertyTransformerRepository
+     */
+    private $transformerRepo;
+
     public function __construct(Neo4jClientWrapper $client, TokenStorage $storage,
-                                AttributeRepository $attrrepo, DateFactory $dateFactory)
+                                AttributeRepository $attrrepo, DateFactory $dateFactory,
+                                PropertyTransformerRepository $transformerRepo)
     {
         parent::__construct($client);
+
         $this->user = $storage->getToken()->getUser();
         $this->attrrepo = $attrrepo;
         $this->dateFactory = $dateFactory;
+        $this->transformerRepo = $transformerRepo;
     }
 
     public function newInstance(Instance $inst)
@@ -147,7 +157,7 @@ class InstanceRepository extends Neo4jRepository
             'user' => $this->user->getUsername()
         ])->records();
 
-        if(count($rows)) {
+        if (count($rows)) {
             return $this->createInstancesFromResult($rows);
         }
 
@@ -159,21 +169,28 @@ class InstanceRepository extends Neo4jRepository
      * @param Node $attrrow
      * @return Property
      */
-    private function createPropertyFromRow(Node $proprow, Node $attrrow)
+    private function createPropertyFromRow(Node $proprow = null, Node $attrrow)
     {
         $p = new Property();
 
-        if ($proprow->containsKey('value')) {
-            $p->setValue($proprow->get('value'));
-        }
-
-        $p->setUid($proprow->get('uid'));
         $p->setAttributeUid($attrrow->get('uid'));
         $p->setAttribute($this->attrrepo->createFromRow($attrrow));
 
-        $date = $proprow->get('created_at');
-        $date = $this->dateFactory->fromString($date);
-        $p->setCreatedAt($date);
+        if ($proprow) {
+            if ($proprow->containsKey('value')) {
+                $value = $proprow->get('value');
+
+                $datatype = $p->getAttribute()->getDataType();
+                $transformerName = $datatype->getTransformerName();
+                $transformer = $this->transformerRepo->getTransformer($transformerName);
+                $p->setValue($transformer->fromDatabaseToNormalForm($value));
+            }
+            $p->setUid($proprow->get('uid'));
+
+            $date = $proprow->get('created_at');
+            $date = $this->dateFactory->fromString($date);
+            $p->setCreatedAt($date);
+        }
 
         return $p;
     }
@@ -196,10 +213,12 @@ class InstanceRepository extends Neo4jRepository
     public function fetchByUid($uid)
     {
         $rows = $this->getClient()->cypher('
-            MATCH (i:instance)<-[:property_of]-(p:property),
-                  (i)-[:instance_of]->(s:schema),
-                  (p)-[:instance_of]->(a:attribute)
+            MATCH (i:instance)-[:instance_of]->(s:schema),
+                  (a:attribute)-[:attribute_of]->(s)
             WHERE i.uid = {uid}
+         OPTIONAL MATCH
+                  (p:property)-[:instance_of]->(a),
+                  (p)-[:property_of]->(i)
            RETURN i, s, p, a
             ORDER BY a.order
         ', [
@@ -226,8 +245,9 @@ class InstanceRepository extends Neo4jRepository
         $updated = $this->dateFactory->nowString();
         $instance->setUpdatedAt($this->dateFactory->fromString($updated));
         $trans->push('
-            MATCH (i:instance)
-            WHERE i.uid = {uid}
+            MERGE (i:instance {uid: {uid}})
+               ON CREATE SET
+                  i.uid = {uid}
               SET i.name = {newname},
                   i.updated_at = {updated}
         ', [
@@ -237,13 +257,31 @@ class InstanceRepository extends Neo4jRepository
         ]);
 
         foreach ($instance->getProperties() as $prop) {
+            $value = $prop->getValue();
+            if ($value instanceof \DateTime) {
+                $value = $this->dateFactory->toString($value);
+            }
+
             $trans->push('
-                MATCH (p:property)
-                WHERE p.uid = {uid}
+                MATCH (i:instance),
+                      (u:user),
+                      (a:attribute)
+                WHERE i.uid = {instanceuid}
+                  AND u.name = {username}
+                  AND a.uid = {attributeuid}
+                MERGE (p:property {uid: {uid}})-[:property_of]->(i)
+                   ON CREATE SET
+                      p.created_at = {created_at}
+                MERGE (p)-[:created_by]->(u)
+                MERGE (p)-[:instance_of]->(a)
                   SET p.value = {newvalue}
             ', [
                 'uid' => $prop->getUid(),
-                'newvalue' => $prop->getValue()
+                'instanceuid' => $instance->getUid(),
+                'created_at' => $this->dateFactory->nowString(),
+                'username' => $this->user->getUsername(),
+                'attributeuid' => $prop->getAttributeUid(),
+                'newvalue' => $value
             ]);
         }
 
