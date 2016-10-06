@@ -1,71 +1,13 @@
+imports:
+  - resource: repositories.yml
+  - resource: validators.yml
+  - resource: transformers.yml
+  - resource: factories.yml
+
 services:
 
   password_hash_encoder:
     class: AppBundle\Architecture\PasswordEncoder
-
-  repo.user:
-    class: AppBundle\Entity\Repository\UserRepository
-    autowire: true
-
-  repo.schema:
-    class: AppBundle\Entity\Repository\SchemaRepository
-    autowire: true
-
-  repo.attribute:
-    class: AppBundle\Entity\Repository\AttributeRepository
-    autowire: true
-
-  repo.instance:
-    class: AppBundle\Entity\Repository\InstanceRepository
-    autowire: true
-
-  repo.relationship:
-    class: AppBundle\Entity\Repository\RelationshipRepository
-    autowire: true
-
-  factory.instance_form:
-    class: AppBundle\Form\InstanceFormFactory
-    autowire: true
-
-  factory.instance:
-    class: AppBundle\Architecture\InstanceFactory
-    autowire: true
-
-  factory.date:
-    class: AppBundle\Entity\Repository\DateFactory
-
-  validator.schemaname:
-    class: AppBundle\Validator\Constraints\SchemaNameValidator
-    autowire: true
-    tags:
-      - name: validator.constraint_validator
-        alias: validator.schemaname
-
-  validator.attributename:
-    class: AppBundle\Validator\Constraints\AttributeNameValidator
-    autowire: true
-    tags:
-      - name: validator.constraint_validator
-        alias: validator.attributename
-
-  transformer.property.repo:
-    class: AppBundle\Entity\PropertyTransformer\PropertyTransformerRepository
-
-  transformer.property.standard:
-    class: AppBundle\Entity\PropertyTransformer\StandardPropertyTransformer
-    tags:
-      - name: transformer.property
-
-  transformer.property.date:
-    class: AppBundle\Entity\PropertyTransformer\DateTransformer
-    autowire: true
-    tags:
-      - name: transformer.property
-
-  transformer.property.markdown:
-    class: AppBundle\Entity\PropertyTransformer\MarkdownTransformer
-    tags:
-      - name: transformer.property
 
   filter.formatter.property.value:
     class: AppBundle\Architecture\PropertyValueFormatter

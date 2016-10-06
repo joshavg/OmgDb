@@ -1,0 +1,15 @@
+services:
+
+  validator.schemaname:
+    class: AppBundle\Validator\Constraints\SchemaNameValidator
+    autowire: true
+    tags:
+      - name: validator.constraint_validator
+        alias: validator.schemaname
+
+  validator.attributename:
+    class: AppBundle\Validator\Constraints\AttributeNameValidator
+    autowire: true
+    tags:
+      - name: validator.constraint_validator
+        alias: validator.attributename
