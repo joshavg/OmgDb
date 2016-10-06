@@ -10,21 +10,21 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class AttributeDataType
 {
-    const UNKOWN = 'unknown';
+    const UNKOWN = 'datatype.unknown';
 
-    const TEXT = 'text';
+    const TEXT = 'datatype.text';
 
-    const MARKDOWN = 'markdown';
+    const MARKDOWN = 'datatype.markdown';
 
-    const NUMBER = 'number';
+    const NUMBER = 'datatype.number';
 
-    const LABEL = 'label';
+    const LABEL = 'datatype.label';
 
-    const BOOLEAN = 'boolean';
+    const BOOLEAN = 'datatype.boolean';
 
-    const DATE = 'date';
+    const DATE = 'datatype.date';
 
-    const DATETIME = 'datetime';
+    const DATETIME = 'datatype.datetime';
 
     /**
      * @return AttributeDataType[]

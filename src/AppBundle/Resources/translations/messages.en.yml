@@ -19,6 +19,7 @@ label.instance.star.off: Unstar
 label.instance.star.on: Star
 label.instance.relationship.new: New relationship
 label.instance.copy: Copy Instance
+title.instance.copy: Copy Instance
 label.instance.delete: Delete Instance
 label.instance.content: Content
 label.instance.edit: Edit
@@ -26,6 +27,8 @@ label.instance.outgoing-relations: Outgoing relations
 label.instance.incoming-relations: Incoming relations
 label.instance.relationship.label: Label
 label.instance.relationship.created_at: Created at
+label.instance.relationship.to: Relationship to
+label.instance.relationship.from: Relationship from
 label.instance.open: Open
 label.instance.relationship.delete: Delete
 label.relationship.new.chooseSchema: Choose Schema
@@ -46,9 +49,23 @@ label.attribute.order: Order
 label.attribute.createdAt: Created at
 label.attribute.new: New Attribute
 label.attribute.edit: Edit Attribute
+label.attribute.schema: Schema
+label.create: Create
 label.hello: Hello
 label.instances.starred: Starred Instances
 label.schema.index: Schemas
 label.schema.created_at: Created at
 label.schema.new: New Schema
 label.schema.edit: Edit Schema
+label.user.name: Username
+label.email: Email
+label.new.password: New password
+label.new.password.repeat: Repeat password
+
+datatype.text: Text
+datatype.markdown: Markdown
+datatype.boolean: Boolean
+datatype.date: Date
+datatype.datetime: Date with time
+datatype.label: Label
+datatype.number: Number
