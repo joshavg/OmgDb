@@ -9,20 +9,30 @@ layers:
         regex: AppBundle\\Controller\\.+Controller$
   - name: Repository
     collectors:
-      - type: className
-        regex: AppBundle\\Entity\\Repository\\.+
+      - type: bool
+        must:
+          - type: className
+            regex: AppBundle\\Entity\\Repository\\.+
+        # TODO remove me
+        must_not:
+          - type: className
+            regex: AppBundle\\Entity\\Repository\\DateFactory
   - name: Service
     collectors:
       - type: className
         regex: AppBundle\\Architecture\\.+
       - type: className
         regex: AppBundle\\Form\\InstanceFormFactory
+  - name: Util
+    collectors:
+      - type: className
+        regex: AppBundle\\Entity\\Repository\\DateFactory
   - name: Entity
     collectors:
       - type: bool
         must:
           - type: className
-            regex: AppBundle\\Entity\\.+
+            regex: ^AppBundle\\Entity\\[^\\]+$
         must_not:
           - type: className
             regex: AppBundle\\Entity\\.+Repository$
@@ -34,6 +44,10 @@ layers:
     collectors:
       - type: className
         regex: AppBundle\\Form\\Type\\.+
+  - name: Transformer
+    collectors:
+      - type: className
+        regex: ^AppBundle\\Entity\\PropertyTransformer\\[^\\]+$
 ruleset:
   Controller:
     - Service
@@ -42,11 +56,17 @@ ruleset:
   Service:
     - Repository
     - Entity
+    - Transformer
+    - Util
   Repository:
     - Entity
+    - Util
+    - Transformer
   Validator:
     - Repository
     - Entity
   FormType:
     - Validator
     - Entity
+  Transformer:
+    - Util

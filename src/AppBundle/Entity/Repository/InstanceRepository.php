@@ -135,7 +135,7 @@ class InstanceRepository extends Neo4jRepository
                 $instancemap[$iuid] = $instance;
             }
 
-            $prop = $this->createPropertyFromRow($row->get('p'), $row->get('a'));
+            $prop = $this->createPropertyFromRow($row->get('a'), $row->get('p'));
             $instancemap[$iuid]->addProperty($prop);
         }
 
@@ -169,7 +169,7 @@ class InstanceRepository extends Neo4jRepository
      * @param Node $attrrow
      * @return Property
      */
-    private function createPropertyFromRow(Node $proprow = null, Node $attrrow)
+    private function createPropertyFromRow(Node $attrrow, Node $proprow = null)
     {
         $p = new Property();
 
@@ -231,7 +231,7 @@ class InstanceRepository extends Neo4jRepository
             $i->setSchemaUid($rows[0]->get('s')->get('uid'));
             $i->setCreatedBy($this->user->getUsername());
             foreach ($rows as $row) {
-                $i->addProperty($this->createPropertyFromRow($row->get('p'), $row->get('a')));
+                $i->addProperty($this->createPropertyFromRow($row->get('a'), $row->get('p')));
             }
         }
 
