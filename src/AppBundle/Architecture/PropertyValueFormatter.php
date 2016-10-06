@@ -4,6 +4,7 @@ namespace AppBundle\Architecture;
 
 use AppBundle\Entity\AttributeDataType;
 use AppBundle\Entity\Property;
+use AppBundle\Entity\PropertyTransformer\PropertyTransformerRepository;
 use Michelf\MarkdownExtra;
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 
@@ -15,9 +16,15 @@ class PropertyValueFormatter extends \Twig_Extension
      */
     private $trans;
 
-    public function __construct(Translator $trans)
+    /**
+     * @var PropertyTransformerRepository
+     */
+    private $transformerRepo;
+
+    public function __construct(Translator $trans, PropertyTransformerRepository $transformerRepo)
     {
         $this->trans = $trans;
+        $this->transformerRepo = $transformerRepo;
     }
 
     public function getFilters()
@@ -31,19 +38,10 @@ class PropertyValueFormatter extends \Twig_Extension
 
     public function formatPropertyValue(Property $prop)
     {
-        switch ($prop->getAttribute()->getDataType()) {
-            case AttributeDataType::BOOLEAN:
-                $label = $prop->getValue() ? 'label.property.value.true' :
-                    'label.property.value.false';
-                return $this->trans->trans($label);
-            case AttributeDataType::NUMBER:
-            case AttributeDataType::TEXT:
-                return $prop->getValue();
-            case AttributeDataType::MARKDOWN:
-                return MarkdownExtra::defaultTransform($prop->getValue());
-            default:
-                return $prop->getValue();
-        }
+        $datatype = $prop->getAttribute()->getDataType();
+        $transformer = $this->transformerRepo->getTransformer($datatype->getTransformerName());
+
+        return $transformer->fromNormalFormToTemplate($prop->getValue());
     }
 
     public function getName()

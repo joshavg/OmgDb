@@ -61,7 +61,7 @@ class InstanceFormFactory
             $type = $attr->getDataType();
 
             $builder->add($prop->getFormFieldName() . '-uid', HiddenType::class);
-            $builder->add($prop->getFormFieldName(), static::getFieldType($type), [
+            $builder->add($prop->getFormFieldName(), $type->getFieldType(), [
                 'label' => $attr->getName(),
                 'required' => false,
                 'attr' => static::getExtraAttributes($type)
@@ -83,21 +83,6 @@ class InstanceFormFactory
         }
 
         return [];
-    }
-
-    private static function getFieldType(AttributeDataType $type)
-    {
-        switch ($type->getName()) {
-            case AttributeDataType::BOOLEAN:
-                return CheckboxType::class;
-            case AttributeDataType::NUMBER:
-                return NumberType::class;
-            case AttributeDataType::TEXT:
-            case AttributeDataType::MARKDOWN:
-                return TextareaType::class;
-            default:
-                return TextType::class;
-        }
     }
 
 }
