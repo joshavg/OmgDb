@@ -13,6 +13,7 @@ label.instance.name: Name
 label.instance.created_at: Created at
 label.instance.updated_at: Updated at
 label.instance.created_by: Created by
+title.instance.add: Create Instance
 title.confirm.delete: Confirm delete
 label.instance.star.off: Unstar
 label.instance.star.on: Star
