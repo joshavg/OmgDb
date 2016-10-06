@@ -94,7 +94,7 @@
         </div>
         {% macro reltable(data, direction, instance) %}
             {% import '@lanigerBootstrap/bootstrap.macro.twig' as bootstrap %}
-            
+
             <div class="table-responsive">
                 <table class="table table-striped table-hover">
                     <thead>
@@ -107,24 +107,22 @@
                         {% for rel in data %}
                             {% set directedInstance = attribute(rel, direction) %}
                             <tr>
-                                <td>{{ directedInstance.name }}</td>
+                                <td>
+                                    <a href="{{ path('instance_show', {'uid': directedInstance.uid}) }}"
+                                       title="{{ 'label.instance.open'|trans }}">
+                                        {{ directedInstance.name }}
+                                    </a>
+                                </td>
                                 <td>{{ rel.label }}</td>
                                 <td>{{ directedInstance.createdAt|date }}</td>
                                 <td>
-                                    <div class="btn-group">
-                                        <a href="{{ path('instance_show', {'uid': directedInstance.uid}) }}"
-                                           class="btn btn-primary"
-                                           title="{{ 'label.instance.open'|trans }}">
-                                            {{ bootstrap.glyphicon('arrow-right') }}
-                                        </a>
-                                        <a href="{{ path('relationship_delete', {
-                                            'uid': rel.uid, 'instanceUid': instance.uid}) }}"
-                                           class="btn btn-danger btn-confirm-href"
-                                           data-confirm-title="{{ 'title.confirm.delete'|trans }}"
-                                           title="{{ 'label.instance.relationship.delete'|trans }}">
-                                            {{ bootstrap.glyphicon('trash') }}
-                                        </a>
-                                    </div>
+                                    <a href="{{ path('relationship_delete', {
+                                        'uid': rel.uid, 'instanceUid': instance.uid}) }}"
+                                       class="btn btn-danger btn-confirm-href"
+                                       data-confirm-title="{{ 'title.confirm.delete'|trans }}"
+                                       title="{{ 'label.instance.relationship.delete'|trans }}">
+                                        {{ bootstrap.glyphicon('trash') }}
+                                    </a>
                                 </td>
                             </tr>
                         {% endfor %}
