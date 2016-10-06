@@ -5,6 +5,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use AppBundle\Architecture\ContainerServices;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * provides routes and functions for security routines
