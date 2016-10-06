@@ -1,0 +1,71 @@
+title: OmgDb
+label.toggle.nav: open lipu
+label.omgdb: OmgDb
+nav.schema.index: nasin
+nav.attribute.index: wan
+nav.settings.index: sewi ijo
+nav.logout: weka
+label.cancel: weka
+label.confirm: ni wawa
+label.save: pini
+label.instance.overview: nasin ijo
+label.instance.name: nimi
+label.instance.created_at: tenpo kama
+label.instance.updated_at: tenpo ante
+label.instance.created_by: jan li kama
+title.instance.add: kama e nasin ijo
+title.confirm.delete: wawa pakala
+label.instance.star.off: suli
+label.instance.star.on: ala suli
+label.instance.relationship.new: sin kulupu
+label.instance.copy: sin sama
+title.instance.copy: sin sama
+label.instance.delete: pakala e nasin ijo
+label.instance.content: sijelo
+label.instance.edit: ante
+label.instance.outgoing-relations: kulupu tan mi
+label.instance.incoming-relations: kulupu tan ona
+label.instance.relationship.label: nimi
+label.instance.relationship.created_at: tenpo kama
+label.instance.relationship.to: pini e kulupu
+label.instance.relationship.from: tan e kulupu
+label.instance.open: Open
+label.instance.relationship.delete: pakala
+label.relationship.new.chooseSchema: jo nasin
+label.schema.name: nimi
+label.relationship.new.from: tan
+label.relationship.new.to: ona
+label.relationship.create.label: nimi
+label.username: nimi jan
+label.password: nimi ken
+label.login: kama
+label.attribute.index: wan
+label.attribute.select-schema: jo nasin
+label.attribute.schema.name: nimi e nasin
+label.attribute.of-schema: wan e nasin
+label.attribute.name: nimi
+label.attribute.dataType: Data type
+label.attribute.order: Order
+label.attribute.createdAt: Created at
+label.attribute.new: New Attribute
+label.attribute.edit: Edit Attribute
+label.attribute.schema: Schema
+label.create: Create
+label.hello: Hello
+label.instances.starred: Starred Instances
+label.schema.index: Schemas
+label.schema.created_at: Created at
+label.schema.new: New Schema
+label.schema.edit: Edit Schema
+label.user.name: Username
+label.email: Email
+label.new.password: New password
+label.new.password.repeat: Repeat password
+
+datatype.text: Text
+datatype.markdown: Markdown
+datatype.boolean: Boolean
+datatype.date: Date
+datatype.datetime: Date with time
+datatype.label: Label
+datatype.number: Number
