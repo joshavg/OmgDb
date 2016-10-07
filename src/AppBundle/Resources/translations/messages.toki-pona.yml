@@ -27,9 +27,9 @@ label.instance.outgoing-relations: kulupu tan mi
 label.instance.incoming-relations: kulupu tan ona
 label.instance.relationship.label: nimi
 label.instance.relationship.created_at: tenpo kama
-label.instance.relationship.to: pini e kulupu
-label.instance.relationship.from: tan e kulupu
-label.instance.open: Open
+label.instance.relationship.to: pini pi kulupu
+label.instance.relationship.from: tan pi kulupu
+label.instance.open: open
 label.instance.relationship.delete: pakala
 label.relationship.new.chooseSchema: jo nasin
 label.schema.name: nimi
@@ -41,8 +41,8 @@ label.password: nimi ken
 label.login: kama
 label.attribute.index: wan
 label.attribute.select-schema: jo nasin
-label.attribute.schema.name: nimi e nasin
-label.attribute.of-schema: wan e nasin
+label.attribute.schema.name: nimi pi nasin
+label.attribute.of-schema: wan pi nasin
 label.attribute.name: nimi
 label.attribute.dataType: Data type
 label.attribute.order: Order
