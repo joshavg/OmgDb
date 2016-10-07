@@ -1,0 +1,20 @@
+services:
+
+  transformer.property.repo:
+    class: AppBundle\Entity\PropertyTransformer\PropertyTransformerRepository
+
+  transformer.property.standard:
+    class: AppBundle\Entity\PropertyTransformer\StandardPropertyTransformer
+    tags:
+      - name: transformer.property
+
+  transformer.property.date:
+    class: AppBundle\Entity\PropertyTransformer\DateTransformer
+    autowire: true
+    tags:
+      - name: transformer.property
+
+  transformer.property.markdown:
+    class: AppBundle\Entity\PropertyTransformer\MarkdownTransformer
+    tags:
+      - name: transformer.property

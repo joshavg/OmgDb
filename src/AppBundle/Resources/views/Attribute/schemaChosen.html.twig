@@ -22,7 +22,7 @@
                 {% for a in attributes %}
                     <tr>
                         <td>{{ a.name }}</td>
-                        <td>{{ a.dataType }}</td>
+                        <td>{{ a.dataType|trans }}</td>
                         <td>{{ a.order }}</td>
                         <td>{{ a.createdAt|date }}</td>
                         <td>

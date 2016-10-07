@@ -51,7 +51,8 @@ class AttributeType extends AbstractType
             $choices[$type->getName()] = $type->getName();
         }
         $builder->add('dataType', ChoiceType::class, [
-            'choices' => $choices
+            'choices' => $choices,
+            'label' => 'label.attribute.dataType'
         ]);
 
         $builder->add('order', NumberType::class, [

@@ -1,0 +1,71 @@
+title: OmgDb
+label.toggle.nav: Toggle Navigation
+label.omgdb: OmgDb
+nav.schema.index: Schemas
+nav.attribute.index: Attributes
+nav.settings.index: Settings
+nav.logout: Logout
+label.cancel: Cancel
+label.confirm: Confirm
+label.save: Save
+label.instance.overview: Instances
+label.instance.name: Name
+label.instance.created_at: Created at
+label.instance.updated_at: Updated at
+label.instance.created_by: Created by
+title.instance.add: Create Instance
+title.confirm.delete: Confirm delete
+label.instance.star.off: Unstar
+label.instance.star.on: Star
+label.instance.relationship.new: New relationship
+label.instance.copy: Copy Instance
+title.instance.copy: Copy Instance
+label.instance.delete: Delete Instance
+label.instance.content: Content
+label.instance.edit: Edit
+label.instance.outgoing-relations: Outgoing relations
+label.instance.incoming-relations: Incoming relations
+label.instance.relationship.label: Label
+label.instance.relationship.created_at: Created at
+label.instance.relationship.to: Relationship to
+label.instance.relationship.from: Relationship from
+label.instance.open: Open
+label.instance.relationship.delete: Delete
+label.relationship.new.chooseSchema: Choose Schema
+label.schema.name: Name
+label.relationship.new.from: From
+label.relationship.new.to: To
+label.relationship.create.label: Label
+label.username: Username
+label.password: Password
+label.login: Login
+label.attribute.index: Attributes
+label.attribute.select-schema: Select Schema
+label.attribute.schema.name: Schema name
+label.attribute.of-schema: Attributes of
+label.attribute.name: Name
+label.attribute.dataType: Data type
+label.attribute.order: Order
+label.attribute.createdAt: Created at
+label.attribute.new: New Attribute
+label.attribute.edit: Edit Attribute
+label.attribute.schema: Schema
+label.create: Create
+label.hello: Hello
+label.instances.starred: Starred Instances
+label.schema.index: Schemas
+label.schema.created_at: Created at
+label.schema.new: New Schema
+label.schema.edit: Edit Schema
+label.user.name: Username
+label.email: Email
+label.new.password: New password
+label.new.password.repeat: Repeat password
+
+datatype.text: Text
+datatype.markdown: Markdown
+datatype.boolean: Boolean
+datatype.date: Date
+datatype.datetime: Date with time
+datatype.label: Label
+datatype.number: Number

@@ -19,8 +19,11 @@ class DateFactory
      * @param \DateTime $date
      * @return string
      */
-    public function toString(\DateTime $date)
+    public function toString(\DateTime $date = null)
     {
+        if ($date === null) {
+            return '';
+        }
         return $date->format(\DateTime::ISO8601);
     }
 

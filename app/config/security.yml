@@ -30,7 +30,7 @@ security:
             security: false
         # the login page has to be accessible for everybody
         login_area:
-            pattern:  ^/login$
+            pattern:  ^(/[^/]*)?/login$
             security: false
         # secures part of the application
         secured_area:
@@ -38,11 +38,11 @@ security:
             # it's important to notice that in this case _demo_security_check and _demo_login
             # are route names and that they are specified in the AcmeDemoBundle
             form_login:
-                login_path: /login
-                check_path: /login_check
+                login_path: login
+                check_path: login_check
             logout:
-                path:   /logout
-                target: /
+                path:   logout
+                target: login
             #anonymous: ~
             #http_basic:
             #    realm: "Secured Demo Area"
