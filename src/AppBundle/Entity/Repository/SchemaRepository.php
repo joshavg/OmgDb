@@ -118,10 +118,11 @@ class SchemaRepository extends Neo4jRepository
     public function deleteByUid($uid)
     {
         $this->getClient()->cypher('
-            MATCH (s:schema)-[r:created_by]->(:user),
+            MATCH (s:schema)-[r:created_by]->(:user)
+            WHERE s.uid = {uid}
+         OPTIONAL MATCH
                   (a:attribute)-[ar:attribute_of]->(s:schema),
                   (a)-[cr:created_by]->(:user)
-            WHERE s.uid = {uid}
             DELETE r, ar, cr, a, s
         ', [
             'uid' => $uid
