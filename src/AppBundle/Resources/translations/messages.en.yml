@@ -62,6 +62,13 @@ label.email: Email
 label.new.password: New password
 label.new.password.repeat: Repeat password
 
+label.alert.success: Success
+label.alert.info: Info
+label.alert.warning: Warning
+label.alert.danger: Danger
+alert.success.save: Save successful
+alert.success.delete: Delete successful
+
 datatype.text: Text
 datatype.markdown: Markdown
 datatype.boolean: Boolean

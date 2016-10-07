@@ -44,28 +44,35 @@ label.attribute.select-schema: jo nasin
 label.attribute.schema.name: nimi e nasin
 label.attribute.of-schema: wan e nasin
 label.attribute.name: nimi
-label.attribute.dataType: Data type
-label.attribute.order: Order
-label.attribute.createdAt: Created at
-label.attribute.new: New Attribute
-label.attribute.edit: Edit Attribute
-label.attribute.schema: Schema
-label.create: Create
-label.hello: Hello
-label.instances.starred: Starred Instances
-label.schema.index: Schemas
-label.schema.created_at: Created at
-label.schema.new: New Schema
-label.schema.edit: Edit Schema
-label.user.name: Username
-label.email: Email
-label.new.password: New password
-label.new.password.repeat: Repeat password
+label.attribute.dataType: selo poki
+label.attribute.order: lawa pi ijo
+label.attribute.createdAt: tenpo kama
+label.attribute.new: sin
+label.attribute.edit: ante
+label.attribute.schema: nasin
+label.create: pali sin
+label.hello: o
+label.instances.starred: suli e nasin ijo
+label.schema.index: nasin
+label.schema.created_at: tenpo kama
+label.schema.new: sin nasin
+label.schema.edit: ante nasin
+label.user.name: nimi jan
+label.email: nimi e sitelen lipu
+label.new.password: nimi ken
+label.new.password.repeat: nimi ken kin
 
-datatype.text: Text
-datatype.markdown: Markdown
-datatype.boolean: Boolean
-datatype.date: Date
-datatype.datetime: Date with time
-datatype.label: Label
-datatype.number: Number
+label.alert.success: ali pona
+label.alert.info: o
+label.alert.warning: ijo ike lili
+label.alert.danger: ijo ike
+alert.success.save: pini li pona
+alert.success.delete: weka li pona
+
+datatype.text: sitelen
+datatype.markdown: sitelen suli
+datatype.boolean: ken/ala
+datatype.date: tenpo
+datatype.datetime: tenpo suli
+datatype.label: nimi
+datatype.number: wan/tu/...
