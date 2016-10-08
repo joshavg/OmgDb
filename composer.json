@@ -1,5 +1,5 @@
 {
-    "name": "joshavg/OmgDb",
+    "name": "joshavg/omgdb",
     "license": "GPL-3.0",
     "type": "project",
     "description": "document database based heavily on relations",
