@@ -6,8 +6,11 @@
         <title>{{ 'title'|trans }}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         {% include 'lanigerBootstrapBundle::assets.include.twig' %}
+        {% stylesheets '@AppBundle/Resources/public/css/*' %}
+            <link rel="stylesheet" href="{{ asset_url }}">
+        {% endstylesheets %}
         {% javascripts '@AppBundle/Resources/public/omgdb.js' %}
-        <script src="{{ asset_url }}"></script>
+            <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
         <style>
             .nav-tabs {
@@ -29,38 +32,7 @@
                     <a class="navbar-brand" href="{{ path('index') }}">{{ 'label.omgdb'|trans }}</a>
                 </div>
                 <div class="collapse navbar-collapse" id="navbar-collapse">
-                    <ul class="nav navbar-nav navbar-right">
-                        {% if app.user %}
-                            <li>
-                                <a href="{{ path('schema_index') }}"
-                                   title="{{ 'nav.schema.index'|trans }}" accesskey="s">
-                                    {{ bootstrap.glyphicon('th-large') }}
-                                    {{ 'nav.schema.index'|trans }}
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ path('attribute_index') }}"
-                                   title="{{ 'nav.attribute.index'|trans }}" accesskey="a">
-                                    {{ bootstrap.glyphicon('th') }}
-                                    {{ 'nav.attribute.index'|trans }}
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ path('settings_index') }}"
-                                   title="{{ 'nav.settings.index'|trans }}" accesskey="q">
-                                    {{ bootstrap.glyphicon('cog') }}
-                                    {{ 'nav.settings.index'|trans }}
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ logout_path('secured_area') }}"
-                                   title="{{ 'nav.logout'|trans }}" accesskey="l">
-                                    {{ bootstrap.glyphicon('off') }}
-                                    {{ 'nav.logout'|trans }}
-                                </a>
-                            </li>
-                        {% endif %}
-                    </ul>
+                    {% include '@App/navigation.html.twig' %}
                 </div>
             </div>
         </div>

@@ -1,0 +1,35 @@
+<ul class="nav navbar-nav navbar-right">
+    <li class="lang-menu-item">
+        {% include '@App/language-chooser.html.twig' %}
+    </li>
+    {% if app.user %}
+        <li>
+            <a href="{{ path('schema_index') }}"
+               title="{{ 'nav.schema.index'|trans }}" accesskey="s">
+                {{ bootstrap.glyphicon('th-large') }}
+                {{ 'nav.schema.index'|trans }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('attribute_index') }}"
+               title="{{ 'nav.attribute.index'|trans }}" accesskey="a">
+                {{ bootstrap.glyphicon('th') }}
+                {{ 'nav.attribute.index'|trans }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('settings_index') }}"
+               title="{{ 'nav.settings.index'|trans }}" accesskey="q">
+                {{ bootstrap.glyphicon('cog') }}
+                {{ 'nav.settings.index'|trans }}
+            </a>
+        </li>
+        <li>
+            <a href="{{ logout_path('secured_area') }}"
+               title="{{ 'nav.logout'|trans }}" accesskey="l">
+                {{ bootstrap.glyphicon('off') }}
+                {{ 'nav.logout'|trans }}
+            </a>
+        </li>
+    {% endif %}
+</ul>
