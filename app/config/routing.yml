@@ -12,4 +12,4 @@ app:
   type: annotation
   prefix: "/{_locale}"
   requirements:
-    _locale: "|en|toki-pona"
+    _locale: "|en|pt-br|toki-pona"
