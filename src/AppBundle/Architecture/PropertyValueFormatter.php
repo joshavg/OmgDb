@@ -32,6 +32,9 @@ class PropertyValueFormatter extends \Twig_Extension
         return [
             new \Twig_SimpleFilter('propertyvalue', [
                 $this, 'formatPropertyValue'
+            ]),
+            new \Twig_SimpleFilter('escapeproperty', [
+                $this, 'getPropertyEscape'
             ])
         ];
     }
@@ -42,6 +45,14 @@ class PropertyValueFormatter extends \Twig_Extension
         $transformer = $this->transformerRepo->getTransformer($datatype->getTransformerName());
 
         return $transformer->fromNormalFormToTemplate($prop->getValue());
+    }
+
+    public function getPropertyEscape(Property $prop)
+    {
+        $datatype = $prop->getAttribute()->getDataType();
+        $transformer = $this->transformerRepo->getTransformer($datatype->getTransformerName());
+
+        return $transformer->escapeTemplate();
     }
 
     public function getName()

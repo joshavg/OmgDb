@@ -10,6 +10,7 @@ use GraphAware\Neo4j\Client\Formatter\Type\Node;
 use laniger\Neo4jBundle\Architecture\Neo4jClientWrapper;
 use laniger\Neo4jBundle\Architecture\Neo4jRepository;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 class InstanceRepository extends Neo4jRepository
 {
@@ -33,8 +34,10 @@ class InstanceRepository extends Neo4jRepository
      */
     private $transformerRepo;
 
-    public function __construct(Neo4jClientWrapper $client, TokenStorage $storage,
-                                AttributeRepository $attrrepo, DateFactory $dateFactory,
+    public function __construct(Neo4jClientWrapper $client,
+                                TokenStorage $storage,
+                                AttributeRepository $attrrepo,
+                                DateFactory $dateFactory,
                                 PropertyTransformerRepository $transformerRepo)
     {
         parent::__construct($client);

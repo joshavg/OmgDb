@@ -5,8 +5,9 @@ namespace AppBundle\Entity\PropertyTransformer;
 
 use AppBundle\Entity\Repository\DateFactory;
 
-class DateTransformer implements PropertyTransformerInterface
+class DateTransformer
 {
+    use PropertyTransformerTrait;
 
     /**
      * @var DateFactory

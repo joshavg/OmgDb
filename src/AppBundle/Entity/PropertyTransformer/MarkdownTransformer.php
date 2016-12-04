@@ -5,8 +5,9 @@ namespace AppBundle\Entity\PropertyTransformer;
 
 use Michelf\MarkdownExtra;
 
-class MarkdownTransformer implements PropertyTransformerInterface
+class MarkdownTransformer
 {
+    use PropertyTransformerTrait;
 
     /**
      * @param $value
@@ -34,5 +35,10 @@ class MarkdownTransformer implements PropertyTransformerInterface
     {
         $parser = new MarkdownExtra();
         return $parser->transform($value);
+    }
+
+    public function escapeTemplate()
+    {
+        return false;
     }
 }

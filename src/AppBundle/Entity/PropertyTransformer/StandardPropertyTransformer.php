@@ -3,8 +3,9 @@
 namespace AppBundle\Entity\PropertyTransformer;
 
 
-class StandardPropertyTransformer implements PropertyTransformerInterface
+class StandardPropertyTransformer
 {
+    use PropertyTransformerTrait;
 
     /**
      * @param $value

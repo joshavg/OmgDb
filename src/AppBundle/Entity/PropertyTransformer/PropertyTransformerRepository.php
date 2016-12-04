@@ -7,22 +7,22 @@ class PropertyTransformerRepository
 {
 
     /**
-     * @var PropertyTransformerInterface[]
+     * @var PropertyTransformerTrait[]
      */
     private $transformers;
 
     /**
      * @param $name
-     * @param PropertyTransformerInterface $transformer
+     * @param PropertyTransformerTrait $transformer
      */
-    public function addTransformer($name, PropertyTransformerInterface $transformer)
+    public function addTransformer($name, PropertyTransformerTrait $transformer)
     {
         $this->transformers[$name] = $transformer;
     }
 
     /**
      * @param $name
-     * @return PropertyTransformerInterface
+     * @return PropertyTransformerTrait
      */
     public function getTransformer($name)
     {

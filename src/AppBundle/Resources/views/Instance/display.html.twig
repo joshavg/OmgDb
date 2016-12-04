@@ -4,7 +4,11 @@
             <h3 class="panel-title">{{ p.attribute.name }}</h3>
         </div>
         <div class="panel-body">
-            {{ p|propertyvalue|raw }}
+            {% if p|escapeproperty %}
+                {{ p|propertyvalue }}
+            {% else %}
+                {{ p|propertyvalue|raw }}
+            {% endif %}
         </div>
     </div>
 {% endfor %}
