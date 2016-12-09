@@ -15,7 +15,7 @@ class PropertyTransformerRepository
      * @param $name
      * @param PropertyTransformerTrait $transformer
      */
-    public function addTransformer($name, PropertyTransformerTrait $transformer)
+    public function addTransformer($name, $transformer)
     {
         $this->transformers[$name] = $transformer;
     }
