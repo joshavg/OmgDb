@@ -35,7 +35,7 @@
         "pdepend/pdepend": "^2.2",
         "sebastian/phpcpd": "*",
         "phpmd/phpmd": "@stable",
-        "loostro/deptrac-shim": "dev-master"
+        "slevomat/deptrac-shim": "dev-master"
     },
     "scripts": {
         "post-install-cmd": [
