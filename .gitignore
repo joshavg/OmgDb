@@ -13,3 +13,5 @@
 /web/css/
 /web/images
 /.sonar
+.idea/
+.settings
