@@ -641,9 +641,10 @@ public static function setTrustedProxies(array $proxies)
 {
 self::$trustedProxies = $proxies;
 if (2 > func_num_args()) {
-throw new \InvalidArgumentException(sprintf('The %s() method expects a bit field of Request::HEADER_* as second argument. Defining it is required since version 3.3. See http://symfony.com/doc/current/components/http_foundation/trusting_proxies.html for more info.', __METHOD__));
+@trigger_error(sprintf('The %s() method expects a bit field of Request::HEADER_* as second argument since version 3.3. Defining it will be required in 4.0. ', __METHOD__), E_USER_DEPRECATED);
+return;
 }
-$trustedHeaderSet = func_get_arg(1);
+$trustedHeaderSet = (int) func_get_arg(1);
 foreach (self::$trustedHeaderNames as $header => $name) {
 self::$trustedHeaders[$header] = $header & $trustedHeaderSet ? $name : null;
 }
@@ -670,13 +671,16 @@ return self::$trustedHostPatterns;
 }
 public static function setTrustedHeaderName($key, $value)
 {
-@trigger_error(sprintf('The "%s()" method is deprecated since version 3.3 and will be removed in 4.0. Use "X-Forwarded-*" headers or the "Forwarded" header defined in RFC7239, and the $trustedHeaderSet argument of the Request::setTrustedProxies() method instead.', __METHOD__), E_USER_DEPRECATED);
+@trigger_error(sprintf('The "%s()" method is deprecated since version 3.3 and will be removed in 4.0. Use the $trustedHeaderSet argument of the Request::setTrustedProxies() method instead.', __METHOD__), E_USER_DEPRECATED);
 if (!array_key_exists($key, self::$trustedHeaders)) {
 throw new \InvalidArgumentException(sprintf('Unable to set the trusted header name for key "%s".', $key));
 }
 self::$trustedHeaders[$key] = $value;
 if (null !== $value) {
 self::$trustedHeaderNames[$key] = $value;
+self::$trustedHeaderSet |= $key;
+} else {
+self::$trustedHeaderSet &= ~$key;
 }
 }
 public static function getTrustedHeaderName($key)
@@ -1047,7 +1051,7 @@ return in_array($this->getMethod(), array('GET','HEAD'));
 public function getContent($asResource = false)
 {
 $currentContentIsResource = is_resource($this->content);
-if (PHP_VERSION_ID < 50600 && false === $this->content) {
+if (\PHP_VERSION_ID < 50600 && false === $this->content) {
 throw new \LogicException('getContent() can only be called once when using the resource return type and PHP below 5.6.');
 }
 if (true === $asResource) {
