@@ -16,3 +16,5 @@
 .idea/
 .settings
 /var/cache
+/var/logs
+!/var/cache/.gitignore
