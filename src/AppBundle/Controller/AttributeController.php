@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Attribute;
+use AppBundle\Form\AttributeType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -44,7 +45,7 @@ class AttributeController extends Controller
     public function newAction(Request $request)
     {
         $attribute = new Attribute();
-        $form = $this->createForm('AppBundle\Form\AttributeType', $attribute);
+        $form = $this->createForm(AttributeType::class, $attribute);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -89,7 +90,7 @@ class AttributeController extends Controller
     public function editAction(Request $request, Attribute $attribute)
     {
         $deleteForm = $this->createDeleteForm($attribute);
-        $editForm = $this->createForm('AppBundle\Form\AttributeType', $attribute);
+        $editForm = $this->createForm(AttributeType::class, $attribute);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {

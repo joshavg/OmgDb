@@ -19,23 +19,13 @@
                 <td>{{ attribute.name }}</td>
                 <td>{{ attribute.datatype }}</td>
                 <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('attribute_show', { 'id': attribute.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('attribute_edit', { 'id': attribute.id }) }}">edit</a>
-                        </li>
-                    </ul>
+                    <a class="button" href="{{ path('attribute_show', { 'id': attribute.id }) }}">show</a>
+                    <a class="button" href="{{ path('attribute_edit', { 'id': attribute.id }) }}">edit</a>
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('attribute_new') }}">Create a new attribute</a>
-        </li>
-    </ul>
+    <a href="{{ path('attribute_new') }}">Create a new attribute</a>
 {% endblock %}

@@ -19,23 +19,13 @@
                 <td>{{ schema.name }}</td>
                 <td>{% if schema.public %}Yes{% else %}No{% endif %}</td>
                 <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('schema_show', { 'id': schema.id }) }}">show</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('schema_edit', { 'id': schema.id }) }}">edit</a>
-                        </li>
-                    </ul>
+                    <a class="button" href="{{ path('schema_show', { 'id': schema.id }) }}">show</a>
+                    <a class="button" href="{{ path('schema_edit', { 'id': schema.id }) }}">edit</a>
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('schema_new') }}">Create a new schema</a>
-        </li>
-    </ul>
+    <a href="{{ path('schema_new') }}">Create a new schema</a>
 {% endblock %}

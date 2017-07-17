@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Schema controller.
  *
- * @Route("Schema")
+ * @Route("schema")
  */
 class SchemaController extends Controller
 {

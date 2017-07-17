@@ -1,0 +1,17 @@
+body.container {
+    padding-top: 1em;
+    background-color: #fafafa;
+}
+
+.container {
+    /*max-width: 100%;*/
+}
+
+table {
+    width: 100%;
+}
+
+nav {
+    border-bottom: 1px solid #bbb;
+    margin-bottom: 1em;
+}

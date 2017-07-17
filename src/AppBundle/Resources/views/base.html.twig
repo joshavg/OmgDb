@@ -2,27 +2,29 @@
 <html>
     <head>
         <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>OmgDb</title>
         <link rel="stylesheet" href="{{ asset('css/normalize.css') }}">
         <link rel="stylesheet" href="{{ asset('css/skeleton.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     </head>
     <body class="container">
-        <nav class="row" style="margin-top: 1em">
-            <a class="button" href="{{ path('homepage') }}">OmgDb</a>
+        <nav class="row">
+            <a class="button button-primary" href="{{ path('homepage') }}">OmgDb</a>
             <a class="button" href="{{ path('schema_index') }}">Schemas</a>
             <a class="button" href="{{ path('attribute_index') }}">Attribute</a>
         </nav>
 
         <section id="main" class="row">
-            <aside class="two columns">
-                <header>Schemas</header>
+            <aside class="three columns">
+                <header>Instances</header>
                 <ul>
                     {% for schema in twig_globals.createdSchemas %}
                         <li>{{ schema.name }}</li>
                     {% endfor %}
                 </ul>
             </aside>
-            <section id="body" class="ten columns">
+            <section id="body" class="nine columns">
                 {% block body %}{% endblock %}
             </section>
         </section>

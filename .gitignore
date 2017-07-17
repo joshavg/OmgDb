@@ -15,5 +15,6 @@
 .settings
 /var/cache/
 /var/logs/
+/var/sessions/
 !/var/cache/.gitignore
 !/var/logs/.gitignore
