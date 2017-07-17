@@ -1,5 +1,7 @@
 {% extends 'AppBundle::base.html.twig' %}
 
 {% block body %}
-    <p>Wumms dinge</p>
+    <h1>Latest Instances</h1>
+
+    {% include 'AppBundle:Instance:list.inc.html.twig' %}
 {% endblock %}

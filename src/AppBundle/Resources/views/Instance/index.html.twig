@@ -3,22 +3,7 @@
 {% block body %}
     <h1>{{ schema.name }}<em>s</em></h1>
 
-    <table>
-        <thead>
-            <tr>
-                <td>Id</td>
-                <td>Name</td>
-            </tr>
-        </thead>
-        <tbody>
-            {% for instance in instances %}
-                <tr>
-                    <td>{{ instance.id }}</td>
-                    <td>{{ instance.name }}</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    {% include 'AppBundle:Instance:list.inc.html.twig' %}
 
     <a href="{{ path('instance_new', {'id': schema.id}) }}">
         Create new Instance

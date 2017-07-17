@@ -15,6 +15,14 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        return [];
+        $instances = $this->getDoctrine()
+            ->getRepository('AppBundle:Instance')
+            ->createQueryBuilder('i')
+            ->andWhere('i.createdBy = :u')
+            ->orderBy('i.createdAt');
+
+        return [
+            'instances' => $instances
+        ];
     }
 }

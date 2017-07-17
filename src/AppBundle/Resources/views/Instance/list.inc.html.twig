@@ -1,0 +1,22 @@
+<table>
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Created At</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for instance in instances %}
+            <tr>
+                <td>{{ instance.id }}</td>
+                <td>{{ instance.name }}</td>
+                <td>{{ instance.createdAt }}</td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3"><em>None</em></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
