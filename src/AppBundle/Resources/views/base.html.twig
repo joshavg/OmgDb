@@ -20,7 +20,11 @@
                 <header>Instances</header>
                 <ul>
                     {% for schema in twig_globals.createdSchemas %}
-                        <li>{{ schema.name }}</li>
+                        <li>
+                            <a href="{{ path('instance_index', {'id': schema.id}) }}">
+                                {{ schema.name }}
+                            </a>
+                        </li>
                     {% endfor %}
                 </ul>
             </aside>
