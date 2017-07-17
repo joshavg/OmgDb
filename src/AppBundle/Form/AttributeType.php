@@ -6,6 +6,7 @@ use AppBundle\Entity\Schema;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -30,7 +31,13 @@ class AttributeType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('datatype')
+            ->add('datatype', ChoiceType::class, [
+                'choices' => [
+                    'text' => 'text',
+                    'number' => 'number',
+                    'date' => 'date'
+                ]
+            ])
             ->add('schema', EntityType::class, [
                 'class' => Schema::class,
                 'query_builder' => function (EntityRepository $er) {
