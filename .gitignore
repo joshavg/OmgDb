@@ -9,12 +9,11 @@
 /composer.phar
 /vendor/
 /web/bundles/
-/web/js/
-/web/css/
 /web/images
 /.sonar
 .idea/
 .settings
-/var/cache
-/var/logs
+/var/cache/
+/var/logs/
 !/var/cache/.gitignore
+!/var/logs/.gitignore

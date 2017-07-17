@@ -1,0 +1,41 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block body %}
+    <h1>Schemas list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Public</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for schema in schemas %}
+            <tr>
+                <td><a href="{{ path('schema_show', { 'id': schema.id }) }}">{{ schema.id }}</a></td>
+                <td>{{ schema.name }}</td>
+                <td>{% if schema.public %}Yes{% else %}No{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('schema_show', { 'id': schema.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('schema_edit', { 'id': schema.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('schema_new') }}">Create a new schema</a>
+        </li>
+    </ul>
+{% endblock %}
