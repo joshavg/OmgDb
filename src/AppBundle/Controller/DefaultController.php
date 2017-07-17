@@ -19,7 +19,13 @@ class DefaultController extends Controller
             ->getRepository('AppBundle:Instance')
             ->createQueryBuilder('i')
             ->andWhere('i.createdBy = :u')
-            ->orderBy('i.createdAt');
+            ->orderBy('i.createdAt')
+            ->setMaxResults(10)
+            ->setParameters([
+                'u' => $this->getUser()
+            ])
+            ->getQuery()
+            ->execute();
 
         return [
             'instances' => $instances

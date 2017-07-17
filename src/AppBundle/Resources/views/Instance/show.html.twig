@@ -1,0 +1,20 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block body %}
+    <h1>{{ instance.name }}</h1>
+
+    <table>
+        <tbody>
+            {% for prop in properties %}
+                <tr>
+                    <th>{{ prop.attribute.name }}</th>
+                    <td>{{ prop.value }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="button" href="{{ path('instance_edit', {'id': instance.id}) }}">
+        Edit Instance
+    </a>
+{% endblock %}

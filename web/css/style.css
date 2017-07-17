@@ -3,8 +3,8 @@ body.container {
     background-color: #fafafa;
 }
 
-.container {
-    /*max-width: 100%;*/
+input[type=text] {
+    width: 100%;
 }
 
 table {
