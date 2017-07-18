@@ -164,10 +164,25 @@ class InstanceController extends Controller
      * @Method("DELETE")
      *
      * @param Instance $instance
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function deleteAction(Instance $instance)
     {
+        $em = $this->getDoctrine()->getManager();
 
+        $props = $this->getDoctrine()
+            ->getRepository('AppBundle:Property')
+            ->findFromInstance($instance);
+
+        foreach ($props as $prop) {
+            $em->remove($prop);
+        }
+        $em->remove($instance);
+        $em->flush();
+
+        return $this->redirectToRoute('instance_index', [
+            'id' => $instance->getSchema()->getId()
+        ]);
     }
 
     private function createDeleteForm(Instance $instance)
