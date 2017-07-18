@@ -29,7 +29,7 @@ class SchemaFormFactory
      * @param Property[] $properties
      * @return null
      */
-    private static function fetchPropertyValue(Attribute $attr, $properties)
+    private static function findPropertyValue(Attribute $attr, $properties)
     {
         if ($properties === null) {
             return null;
@@ -62,7 +62,8 @@ class SchemaFormFactory
         foreach ($attributes as $attr) {
             $form->add($attr->getId(), static::getType($attr), [
                 'label' => $attr->getName(),
-                'data' => static::fetchPropertyValue($attr, $properties)
+                'data' => static::findPropertyValue($attr, $properties),
+                'required' => false
             ]);
         }
 
@@ -93,6 +94,29 @@ class SchemaFormFactory
     }
 
     /**
+     * @param Attribute $attr
+     * @param Property[] $properties
+     * @return Property
+     */
+    public function findProperty(Attribute $attr, array $properties)
+    {
+        if ($properties) {
+            $filtered = array_filter($properties, function (Property $p) use ($attr) {
+                return $p->getAttribute()->getId() == $attr->getId();
+            });
+            if (count($filtered) > 0) {
+                $prop = array_pop($filtered);
+            } else {
+                $prop = new Property();
+            }
+        } else {
+            $prop = new Property();
+        }
+
+        return $prop;
+    }
+
+    /**
      * @param FormInterface $form
      * @param Instance $instance
      * @param Attribute[] $attributes
@@ -106,14 +130,7 @@ class SchemaFormFactory
         $data = $form->getData();
 
         foreach ($attributes as $attr) {
-            $prop = null;
-            if ($properties) {
-                $prop = array_filter($properties, function (Property $p) use ($attr) {
-                    return $p->getAttribute()->getId() == $attr->getId();
-                })[0];
-            } else {
-                $prop = new Property();
-            }
+            $prop = $this->findProperty($attr, $properties);
 
             $dat = $data[$attr->getId()];
             $prop

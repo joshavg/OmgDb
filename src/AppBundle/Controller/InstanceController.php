@@ -29,12 +29,7 @@ class InstanceController extends Controller
     {
         $instances = $this->getDoctrine()
             ->getRepository('AppBundle:Instance')
-            ->findBy([
-                'schema' => $schema,
-                'createdBy' => $this->getUser()
-            ], [
-                'createdAt' => 'ASC'
-            ]);
+            ->findFromSchemaAndUser($schema, $this->getUser());
 
         return [
             'instances' => $instances,
@@ -102,9 +97,7 @@ class InstanceController extends Controller
     {
         $properties = $this->getDoctrine()
             ->getRepository('AppBundle:Property')
-            ->findBy([
-                'instance' => $instance
-            ]);
+            ->findFromInstance($instance);
 
         foreach ($properties as &$prop) {
             $prop = $prop->setValue(unserialize($prop->getValue()));
@@ -131,9 +124,7 @@ class InstanceController extends Controller
 
         $properties = $this->getDoctrine()
             ->getRepository('AppBundle:Property')
-            ->findBy([
-                'instance' => $instance
-            ]);
+            ->findFromInstance($instance);
 
         $attributes = $this->fetchAttributes($instance->getSchema());
         $editForm = $sff->form(
@@ -157,7 +148,7 @@ class InstanceController extends Controller
 
             $em->flush();
 
-            return $this->redirectToRoute('instance_edit',
+            return $this->redirectToRoute('instance_show',
                 ['id' => $instance->getId()]);
         }
 
@@ -176,7 +167,7 @@ class InstanceController extends Controller
      */
     public function deleteAction(Instance $instance)
     {
-        // TODO implement
+
     }
 
     private function createDeleteForm(Instance $instance)
@@ -193,14 +184,9 @@ class InstanceController extends Controller
      */
     public function fetchAttributes(Schema $schema)
     {
-        $attributes = $this->getDoctrine()
+        return $this->getDoctrine()
             ->getRepository('AppBundle:Attribute')
-            ->findBy([
-                'schema' => $schema
-            ], [
-                'name' => 'ASC'
-            ]);
-        return $attributes;
+            ->findFromSchema($schema);
     }
 
 }
