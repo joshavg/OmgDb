@@ -3,5 +3,29 @@
 {% block body %}
     <h1>Latest Instances</h1>
 
-    {% include 'AppBundle:Instance:list.inc.html.twig' %}
+    <table>
+        <thead>
+        <tr>
+            <th>Schema</th>
+            <th>Name</th>
+            <th>Created At</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for instance in instances %}
+            <tr>
+                <td>{{ instance.schema.name }}</td>
+                <td>{{ instance.name }}</td>
+                <td>{{ instance.createdAt|date('Y-m-d H:i:s') }}</td>
+                <td>
+                    <a class="button" href="{{ path('instance_show', {'id': instance.id}) }}">
+                        Show
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
 {% endblock %}
