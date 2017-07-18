@@ -37,7 +37,7 @@ class SchemaFormFactory
 
         foreach ($properties as $prop) {
             if ($prop->getAttribute()->getId() == $attr->getId()) {
-                return unserialize($prop->getValue());
+                return $prop->getValue();
             }
         }
 
@@ -98,7 +98,7 @@ class SchemaFormFactory
      * @param Property[] $properties
      * @return Property
      */
-    public function findProperty(Attribute $attr, array $properties)
+    private function findProperty(Attribute $attr, array $properties = null)
     {
         if ($properties) {
             $filtered = array_filter($properties, function (Property $p) use ($attr) {
@@ -136,7 +136,7 @@ class SchemaFormFactory
             $prop
                 ->setAttribute($attr)
                 ->setInstance($instance)
-                ->setValue(serialize($dat));
+                ->setValue($dat);
             $props[] = $prop;
         }
 

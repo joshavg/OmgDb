@@ -8,7 +8,13 @@
             {% for prop in properties %}
                 <tr>
                     <th>{{ prop.attribute.name }}</th>
-                    <td>{{ prop.value }}</td>
+                    <td>
+                        {% if prop.attribute.datatype == 'date' %}
+                            {{ prop.value|date }}
+                        {% else %}
+                            {{ prop.value }}
+                        {% endif %}
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>

@@ -22,6 +22,8 @@ class Property
     private $id;
 
     /**
+     * This value is always serialized - getter and setter will serialize/unserialize
+     *
      * @var string
      *
      * @ORM\Column(name="value", type="text", nullable=true)
@@ -62,7 +64,7 @@ class Property
      */
     public function setValue($value)
     {
-        $this->value = $value;
+        $this->value = serialize($value);
 
         return $this;
     }
@@ -74,7 +76,7 @@ class Property
      */
     public function getValue()
     {
-        return $this->value;
+        return unserialize($this->value);
     }
 
     /**

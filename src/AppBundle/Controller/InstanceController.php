@@ -99,10 +99,6 @@ class InstanceController extends Controller
             ->getRepository('AppBundle:Property')
             ->findFromInstance($instance);
 
-        foreach ($properties as &$prop) {
-            $prop = $prop->setValue(unserialize($prop->getValue()));
-        }
-
         return [
             'instance' => $instance,
             'properties' => $properties
