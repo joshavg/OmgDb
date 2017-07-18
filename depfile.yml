@@ -1,72 +1,50 @@
 paths:
   - ./src/AppBundle
+  - ./vendor
 exclude_files:
   - .*test.*
 layers:
+  - name: Framework
+    collectors:
+      - type: className
+        regex: ^(?!AppBundle\\).+
+  - name: Command
+    collectors:
+      - type: className
+        regex: AppBundle\\Command\\.+
   - name: Controller
     collectors:
       - type: className
-        regex: AppBundle\\Controller\\.+Controller$
+        regex: AppBundle\\Controller\\.+
+  - name: Entity
+    collectors:
+      - type: className
+        regex: ^AppBundle\\Entity\\[^\\]+$
+  - name: Form
+    collectors:
+      - type: className
+        regex: AppBundle\\Form\\.+
   - name: Repository
     collectors:
-      - type: bool
-        must:
-          - type: className
-            regex: AppBundle\\Entity\\Repository\\.+
-        # TODO remove me
-        must_not:
-          - type: className
-            regex: AppBundle\\Entity\\Repository\\DateFactory
+      - type: className
+        regex: AppBundle\\Entity\\Repository\\.+
   - name: Service
     collectors:
       - type: className
-        regex: AppBundle\\Architecture\\.+
-      - type: className
-        regex: AppBundle\\Form\\InstanceFormFactory
-  - name: Util
-    collectors:
-      - type: className
-        regex: AppBundle\\Entity\\Repository\\DateFactory
-  - name: Entity
-    collectors:
-      - type: bool
-        must:
-          - type: className
-            regex: ^AppBundle\\Entity\\[^\\]+$
-        must_not:
-          - type: className
-            regex: AppBundle\\Entity\\.+Repository$
-  - name: Validator
-    collectors:
-      - type: className
-        regex: AppBundle\\Validator\\.+
-  - name: FormType
-    collectors:
-      - type: className
-        regex: AppBundle\\Form\\Type\\.+
-  - name: Transformer
-    collectors:
-      - type: className
-        regex: ^AppBundle\\Entity\\PropertyTransformer\\[^\\]+$
+        regex: AppBundle\\Service\\.+
 ruleset:
   Controller:
+    - Form
     - Service
     - Entity
-    - FormType
+    - Framework
+  Form:
+    - Entity
+    - Framework
   Service:
-    - Repository
     - Entity
-    - Transformer
-    - Util
-  Repository:
-    - Entity
-    - Util
-    - Transformer
-  Validator:
-    - Repository
-    - Entity
-  FormType:
-    - Validator
-    - Entity
-  Transformer:
-    - Util
+    - Framework
+  Entity:
+    - Framework
+  Command:
+    - Framework

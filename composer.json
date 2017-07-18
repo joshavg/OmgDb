@@ -3,6 +3,7 @@
     "license": "GPL-3.0",
     "type": "project",
     "description": "Document Database for human beings",
+    "minimum-stability": "dev",
     "autoload": {
         "psr-4": { "AppBundle\\": "src/AppBundle" },
         "classmap": [ "app/AppKernel.php", "app/AppCache.php" ]
@@ -18,6 +19,7 @@
         "incenteev/composer-parameter-handler": "^2.0",
         "sensio/distribution-bundle": "^5.0.19",
         "sensio/framework-extra-bundle": "^3.0.2",
+        "slevomat/deptrac-shim": "dev-master",
         "symfony/monolog-bundle": "^3.1.0",
         "symfony/polyfill-apcu": "^1.0",
         "symfony/swiftmailer-bundle": "^2.3.10",
@@ -43,7 +45,9 @@
         "post-update-cmd": [
             "@symfony-scripts"
         ],
-        "test": []
+        "test": [
+            "./vendor/slevomat/deptrac-shim/deptrac analyze --formatter-graphviz-display=0"
+        ]
     },
     "config": {
         "platform": {

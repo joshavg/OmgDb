@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "bf1764426a8895e68a9053a15733a925",
+    "content-hash": "1972ebbda7be26093d1d86a43466d3b6",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -1521,6 +1521,29 @@
             "time": "2017-03-31T14:50:32+00:00"
         },
         {
+            "name": "slevomat/deptrac-shim",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/slevomat/deptrac-shim.git",
+                "reference": "3d00766827f8c3e18069dc8b4a1ac158704eb2a3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/slevomat/deptrac-shim/zipball/3d00766827f8c3e18069dc8b4a1ac158704eb2a3",
+                "reference": "3d00766827f8c3e18069dc8b4a1ac158704eb2a3",
+                "shasum": ""
+            },
+            "bin": [
+                "deptrac"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Deptrac shim",
+            "homepage": "http://github.com/slevomat/deptrac-shim",
+            "time": "2017-03-03T11:59:53+00:00"
+        },
+        {
             "name": "swiftmailer/swiftmailer",
             "version": "v5.4.8",
             "source": {
@@ -2368,8 +2391,10 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
-    "stability-flags": [],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "slevomat/deptrac-shim": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
