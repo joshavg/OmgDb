@@ -39,6 +39,8 @@ twig:
     strict_variables: '%kernel.debug%'
     globals:
         twig_globals: '@AppBundle\Service\TwigGlobals'
+    date:
+        format: Y-m-d H:i:s
 
 # Doctrine Configuration
 doctrine:

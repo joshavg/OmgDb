@@ -43,6 +43,13 @@ class Instance
     private $createdAt;
 
     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="updated_at", type="datetimetz")
+     */
+    private $updatedAt;
+
+    /**
      * @var Schema
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Schema")
@@ -52,6 +59,7 @@ class Instance
     public function __construct()
     {
         $this->createdAt = new \DateTime();
+        $this->updatedAt = $this->createdAt;
     }
 
     /**
@@ -141,5 +149,23 @@ class Instance
         $this->schema = $schema;
         return $this;
     }
-}
 
+    /**
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param \DateTime $updatedAt
+     * @return Instance
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+        return $this;
+    }
+
+}

@@ -136,7 +136,9 @@ class InstanceController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            $em->persist($sff->instance($editForm, $instance));
+            $instance = $sff->instance($editForm, $instance);
+            $instance->setUpdatedAt(new \DateTime());
+            $em->persist($instance);
 
             foreach ($sff->properties($editForm, $instance, $attributes, $properties) as $prop) {
                 $em->persist($prop);

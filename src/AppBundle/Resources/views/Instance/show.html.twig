@@ -10,13 +10,21 @@
                     <th>{{ prop.attribute.name }}</th>
                     <td>
                         {% if prop.attribute.datatype == 'date' %}
-                            {{ prop.value|date }}
+                            {% if prop.value %}
+                                {{ prop.value|date }}
+                            {% endif %}
                         {% else %}
                             {{ prop.value }}
                         {% endif %}
                     </td>
                 </tr>
             {% endfor %}
+        </tbody>
+        <tbody>
+            <tr>
+                <th>Updated at</th>
+                <td>{{ instance.updatedAt|date }}</td>
+            </tr>
         </tbody>
     </table>
 

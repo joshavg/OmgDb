@@ -17,7 +17,7 @@
             <tr>
                 <td>{{ instance.schema.name }}</td>
                 <td>{{ instance.name }}</td>
-                <td>{{ instance.createdAt|date('Y-m-d H:i:s') }}</td>
+                <td>{{ instance.createdAt|date }}</td>
                 <td>
                     <a class="button" href="{{ path('instance_show', {'id': instance.id}) }}">
                         Show
