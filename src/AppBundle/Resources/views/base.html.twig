@@ -18,15 +18,11 @@
         <section id="main" class="row">
             <aside class="three columns">
                 <header>Instances</header>
-                <ul>
-                    {% for schema in twig_globals.createdSchemas %}
-                        <li>
-                            <a href="{{ path('instance_index', {'id': schema.id}) }}">
-                                {{ schema.name }}
-                            </a>
-                        </li>
-                    {% endfor %}
-                </ul>
+                {% for schema in twig_globals.createdSchemas %}
+                    <a class="button u-full-width" href="{{ path('instance_index', {'id': schema.id}) }}">
+                        {{ schema.name }}
+                    </a>
+                {% endfor %}
             </aside>
             <section id="body" class="nine columns">
                 {% block body %}{% endblock %}

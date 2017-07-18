@@ -15,3 +15,7 @@ nav {
     border-bottom: 1px solid #bbb;
     margin-bottom: 1em;
 }
+
+header {
+    font-weight: bold;
+}
