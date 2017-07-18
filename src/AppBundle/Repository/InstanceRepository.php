@@ -31,4 +31,21 @@ class InstanceRepository extends EntityRepository
         ]);
     }
 
+    /**
+     * @param User $user
+     * @return Instance[]
+     */
+    public function findLatestFromUser(User $user)
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.createdBy = :u')
+            ->orderBy('i.createdAt')
+            ->setMaxResults(10)
+            ->setParameters([
+                'u' => $user
+            ])
+            ->getQuery()
+            ->execute();
+    }
+
 }

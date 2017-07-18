@@ -17,15 +17,7 @@ class DefaultController extends Controller
     {
         $instances = $this->getDoctrine()
             ->getRepository('AppBundle:Instance')
-            ->createQueryBuilder('i')
-            ->andWhere('i.createdBy = :u')
-            ->orderBy('i.createdAt')
-            ->setMaxResults(10)
-            ->setParameters([
-                'u' => $this->getUser()
-            ])
-            ->getQuery()
-            ->execute();
+            ->findLatestFromUser($this->getUser());
 
         return [
             'instances' => $instances
