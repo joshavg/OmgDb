@@ -42,7 +42,8 @@
         ],
         "post-update-cmd": [
             "@symfony-scripts"
-        ]
+        ],
+        "test": []
     },
     "config": {
         "platform": {

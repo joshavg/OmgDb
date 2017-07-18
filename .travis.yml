@@ -11,7 +11,6 @@ env:
         - JAVA_HOME=/usr/lib/jvm/java-8-oracle
 
 php:
-    - 5.6
     - 7
     - hhvm
     - nightly
