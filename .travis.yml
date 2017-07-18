@@ -1,7 +1,7 @@
 language: php
 
 addons:
-    sonarqube: true
+    sonarcloud: true
     apt:
         packages:
             - oracle-java8-installer
