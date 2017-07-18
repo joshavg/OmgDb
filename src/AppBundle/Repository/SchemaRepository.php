@@ -1,6 +1,8 @@
 <?php
 
 namespace AppBundle\Repository;
+use AppBundle\Entity\Schema;
+use AppBundle\Entity\User;
 use Doctrine\ORM\EntityRepository;
 
 /**
@@ -11,4 +13,18 @@ use Doctrine\ORM\EntityRepository;
  */
 class SchemaRepository extends EntityRepository
 {
+
+    /**
+     * @param User $user
+     * @return Schema[]
+     */
+    public function findFromUser(User $user)
+    {
+        return $this->findBy([
+            'createdBy' => $user
+        ], [
+            'name' => 'ASC'
+        ]);
+    }
+
 }

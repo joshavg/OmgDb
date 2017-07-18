@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Attribute;
 use AppBundle\Form\AttributeType;
+use AppBundle\Form\SchemaSelectType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -24,13 +25,36 @@ class AttributeController extends Controller
      * @Method("GET")
      * @Template
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $attributes = $em->getRepository('AppBundle:Attribute')->findAll();
+        $schemaSelect = $this->createForm(SchemaSelectType::class, [], [
+            'method' => 'GET',
+            'csrf_protection' => false
+        ]);
+
+        $id = null;
+        if($schemaSelect->handleRequest($request)->isSubmitted()) {
+            $id = $schemaSelect->getData()['schema']->getId();
+        }
+
+        if ($id !== null) {
+            $schema = $em
+                ->getRepository('AppBundle:Schema')
+                ->find($id);
+            $attributes = $em
+                ->getRepository('AppBundle:Attribute')
+                ->findFromSchema($schema);
+        } else {
+            $attributes = $em
+                ->getRepository('AppBundle:Attribute')
+                ->findFromUser($this->getUser());
+        }
+
 
         return [
+            'schemaSelect' => $schemaSelect->createView(),
             'attributes' => $attributes,
         ];
     }
@@ -72,6 +96,10 @@ class AttributeController extends Controller
      */
     public function showAction(Attribute $attribute)
     {
+        $this->getDoctrine()
+            ->getRepository('AppBundle:Attribute')
+            ->assertBelongsToUser($attribute, $this->getUser());
+
         $deleteForm = $this->createDeleteForm($attribute);
 
         return [
@@ -89,6 +117,10 @@ class AttributeController extends Controller
      */
     public function editAction(Request $request, Attribute $attribute)
     {
+        $this->getDoctrine()
+            ->getRepository('AppBundle:Attribute')
+            ->assertBelongsToUser($attribute, $this->getUser());
+
         $deleteForm = $this->createDeleteForm($attribute);
         $editForm = $this->createForm(AttributeType::class, $attribute);
         $editForm->handleRequest($request);
@@ -115,6 +147,10 @@ class AttributeController extends Controller
      */
     public function deleteAction(Request $request, Attribute $attribute)
     {
+        $this->getDoctrine()
+            ->getRepository('AppBundle:Attribute')
+            ->assertBelongsToUser($attribute, $this->getUser());
+
         $form = $this->createDeleteForm($attribute);
         $form->handleRequest($request);
 

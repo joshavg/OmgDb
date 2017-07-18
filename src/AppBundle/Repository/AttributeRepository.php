@@ -4,7 +4,9 @@ namespace AppBundle\Repository;
 
 use AppBundle\Entity\Attribute;
 use AppBundle\Entity\Schema;
+use AppBundle\Entity\User;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * AttributeRepository
@@ -26,6 +28,36 @@ class AttributeRepository extends EntityRepository
         ], [
             'name' => 'ASC'
         ]);
+    }
+
+    /**
+     * @param Attribute $attr
+     * @param User $user
+     * @throws AccessDeniedException
+     */
+    public function assertBelongsToUser(Attribute $attr, User $user)
+    {
+        $belongs = $attr->getSchema()->getCreatedBy()->getId() === $user->getId();
+        if(!$belongs) {
+            throw new AccessDeniedException();
+        }
+    }
+
+    /**
+     * @param User $user
+     * @return Attribute[]
+     */
+    public function findFromUser(User $user)
+    {
+        return $this->createQueryBuilder('a')
+            ->join('a.schema', 's')
+            ->join('s.createdBy', 'u', 'WITH', 'u = :u')
+            ->orderBy('a.name')
+            ->setParameters([
+                'u' => $user
+            ])
+            ->getQuery()
+            ->execute();
     }
 
 }

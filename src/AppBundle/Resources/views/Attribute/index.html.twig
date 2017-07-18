@@ -3,6 +3,11 @@
 {% block body %}
     <h1>Attributes list</h1>
 
+    {{ form_start(schemaSelect) }}
+        {{ form_widget(schemaSelect.schema) }}
+        <button type="submit">Filter</button>
+    {{ form_end(schemaSelect) }}
+
     <table>
         <thead>
             <tr>
