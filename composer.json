@@ -1,10 +1,10 @@
 {
-    "name": "OmgDb",
+    "name": "joshavg/omgdb",
     "license": "GPL-3.0",
     "type": "project",
     "description": "Document Database for human beings",
     "autoload": {
-        "psr-4": { "": "src/" },
+        "psr-4": { "AppBundle\\": "src/AppBundle" },
         "classmap": [ "app/AppKernel.php", "app/AppCache.php" ]
     },
     "autoload-dev": {
