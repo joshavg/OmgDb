@@ -95,8 +95,7 @@ class SchemaController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('schema_edit',
-                ['id' => $schema->getId()]);
+            return $this->redirectToRoute('schema_index');
         }
 
         return [

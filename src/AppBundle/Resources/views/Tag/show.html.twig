@@ -1,0 +1,22 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block body %}
+    <h1>Tag</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ tag.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ tag.name }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a class="button u-cf" href="{{ path('tag_edit', { 'id': tag.id }) }}">Edit</a>
+
+    <a href="{{ path('tag_index') }}">Back to the list</a>
+{% endblock %}

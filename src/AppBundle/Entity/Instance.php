@@ -56,6 +56,13 @@ class Instance
      */
     private $schema;
 
+    /**
+     * @var Tag[]
+     *
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag")
+     */
+    private $tags;
+
     public function __construct()
     {
         $this->createdAt = new \DateTime();
@@ -165,6 +172,24 @@ class Instance
     public function setUpdatedAt($updatedAt)
     {
         $this->updatedAt = $updatedAt;
+        return $this;
+    }
+
+    /**
+     * @return Tag[]
+     */
+    public function getTags(): array
+    {
+        return $this->tags;
+    }
+
+    /**
+     * @param Tag[] $tags
+     * @return Instance
+     */
+    public function setTags(array $tags): Instance
+    {
+        $this->tags = $tags;
         return $this;
     }
 

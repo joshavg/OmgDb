@@ -128,8 +128,7 @@ class AttributeController extends Controller
         if ($editForm->isSubmitted() && $editForm->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('attribute_edit',
-                ['id' => $attribute->getId()]);
+            return $this->redirectToRoute('attribute_index');
         }
 
         return [

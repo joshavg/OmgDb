@@ -23,7 +23,7 @@ services:
         exclude: '../../src/AppBundle/{Entity,Repository,Tests}'
 
     # controllers are imported separately to make sure they're public
-    # and have a tag that allows actions to type-hint services
+    # and have a Tag that allows actions to type-hint services
     AppBundle\Controller\:
         resource: '../../src/AppBundle/Controller'
         public: true

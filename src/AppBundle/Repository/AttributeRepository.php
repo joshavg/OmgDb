@@ -38,7 +38,7 @@ class AttributeRepository extends EntityRepository
     public function assertBelongsToUser(Attribute $attr, User $user)
     {
         $belongs = $attr->getSchema()->getCreatedBy()->getId() === $user->getId();
-        if(!$belongs) {
+        if (!$belongs) {
             throw new AccessDeniedException();
         }
     }
@@ -52,7 +52,7 @@ class AttributeRepository extends EntityRepository
         return $this->createQueryBuilder('a')
             ->join('a.schema', 's')
             ->join('s.createdBy', 'u', 'WITH', 'u = :u')
-            ->orderBy('a.name')
+            ->orderBy('s.name, a.name')
             ->setParameters([
                 'u' => $user
             ])
