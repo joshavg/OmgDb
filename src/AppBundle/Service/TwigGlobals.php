@@ -45,4 +45,9 @@ class TwigGlobals
                 ->execute();
     }
 
+    public function version()
+    {
+        return '0.2';
+    }
+
 }

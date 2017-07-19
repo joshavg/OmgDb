@@ -1,5 +1,5 @@
 body.container {
-    padding-top: 1em;
+    padding-top: .7em;
     background-color: #fafafa;
 }
 
@@ -13,7 +13,7 @@ table {
 
 nav {
     border-bottom: 1px solid #bbb;
-    margin-bottom: 1em;
+    margin-bottom: .7em;
 }
 
 header {
@@ -22,4 +22,11 @@ header {
 
 ul, ol {
     margin-left: 1em;
+}
+
+footer {
+    border-top: 1px solid #bbb;
+    margin-top: 2em;
+    font-size: 9pt;
+    font-style: italic;
 }
