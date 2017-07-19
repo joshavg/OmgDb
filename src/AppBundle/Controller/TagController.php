@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Tag controller.
  *
- * @Route("Tag")
+ * @Route("tag")
  */
 class TagController extends Controller
 {
