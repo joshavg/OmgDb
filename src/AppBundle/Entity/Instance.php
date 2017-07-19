@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\ORM\PersistentCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -57,9 +58,10 @@ class Instance
     private $schema;
 
     /**
-     * @var Tag[]
+     * @var Tag[]|PersistentCollection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="instances")
+     * @ORM\OrderBy({"name"="ASC"})
      */
     private $tags;
 
@@ -176,9 +178,9 @@ class Instance
     }
 
     /**
-     * @return Tag[]
+     * @return Tag[]|PersistentCollection
      */
-    public function getTags(): array
+    public function getTags(): PersistentCollection
     {
         return $this->tags;
     }
@@ -187,9 +189,29 @@ class Instance
      * @param Tag[] $tags
      * @return Instance
      */
-    public function setTags(array $tags): Instance
+    public function setTags($tags): Instance
     {
         $this->tags = $tags;
+        return $this;
+    }
+
+    /**
+     * @param Tag $tag
+     * @return Instance
+     */
+    public function addTag(Tag $tag): Instance
+    {
+        $this->tags->add($tag);
+        return $this;
+    }
+
+    /**
+     * @param Tag $tag
+     * @return Instance
+     */
+    public function removeTag(Tag $tag): Instance
+    {
+        $this->tags->removeElement($tag);
         return $this;
     }
 

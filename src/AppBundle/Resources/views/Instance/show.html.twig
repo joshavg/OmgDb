@@ -28,6 +28,14 @@
         </tbody>
     </table>
 
+    <h2>Tags</h2>
+
+    <ul>
+        {% for tag in instance.tags %}
+            <li>{{ tag.name }}</li>
+        {% endfor %}
+    </ul>
+
     <a class="button" href="{{ path('instance_edit', {'id': instance.id}) }}">
         Edit Instance
     </a>

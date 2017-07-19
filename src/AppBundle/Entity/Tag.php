@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 
 /**
  * Tag
@@ -39,9 +40,9 @@ class Tag
     private $createdBy;
 
     /**
-     * @var Instance[]
+     * @var Instance[]|PersistentCollection
      *
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Instance")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Instance", mappedBy="tags")
      */
     private $instances;
 
@@ -99,9 +100,9 @@ class Tag
     }
 
     /**
-     * @return Instance[]
+     * @return Instance[]|PersistentCollection
      */
-    public function getInstances(): array
+    public function getInstances(): PersistentCollection
     {
         return $this->instances;
     }
@@ -110,10 +111,15 @@ class Tag
      * @param Instance[] $instances
      * @return Tag
      */
-    public function setInstances(array $instances): Tag
+    public function setInstances($instances): Tag
     {
         $this->instances = $instances;
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 
 }

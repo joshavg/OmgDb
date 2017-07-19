@@ -12,6 +12,28 @@
         <input type="submit" value="Delete">
     {{ form_end(delete_form) }}
 
+    <h2>Tags</h2>
+
+    <ul>
+        {% for tag in instance.tags %}
+            <li>
+                <a class="button" href="{{ path('instance_remove_tag', {
+                    'id': instance.id,
+                    'tag_id': tag.id
+                }) }}">
+                    ✗
+                </a>
+                {{ tag.name }}
+            </li>
+        {% endfor %}
+    </ul>
+
+    {{ form_start(tag_form) }}
+        {{ form_widget(tag_form) }}
+        <button class="button">Assign</button>
+    {{ form_end(tag_form) }}
+
+
     <a href="{{ path('instance_index', {'id': instance.schema.id}) }}">Back to the list</a>
 {% endblock %}
 
