@@ -6,7 +6,6 @@
     <table>
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Name</th>
                 <th>Actions</th>
             </tr>
@@ -14,7 +13,6 @@
         <tbody>
         {% for tag in tags %}
             <tr>
-                <td><a href="{{ path('tag_show', { 'id': tag.id }) }}">{{ tag.id }}</a></td>
                 <td>{{ tag.name }}</td>
                 <td>
                     <a class="button" href="{{ path('tag_show', { 'id': tag.id }) }}">show</a>

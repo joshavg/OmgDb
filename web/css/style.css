@@ -19,3 +19,7 @@ nav {
 header {
     font-weight: bold;
 }
+
+ul, ol {
+    margin-left: 1em;
+}

@@ -27,7 +27,7 @@ class InstanceRepository extends EntityRepository
             'schema' => $schema,
             'createdBy' => $user
         ], [
-            'createdAt' => 'ASC'
+            'createdAt' => 'DESC'
         ]);
     }
 

@@ -6,7 +6,6 @@
     <table>
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Name</th>
                 <th>Public</th>
                 <th>Actions</th>
@@ -15,7 +14,6 @@
         <tbody>
         {% for schema in schemas %}
             <tr>
-                <td><a href="{{ path('schema_show', { 'id': schema.id }) }}">{{ schema.id }}</a></td>
                 <td>{{ schema.name }}</td>
                 <td>{% if schema.public %}Yes{% else %}No{% endif %}</td>
                 <td>

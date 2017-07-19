@@ -11,7 +11,6 @@
     <table>
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Name</th>
                 <th>Schema</th>
                 <th>Datatype</th>
@@ -21,7 +20,6 @@
         <tbody>
         {% for attribute in attributes %}
             <tr>
-                <td><a href="{{ path('attribute_show', { 'id': attribute.id }) }}">{{ attribute.id }}</a></td>
                 <td>{{ attribute.name }}</td>
                 <td>{{ attribute.schema.name }}</td>
                 <td>{{ attribute.datatype }}</td>
