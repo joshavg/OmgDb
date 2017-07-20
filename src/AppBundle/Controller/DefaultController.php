@@ -19,8 +19,13 @@ class DefaultController extends Controller
             ->getRepository('AppBundle:Instance')
             ->findLatestFromUser($this->getUser());
 
+        $tags = $this->getDoctrine()
+            ->getRepository('AppBundle:Tag')
+            ->findLatestUsed($this->getUser(), 5);
+
         return [
-            'instances' => $instances
+            'instances' => $instances,
+            'tags' => $tags
         ];
     }
 }

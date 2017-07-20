@@ -36,9 +36,28 @@ class TagRepository extends EntityRepository
      */
     public function assertBelongsToUser(Tag $tag, User $user)
     {
-        if($tag->getCreatedBy()->getId() !== $user->getId()) {
+        if ($tag->getCreatedBy()->getId() !== $user->getId()) {
             throw new AccessDeniedException();
         }
+    }
+
+    /**
+     * @param User $user
+     * @param int $max
+     * @return mixed
+     */
+    public function findLatestUsed(User $user, int $max)
+    {
+        return $this->createQueryBuilder('t')
+            ->join('t.instances', 'i')
+            ->where('t.createdBy = :u')
+            ->orderBy('i.updatedAt', 'DESC')
+            ->setMaxResults($max)
+            ->getQuery()
+            ->execute([
+                'u' => $user
+            ]);
+
     }
 
 }

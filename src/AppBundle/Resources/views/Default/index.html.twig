@@ -1,6 +1,14 @@
 {% extends 'AppBundle::base.html.twig' %}
 
 {% block body %}
+    <h1>Tagged With</h1>
+
+    {% for tag in tags %}
+        <a class="button" href="{{ path('instance_tagged_with', {'id': tag.id}) }}">
+            {{ tag.name }}
+        </a>
+    {% endfor %}
+
     <h1>Latest Instances</h1>
 
     <table>
