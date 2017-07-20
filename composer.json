@@ -40,10 +40,14 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
         ],
         "post-install-cmd": [
-            "@symfony-scripts"
+            "@symfony-scripts",
+            "@dirs"
         ],
         "post-update-cmd": [
             "@symfony-scripts"
+        ],
+        "dirs": [
+            "mkdir -p var/uploads"
         ],
         "test": [
             "./vendor/slevomat/deptrac-shim/deptrac analyze --formatter-graphviz-display=0"

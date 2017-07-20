@@ -1,0 +1,36 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block body %}
+    <h1>Import {{ import.schema.name }}<em>s</em></h1>
+    <h2>{{ import.uploadedAt|date }}</h2>
+
+    <form method="post">
+        <table class="import-table">
+            <tr>
+                <th></th>
+                {% for col in content|first %}
+                    <th>
+                        <select name="attr{{ loop.index }}" title="Attribute to use">
+                            <option></option>
+                            {% for attr in attributes %}
+                                <option value="{{ attr.id }}">{{ attr.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </th>
+                {% endfor %}
+            </tr>
+            {% for row in content %}
+                <tr>
+                    <td>
+                        <label for="use{{ loop.index }}">Use</label>
+                        <input id="use{{ loop.index }}" type="checkbox"
+                               name="use[{{ loop.index }}]" value="1" checked>
+                    </td>
+                    {% for col in row %}
+                        <td>{{ col }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+    </form>
+{% endblock %}

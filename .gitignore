@@ -18,3 +18,4 @@
 /var/sessions/*
 !/var/cache/.gitignore
 !/var/logs/.gitignore
+/var/upload/

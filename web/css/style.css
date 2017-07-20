@@ -30,3 +30,11 @@ footer {
     font-size: 9pt;
     font-style: italic;
 }
+
+.app-button {
+    margin-top: .7em;
+}
+
+.import-table label {
+    display: inline;
+}

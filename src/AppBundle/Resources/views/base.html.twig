@@ -24,7 +24,11 @@
                         {{ schema.name }}
                     </a>
                 {% endfor %}
+                <a class="button u-full-width app-button" href="{{ path('import_index') }}">
+                    Import Csv
+                </a>
             </aside>
+
             <section id="body" class="nine columns">
                 {% block body %}{% endblock %}
             </section>
