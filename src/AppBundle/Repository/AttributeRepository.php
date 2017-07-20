@@ -53,11 +53,10 @@ class AttributeRepository extends EntityRepository
             ->join('a.schema', 's')
             ->join('s.createdBy', 'u', 'WITH', 'u = :u')
             ->orderBy('s.name, a.name')
-            ->setParameters([
-                'u' => $user
-            ])
             ->getQuery()
-            ->execute();
+            ->execute([
+                'u' => $user
+            ]);
     }
 
 }
