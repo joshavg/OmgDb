@@ -1,0 +1,10 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block body %}
+
+    <h1>{{ tag.name }}</h1>
+
+    {% include 'AppBundle:Instance:list.inc.html.twig' %}
+
+{% endblock %}
+

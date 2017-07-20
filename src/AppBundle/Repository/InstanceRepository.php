@@ -4,6 +4,7 @@ namespace AppBundle\Repository;
 
 use AppBundle\Entity\Instance;
 use AppBundle\Entity\Schema;
+use AppBundle\Entity\Tag;
 use AppBundle\Entity\User;
 use Doctrine\ORM\EntityRepository;
 
@@ -41,11 +42,26 @@ class InstanceRepository extends EntityRepository
             ->andWhere('i.createdBy = :u')
             ->orderBy('i.createdAt')
             ->setMaxResults(10)
-            ->setParameters([
-                'u' => $user
-            ])
             ->getQuery()
-            ->execute();
+            ->execute([
+                'u' => $user
+            ]);
+    }
+
+    /**
+     * @param Tag $tag
+     * @return Instance[]
+     */
+    public function findFromTag(Tag $tag)
+    {
+        return $this->createQueryBuilder('i')
+            ->join('i.tags', 't')
+            ->where('t = :t')
+            ->orderBy('i.createdAt')
+            ->getQuery()
+            ->execute([
+                't' => $tag
+            ]);
     }
 
 }

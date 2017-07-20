@@ -17,6 +17,9 @@
                 <td>
                     <a class="button" href="{{ path('tag_show', { 'id': tag.id }) }}">show</a>
                     <a class="button" href="{{ path('tag_edit', { 'id': tag.id }) }}">edit</a>
+                    <a class="button" href="{{ path('instance_tagged_with', {'id':tag.id}) }}">
+                        Instances
+                    </a>
                 </td>
             </tr>
         {% endfor %}

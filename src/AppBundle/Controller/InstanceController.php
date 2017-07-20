@@ -195,6 +195,22 @@ class InstanceController extends Controller
     }
 
     /**
+     * @Route("/taggedwith/{id}", name="instance_tagged_with")
+     * @Template
+     */
+    public function taggedWithAction(Tag $tag)
+    {
+        $instances = $this->getDoctrine()
+            ->getRepository('AppBundle:Instance')
+            ->findFromTag($tag);
+
+        return [
+            'tag' => $tag,
+            'instances' => $instances
+        ];
+    }
+
+    /**
      * @param SchemaFormFactory $sff
      * @param Instance $instance
      * @param $editForm

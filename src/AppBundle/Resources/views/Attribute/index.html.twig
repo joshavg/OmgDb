@@ -5,7 +5,7 @@
 
     {{ form_start(schemaSelect) }}
         {{ form_widget(schemaSelect.schema) }}
-        <button type="submit">Filter</button>
+        <button>Filter</button>
     {{ form_end(schemaSelect) }}
 
     <table>
@@ -24,8 +24,12 @@
                 <td>{{ attribute.schema.name }}</td>
                 <td>{{ attribute.datatype }}</td>
                 <td>
-                    <a class="button" href="{{ path('attribute_show', { 'id': attribute.id }) }}">show</a>
-                    <a class="button" href="{{ path('attribute_edit', { 'id': attribute.id }) }}">edit</a>
+                    <a class="button" href="{{ path('attribute_show', { 'id': attribute.id }) }}">
+                        show
+                    </a>
+                    <a class="button" href="{{ path('attribute_edit', { 'id': attribute.id }) }}">
+                        edit
+                    </a>
                 </td>
             </tr>
         {% endfor %}
