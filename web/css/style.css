@@ -1,6 +1,7 @@
 body.container {
     padding-top: .7em;
     background-color: #fafafa;
+    max-width: 100%;
 }
 
 input[type=text] {
