@@ -73,19 +73,18 @@ class CsvImporter
         foreach ($selectedAttrs as $attrIx => $attrValue) {
             $linevalue = $line[$attrIx];
 
-            $prop = new Property();
-            $prop->setInstance($instance);
-
             if ($attrValue === '_name') {
                 $instance->setName($linevalue);
             } else {
                 $attribute = $this->attrRepo->find($attrValue);
+                $prop = new Property();
                 $prop
+                    ->setInstance($instance)
                     ->setAttribute($attribute)
                     ->setValue($linevalue);
+                $this->em->persist($prop);
             }
 
-            $this->em->persist($prop);
         }
     }
 

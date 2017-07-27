@@ -15,6 +15,10 @@
                     <a class="button" href="{{ path('instance_show', {'id': instance.id}) }}">
                         Show
                     </a>
+                    <a class="button button-small button-warn"
+                       href="{{ path('instance_delete', {'id': instance.id}) }}">
+                        ✘
+                    </a>
                 </td>
             </tr>
         {% endfor %}

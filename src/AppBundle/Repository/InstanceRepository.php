@@ -40,7 +40,7 @@ class InstanceRepository extends EntityRepository
     {
         return $this->createQueryBuilder('i')
             ->andWhere('i.createdBy = :u')
-            ->orderBy('i.createdAt')
+            ->orderBy('i.createdAt', 'DESC')
             ->setMaxResults(10)
             ->getQuery()
             ->execute([

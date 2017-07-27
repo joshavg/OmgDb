@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Annotations\Annotation\Required;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -34,6 +35,7 @@ class Property
      * @var Instance
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Instance")
+     * @ORM\JoinColumn(name="instance_id", referencedColumnName="id", nullable=false)
      */
     private $instance;
 
@@ -41,6 +43,7 @@ class Property
      * @var Attribute
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Attribute")
+     * @ORM\JoinColumn(name="attribute_id", referencedColumnName="id", nullable=false)
      */
     private $attribute;
 

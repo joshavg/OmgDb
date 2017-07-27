@@ -120,7 +120,6 @@ class InstanceController extends Controller
      */
     public function editAction(Request $request, SchemaFormFactory $sff, Instance $instance)
     {
-        $deleteForm = $this->createDeleteForm($instance);
         $tagForm = $this->createForm(TagSelectType::class);
 
         $properties = $this->getDoctrine()
@@ -153,7 +152,6 @@ class InstanceController extends Controller
         return [
             'instance' => $instance,
             'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
             'tag_form' => $tagForm->createView()
         ];
     }
@@ -236,8 +234,7 @@ class InstanceController extends Controller
     }
 
     /**
-     * @Route("/{id}", name="instance_delete")
-     * @Method("DELETE")
+     * @Route("/{id}/delete", name="instance_delete")
      *
      * @param Instance $instance
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
@@ -264,14 +261,6 @@ class InstanceController extends Controller
         return $this->redirectToRoute('instance_index', [
             'id' => $instance->getSchema()->getId()
         ]);
-    }
-
-    private function createDeleteForm(Instance $instance)
-    {
-        return $this->createFormBuilder()
-            ->setAction($this->generateUrl('instance_delete', ['id' => $instance->getId()]))
-            ->setMethod('DELETE')
-            ->getForm();
     }
 
     /**

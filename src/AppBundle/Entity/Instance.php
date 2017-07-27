@@ -25,7 +25,7 @@ class Instance
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255, nullable=false)
      */
     private $name;
 
@@ -33,6 +33,7 @@ class Instance
      * @var User
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", nullable=false)
      */
     private $createdBy;
 
@@ -54,6 +55,7 @@ class Instance
      * @var Schema
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Schema")
+     * @ORM\JoinColumn(name="schema_id", referencedColumnName="id", nullable=false)
      */
     private $schema;
 

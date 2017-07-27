@@ -39,6 +39,7 @@ class Attribute
      * @var Schema
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Schema")
+     * @ORM\JoinColumn(name="schema_id", referencedColumnName="id", nullable=false)
      */
     private $schema;
 

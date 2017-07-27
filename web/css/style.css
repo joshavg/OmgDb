@@ -39,3 +39,13 @@ footer {
 .import-table label {
     display: inline;
 }
+
+.button-small {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.button-warn {
+    background-color: crimson;
+    color: white;
+}

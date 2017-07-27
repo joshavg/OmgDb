@@ -54,7 +54,7 @@ class ImportController extends Controller
      * @param CsvParser $parser
      * @param CsvImporter $importer
      * @param FileImport $import
-     * @return array
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function contentAction(Request $request, CsvParser $parser, CsvImporter $importer, FileImport $import)
     {
@@ -66,6 +66,16 @@ class ImportController extends Controller
         $post = $request->request;
         if ($post->count()) {
             $importer->import($post, $import, $content);
+
+            unlink($import->getPath());
+
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($import);
+            $em->flush();
+
+            return $this->redirectToRoute('instance_index', [
+                'id' => $import->getSchema()->getId()
+            ]);
         }
 
         return [
