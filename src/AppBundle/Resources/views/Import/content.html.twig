@@ -7,7 +7,10 @@
     <form method="post">
         <table class="import-table">
             <tr>
-                <th></th>
+                <th>
+                    <label for="select-all">All</label>
+                    <input type="checkbox" title="Select all" id="select-all" checked>
+                </th>
                 {% for col in content|first %}
                     <th>
                         <select name="attr{{ loop.index }}" title="Attribute to use">
@@ -23,7 +26,7 @@
                 <tr>
                     <td>
                         <label for="use{{ loop.index }}">Use</label>
-                        <input id="use{{ loop.index }}" type="checkbox"
+                        <input id="use{{ loop.index }}" type="checkbox" class="use-checkbox"
                                name="use[{{ loop.index }}]" value="1" checked>
                     </td>
                     {% for col in row %}
