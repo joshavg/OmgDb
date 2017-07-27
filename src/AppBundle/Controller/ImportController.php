@@ -6,6 +6,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\FileImport;
 use AppBundle\Entity\Schema;
 use AppBundle\Form\ImportType;
+use AppBundle\Service\CsvImporter;
 use AppBundle\Service\CsvParser;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -51,15 +52,21 @@ class ImportController extends Controller
      *
      * @param Request $request
      * @param CsvParser $parser
+     * @param CsvImporter $importer
      * @param FileImport $import
      * @return array
      */
-    public function contentAction(Request $request, CsvParser $parser, FileImport $import)
+    public function contentAction(Request $request, CsvParser $parser, CsvImporter $importer, FileImport $import)
     {
         $content = $parser->parseFile($import->getPath());
         $attributes = $this->getDoctrine()
             ->getRepository('AppBundle:Attribute')
             ->findFromSchema($import->getSchema());
+
+        $post = $request->request;
+        if ($post->count()) {
+            $importer->import($post, $import, $content);
+        }
 
         return [
             'import' => $import,

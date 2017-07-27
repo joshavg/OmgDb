@@ -5,6 +5,9 @@
     <h2>{{ import.uploadedAt|date }}</h2>
 
     <form method="post">
+        <button class="button-primary">
+            Import this shit
+        </button>
         <table class="import-table">
             <tr>
                 <th>
@@ -13,7 +16,9 @@
                 </th>
                 {% for col in content|first %}
                     <th>
-                        <select name="attr{{ loop.index }}" title="Attribute to use">
+                        <select name="attr[{{ loop.index0 }}]" title="Attribute to use">
+                            <option></option>
+                            <option value="_name">Name</option>
                             <option></option>
                             {% for attr in attributes %}
                                 <option value="{{ attr.id }}">{{ attr.name }}</option>
@@ -25,9 +30,9 @@
             {% for row in content %}
                 <tr>
                     <td>
-                        <label for="use{{ loop.index }}">Use</label>
-                        <input id="use{{ loop.index }}" type="checkbox" class="use-checkbox"
-                               name="use[{{ loop.index }}]" value="1" checked>
+                        <label for="use{{ loop.index0 }}">Use</label>
+                        <input id="use{{ loop.index0 }}" type="checkbox" class="use-checkbox"
+                               name="use[{{ loop.index0 }}]" value="1" checked>
                     </td>
                     {% for col in row %}
                         <td>{{ col }}</td>
