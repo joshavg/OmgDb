@@ -8,7 +8,6 @@ use AppBundle\Entity\Schema;
 use AppBundle\Form\ImportType;
 use AppBundle\Service\CsvImporter;
 use AppBundle\Service\CsvParser;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\FormInterface;
@@ -47,7 +46,7 @@ class ImportController extends Controller
     }
 
     /**
-     * @Route("/content/{id}", name="import_content")
+     * @Route("/{id}", name="import_content")
      * @Template
      *
      * @param Request $request
@@ -109,6 +108,23 @@ class ImportController extends Controller
         $em->persist($import);
         $em->flush();
         return $import;
+    }
+
+    /**
+     * @Route("/{id}/delete", name="import_delete")
+     *
+     * @param FileImport $import
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function deleteAction(FileImport $import)
+    {
+        unlink($import->getPath());
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($import);
+        $em->flush();
+
+        return $this->redirectToRoute('import_index');
     }
 
 }
