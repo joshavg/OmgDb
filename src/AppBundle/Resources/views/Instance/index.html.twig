@@ -3,7 +3,46 @@
 {% block body %}
     <h1>{{ schema.name }}<em>s</em></h1>
 
-    {% include 'AppBundle:Instance:list.inc.html.twig' %}
+    <form method="post">
+        <table>
+            <thead>
+            <tr>
+                <th>
+                    <input type="checkbox" title="Select all" id="select-all">
+                </th>
+                <th>Name</th>
+                <th>Created At</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for instance in instances %}
+                <tr>
+                    <td>
+                        <input id="use{{ loop.index0 }}" type="checkbox" class="use-checkbox"
+                               name="use[]" value="{{ instance.id }}" title="Use">
+                    </td>
+                    <td>{{ instance.name }}</td>
+                    <td>{{ instance.createdAt|date('Y-m-d H:i:s') }}</td>
+                    <td>
+                        <a class="button" href="{{ path('instance_show', {'id': instance.id}) }}">
+                            Show
+                        </a>
+                        <a class="button button-small button-warn"
+                           href="{{ path('instance_delete', {'id': instance.id}) }}">
+                            ✘
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <h2>Batch action</h2>
+        <button class="button-warn">
+            Delete
+        </button>
+    </form>
 
     <a href="{{ path('instance_new', {'id': schema.id}) }}">
         Create new Instance

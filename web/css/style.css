@@ -49,3 +49,9 @@ footer {
     background-color: crimson;
     color: white;
 }
+
+input[type="checkbox"] {
+    height: 1.5em;
+    width: 1.5em;
+    margin-bottom: 0;
+}
