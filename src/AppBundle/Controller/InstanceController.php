@@ -7,6 +7,7 @@ use AppBundle\Entity\Instance;
 use AppBundle\Entity\Schema;
 use AppBundle\Entity\Tag;
 use AppBundle\Form\TagSelectType;
+use AppBundle\Form\TagType;
 use AppBundle\Service\SchemaFormFactory;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -185,7 +186,9 @@ class InstanceController extends Controller
     {
         /** @var Tag $tag */
         $tag = $tagForm->getData()['tag'];
-        $instance->addTag($tag);
+        $instance
+            ->addTag($tag)
+            ->setUpdatedAt(new \DateTime());
 
         $em = $this->getDoctrine()->getManager();
         $em->persist($instance);
