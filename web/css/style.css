@@ -47,6 +47,7 @@ footer {
 
 .button-warn {
     background-color: crimson;
+    border-color: crimson;
     color: white;
 }
 
