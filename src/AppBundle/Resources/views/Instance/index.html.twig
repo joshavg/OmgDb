@@ -3,7 +3,7 @@
 {% block body %}
     <h1>{{ schema.name }}<em>s</em></h1>
 
-    <form method="post">
+    <form method="post" action="{{ path('instance_batch') }}">
         <table>
             <thead>
                 <tr>
@@ -20,7 +20,7 @@
                 <tr class="use-tr">
                     <td>
                         <input id="use{{ loop.index0 }}" type="checkbox" class="use-checkbox"
-                               name="use[]" value="{{ instance.id }}" title="Use">
+                               name="instance[]" value="{{ instance.id }}" title="Use">
                     </td>
                     <td>{{ instance.name }}</td>
                     <td>{{ instance.createdAt|date('Y-m-d H:i:s') }}</td>
@@ -39,9 +39,25 @@
         </table>
 
         <h2>Batch action</h2>
-        <button class="button-warn">
-            Delete
-        </button>
+        <section>
+            <select name="tag" title="Assign Tag">
+                <option></option>
+                {% for tag in tags %}
+                    <option value="{{ tag.id }}">{{ tag.name }}</option>
+                {% endfor %}
+            </select>
+            <button class="button" name="batch_action" value="assign_tag">
+                Assign Tag
+            </button>
+            <button class="button" name="batch_action" value="remove_tag">
+                Remove Tag
+            </button>
+        </section>
+        <section>
+            <button class="button-warn" name="batch_action" value="delete">
+                Delete
+            </button>
+        </section>
     </form>
 
     <a href="{{ path('instance_new', {'id': schema.id}) }}">

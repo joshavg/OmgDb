@@ -209,6 +209,15 @@ class Instance
 
     /**
      * @param Tag $tag
+     * @return bool
+     */
+    public function hasTag(Tag $tag): bool
+    {
+        return $this->tags->contains($tag);
+    }
+
+    /**
+     * @param Tag $tag
      * @return Instance
      */
     public function removeTag(Tag $tag): Instance

@@ -8,7 +8,7 @@ document.getElementById('select-all').addEventListener('click', function (e) {
 
 const useTrs = document.getElementsByClassName('use-tr');
 for (const tr of useTrs) {
-    tr.addEventListener('click', function (e) {
+    tr.addEventListener('click', function () {
         for (const box of tr.getElementsByClassName('use-checkbox')) {
             box.checked = !box.checked;
         }

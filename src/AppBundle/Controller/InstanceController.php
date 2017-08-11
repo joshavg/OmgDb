@@ -3,17 +3,22 @@
 namespace AppBundle\Controller;
 
 
+use AppBundle\DomainCommand\AddTagToInstance;
+use AppBundle\DomainCommand\DeleteInstance;
+use AppBundle\DomainCommand\RemoveTagFromInstance;
+use AppBundle\Entity\Attribute;
 use AppBundle\Entity\Instance;
+use AppBundle\Entity\Property;
 use AppBundle\Entity\Schema;
 use AppBundle\Entity\Tag;
 use AppBundle\Form\TagSelectType;
-use AppBundle\Form\TagType;
+use AppBundle\Service\InstanceBatchAction;
 use AppBundle\Service\SchemaFormFactory;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Form;
+use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -33,13 +38,63 @@ class InstanceController extends Controller
     public function indexAction(Schema $schema)
     {
         $instances = $this->getDoctrine()
-            ->getRepository('AppBundle:Instance')
+            ->getRepository(Instance::class)
             ->findFromSchemaAndUser($schema, $this->getUser());
+
+        $tags = $this->getDoctrine()
+            ->getRepository(Tag::class)
+            ->findFromUser($this->getUser());
 
         return [
             'instances' => $instances,
-            'schema' => $schema
+            'schema' => $schema,
+            'tags' => $tags
         ];
+    }
+
+    /**
+     * @Route("/batch", name="instance_batch")
+     *
+     * @param Request $request
+     * @param InstanceBatchAction $iba
+     * @return Response|\Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function batchAction(Request $request, InstanceBatchAction $iba)
+    {
+        $post = $request->request;
+
+        $tag = null;
+        if ($post->has('tag') && $post->getInt('tag')) {
+            $tag = $this->getDoctrine()
+                ->getRepository(Tag::class)
+                ->find($post->get('tag'));
+        }
+
+        $instances = [];
+        $repo = $this->getDoctrine()
+            ->getRepository(Instance::class);
+        foreach ($post->get('instance') as $iid) {
+            $instances[] = $repo->find($iid);
+        }
+
+        $action = $post->get('batch_action');
+        switch ($action) {
+            case 'assign_tag':
+                $iba->assignTag($instances, $tag);
+                break;
+            case 'remove_tag':
+                $iba->removeTag($instances, $tag);
+                break;
+            case 'delete':
+                $iba->delete($instances);
+                break;
+            default:
+                throw new \InvalidArgumentException('unknown action ' . $action);
+        }
+
+        return $this->redirectToRoute('instance_index', [
+            'id' => $instances[0]->getSchema()->getId()
+        ]);
     }
 
     /**
@@ -101,7 +156,7 @@ class InstanceController extends Controller
     public function showAction(Instance $instance)
     {
         $properties = $this->getDoctrine()
-            ->getRepository('AppBundle:Property')
+            ->getRepository(Property::class)
             ->findFromInstance($instance);
 
         return [
@@ -116,15 +171,16 @@ class InstanceController extends Controller
      *
      * @param Request $request
      * @param SchemaFormFactory $sff
+     * @param AddTagToInstance $atti
      * @param Instance $instance
      * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function editAction(Request $request, SchemaFormFactory $sff, Instance $instance)
+    public function editAction(Request $request, SchemaFormFactory $sff, AddTagToInstance $atti, Instance $instance)
     {
         $tagForm = $this->createForm(TagSelectType::class);
 
         $properties = $this->getDoctrine()
-            ->getRepository('AppBundle:Property')
+            ->getRepository(Property::class)
             ->findFromInstance($instance);
 
         $attributes = $this->fetchAttributes($instance->getSchema());
@@ -143,7 +199,9 @@ class InstanceController extends Controller
             return $this->redirectToRoute('instance_show',
                 ['id' => $instance->getId()]);
         } elseif ($tagForm->handleRequest($request)->isSubmitted() && $tagForm->isValid()) {
-            $this->addTagToInstance($tagForm, $instance);
+            /** @var Tag $tag */
+            $tag = $tagForm->getData()['tag'];
+            $atti->execute($instance, $tag);
 
             return $this->redirectToRoute('instance_edit', [
                 'id' => $instance->getId()
@@ -163,15 +221,12 @@ class InstanceController extends Controller
      *
      * @param Instance $instance
      * @param Tag $tag
+     * @param RemoveTagFromInstance $rtfi
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function removeTag(Instance $instance, Tag $tag)
+    public function removeTag(Instance $instance, Tag $tag, RemoveTagFromInstance $rtfi)
     {
-        $instance->removeTag($tag);
-
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($instance);
-        $em->flush();
+        $rtfi->execute($instance, $tag);
 
         return $this->redirectToRoute('instance_edit', [
             'id' => $instance->getId()
@@ -179,30 +234,16 @@ class InstanceController extends Controller
     }
 
     /**
-     * @param Form $tagForm
-     * @param Instance $instance
-     */
-    private function addTagToInstance(Form $tagForm, Instance $instance)
-    {
-        /** @var Tag $tag */
-        $tag = $tagForm->getData()['tag'];
-        $instance
-            ->addTag($tag)
-            ->setUpdatedAt(new \DateTime());
-
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($instance);
-        $em->flush();
-    }
-
-    /**
      * @Route("/taggedwith/{id}", name="instance_tagged_with")
      * @Template
+     *
+     * @param Tag $tag
+     * @return array
      */
     public function taggedWithAction(Tag $tag)
     {
         $instances = $this->getDoctrine()
-            ->getRepository('AppBundle:Instance')
+            ->getRepository(Instance::class)
             ->findFromTag($tag);
 
         return [
@@ -240,26 +281,12 @@ class InstanceController extends Controller
      * @Route("/{id}/delete", name="instance_delete")
      *
      * @param Instance $instance
+     * @param DeleteInstance $di
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function deleteAction(Instance $instance)
+    public function deleteAction(Instance $instance, DeleteInstance $di)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $props = $this->getDoctrine()
-            ->getRepository('AppBundle:Property')
-            ->findFromInstance($instance);
-
-        foreach ($props as $prop) {
-            $em->remove($prop);
-        }
-
-        foreach ($instance->getTags() as $tag) {
-            $em->remove($tag);
-        }
-
-        $em->remove($instance);
-        $em->flush();
+        $di->execute($instance);
 
         return $this->redirectToRoute('instance_index', [
             'id' => $instance->getSchema()->getId()
@@ -273,7 +300,7 @@ class InstanceController extends Controller
     public function fetchAttributes(Schema $schema)
     {
         return $this->getDoctrine()
-            ->getRepository('AppBundle:Attribute')
+            ->getRepository(Attribute::class)
             ->findFromSchema($schema);
     }
 
