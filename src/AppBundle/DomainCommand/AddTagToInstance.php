@@ -7,18 +7,8 @@ use AppBundle\Entity\Instance;
 use AppBundle\Entity\Tag;
 use Doctrine\ORM\EntityManagerInterface;
 
-class AddTagToInstance
+class AddTagToInstance extends DomainCommand
 {
-
-    /**
-     * @var EntityManagerInterface
-     */
-    private $em;
-
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
 
     public function execute(Instance $instance, Tag $tag)
     {
@@ -28,7 +18,6 @@ class AddTagToInstance
                 ->setUpdatedAt(new \DateTime());
 
             $this->em->persist($instance);
-            $this->em->flush();
         }
     }
 

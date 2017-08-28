@@ -4,7 +4,10 @@ namespace AppBundle\Controller;
 
 
 use AppBundle\DomainCommand\AddTagToInstance;
+use AppBundle\DomainCommand\CreateInstance;
 use AppBundle\DomainCommand\DeleteInstance;
+use AppBundle\DomainCommand\EditInstance;
+use AppBundle\DomainCommand\NewTag;
 use AppBundle\DomainCommand\RemoveTagFromInstance;
 use AppBundle\Entity\Attribute;
 use AppBundle\Entity\Instance;
@@ -12,6 +15,7 @@ use AppBundle\Entity\Property;
 use AppBundle\Entity\Schema;
 use AppBundle\Entity\Tag;
 use AppBundle\Form\TagSelectType;
+use AppBundle\Form\TagType;
 use AppBundle\Service\InstanceBatchAction;
 use AppBundle\Service\SchemaFormFactory;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -19,6 +23,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\BrowserKit\Response;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -27,6 +32,21 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class InstanceController extends Controller
 {
+
+    /**
+     * @var InstanceBatchAction
+     */
+    private $iba;
+    /**
+     * @var SchemaFormFactory
+     */
+    private $sff;
+
+    public function __construct(InstanceBatchAction $iba, SchemaFormFactory $sff)
+    {
+        $this->iba = $iba;
+        $this->sff = $sff;
+    }
 
     /**
      * @Route("/listschema/{id}", name="instance_index")
@@ -56,10 +76,9 @@ class InstanceController extends Controller
      * @Route("/batch", name="instance_batch")
      *
      * @param Request $request
-     * @param InstanceBatchAction $iba
      * @return Response|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function batchAction(Request $request, InstanceBatchAction $iba)
+    public function batchAction(Request $request)
     {
         $post = $request->request;
 
@@ -80,13 +99,13 @@ class InstanceController extends Controller
         $action = $post->get('batch_action');
         switch ($action) {
             case 'assign_tag':
-                $iba->assignTag($instances, $tag);
+                $this->iba->assignTag($instances, $tag);
                 break;
             case 'remove_tag':
-                $iba->removeTag($instances, $tag);
+                $this->iba->removeTag($instances, $tag);
                 break;
             case 'delete':
-                $iba->delete($instances);
+                $this->iba->delete($instances);
                 break;
             default:
                 throw new \InvalidArgumentException('unknown action ' . $action);
@@ -103,15 +122,16 @@ class InstanceController extends Controller
      * @Template
      *
      * @param Request $request
-     * @param SchemaFormFactory $sff
      * @param Schema $schema
+     * @param CreateInstance $ci
      * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @internal param SchemaFormFactory $sff
      */
-    public function newAction(Request $request, SchemaFormFactory $sff, Schema $schema)
+    public function newAction(Request $request, Schema $schema, CreateInstance $ci)
     {
         $attributes = $this->fetchAttributes($schema);
 
-        $form = $sff->form(
+        $form = $this->sff->form(
             $attributes,
             $this->generateUrl('instance_new', [
                 'id' => $schema->getId()
@@ -120,20 +140,15 @@ class InstanceController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-
-            $instance = $sff->instance($form);
-            $instance
-                ->setSchema($schema)
-                ->setCreatedBy($this->getUser());
-            $em->persist($instance);
-
-            $properties = $sff->properties($form, $instance, $attributes);
-            foreach ($properties as $prop) {
-                $em->persist($prop);
-            }
-
-            $em->flush();
+            $instance = $this->sff->instance($form);
+            $ci
+                ->execute(
+                    $instance,
+                    $this->sff->properties($form, $instance, $attributes),
+                    $schema,
+                    $this->getUser()
+                )
+                ->flush();
 
             return $this->redirectToRoute('instance_index',
                 ['id' => $schema->getId()]);
@@ -170,21 +185,27 @@ class InstanceController extends Controller
      * @Template
      *
      * @param Request $request
-     * @param SchemaFormFactory $sff
-     * @param AddTagToInstance $atti
      * @param Instance $instance
+     * @param AddTagToInstance $atti
+     * @param NewTag $nt
+     * @param EditInstance $ei
      * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function editAction(Request $request, SchemaFormFactory $sff, AddTagToInstance $atti, Instance $instance)
+    public function editAction(Request $request,
+                               Instance $instance,
+                               AddTagToInstance $atti,
+                               NewTag $nt,
+                               EditInstance $ei)
     {
-        $tagForm = $this->createForm(TagSelectType::class);
+        $tagAssignForm = $this->createForm(TagSelectType::class);
+        $tagCreateForm = $this->createForm(TagType::class);
 
         $properties = $this->getDoctrine()
             ->getRepository(Property::class)
             ->findFromInstance($instance);
 
         $attributes = $this->fetchAttributes($instance->getSchema());
-        $editForm = $sff->form(
+        $editForm = $this->sff->form(
             $attributes,
             $this->generateUrl('instance_edit', [
                 'id' => $instance->getId()
@@ -193,17 +214,40 @@ class InstanceController extends Controller
             $properties
         );
 
-        if ($editForm->handleRequest($request)->isSubmitted() && $editForm->isValid()) {
-            $instance = $this->saveEditedInstance($sff, $instance, $editForm, $attributes, $properties);
+        $routeName = false;
+        if ($editForm->handleRequest($request)->isSubmitted()
+            && $editForm->isValid()) {
+            $instance = $this->saveEditedInstance(
+                $ei,
+                $instance,
+                $editForm,
+                $attributes,
+                $properties
+            );
 
-            return $this->redirectToRoute('instance_show',
-                ['id' => $instance->getId()]);
-        } elseif ($tagForm->handleRequest($request)->isSubmitted() && $tagForm->isValid()) {
+            $routeName = 'instance_show';
+        } elseif ($tagAssignForm->handleRequest($request)->isSubmitted()
+            && $tagAssignForm->isValid()) {
             /** @var Tag $tag */
-            $tag = $tagForm->getData()['tag'];
+            $tag = $tagAssignForm->getData()['tag'];
             $atti->execute($instance, $tag);
 
-            return $this->redirectToRoute('instance_edit', [
+            $routeName = 'instance_edit';
+        } elseif ($tagCreateForm->handleRequest($request)->isSubmitted()
+            && $tagCreateForm->isValid()) {
+            /** @var Tag $tag */
+            $tag = $tagCreateForm->getData();
+            $nt->execute($tag, $this->getUser());
+            $atti->execute($instance, $tag);
+
+            $routeName = 'instance_edit';
+        }
+
+        if ($routeName) {
+            $this->getDoctrine()
+                ->getManager()
+                ->flush();
+            return $this->redirectToRoute($routeName, [
                 'id' => $instance->getId()
             ]);
         }
@@ -211,7 +255,8 @@ class InstanceController extends Controller
         return [
             'instance' => $instance,
             'edit_form' => $editForm->createView(),
-            'tag_form' => $tagForm->createView()
+            'tag_assign_form' => $tagAssignForm->createView(),
+            'tag_create_form' => $tagCreateForm->createView()
         ];
     }
 
@@ -226,7 +271,7 @@ class InstanceController extends Controller
      */
     public function removeTag(Instance $instance, Tag $tag, RemoveTagFromInstance $rtfi)
     {
-        $rtfi->execute($instance, $tag);
+        $rtfi->execute($instance, $tag)->flush();
 
         return $this->redirectToRoute('instance_edit', [
             'id' => $instance->getId()
@@ -253,28 +298,22 @@ class InstanceController extends Controller
     }
 
     /**
-     * @param SchemaFormFactory $sff
+     * @param EditInstance $ei
      * @param Instance $instance
-     * @param $editForm
-     * @param $attributes
-     * @param $properties
-     * @return Instance
+     * @param FormInterface $editForm
+     * @param Attribute[] $attributes
+     * @param Property[] $properties
      */
-    public function saveEditedInstance(SchemaFormFactory $sff, Instance $instance, $editForm,
-                                       $attributes, $properties): Instance
+    public function saveEditedInstance(EditInstance $ei,
+                                       Instance $instance,
+                                       FormInterface $editForm,
+                                       array $attributes,
+                                       array $properties)
     {
-        $em = $this->getDoctrine()->getManager();
-
-        $instance = $sff->instance($editForm, $instance);
-        $instance->setUpdatedAt(new \DateTime());
-        $em->persist($instance);
-
-        foreach ($sff->properties($editForm, $instance, $attributes, $properties) as $prop) {
-            $em->persist($prop);
-        }
-
-        $em->flush();
-        return $instance;
+        $ei->execute(
+            $this->sff->instance($editForm, $instance),
+            $this->sff->properties($editForm, $instance, $attributes, $properties)
+        );
     }
 
     /**
@@ -286,7 +325,7 @@ class InstanceController extends Controller
      */
     public function deleteAction(Instance $instance, DeleteInstance $di)
     {
-        $di->execute($instance);
+        $di->execute($instance)->flush();
 
         return $this->redirectToRoute('instance_index', [
             'id' => $instance->getSchema()->getId()

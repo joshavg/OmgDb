@@ -55,7 +55,10 @@ class ImportController extends Controller
      * @param FileImport $import
      * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function contentAction(Request $request, CsvParser $parser, CsvImporter $importer, FileImport $import)
+    public function contentAction(Request $request,
+                                  CsvParser $parser,
+                                  CsvImporter $importer,
+                                  FileImport $import)
     {
         $content = $parser->parseFile($import->getPath());
         $attributes = $this->getDoctrine()

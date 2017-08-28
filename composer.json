@@ -51,6 +51,9 @@
         ],
         "test": [
             "./vendor/slevomat/deptrac-shim/deptrac analyze --formatter-graphviz-display=0"
+        ],
+        "deptrac": [
+            "./vendor/slevomat/deptrac-shim/deptrac analyze"
         ]
     },
     "config": {

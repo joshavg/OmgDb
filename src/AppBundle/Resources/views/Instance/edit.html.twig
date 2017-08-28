@@ -28,11 +28,17 @@
         {% endfor %}
     </ul>
 
-    {{ form_start(tag_form) }}
-        {{ form_widget(tag_form) }}
+    <h3>Assign Tag</h3>
+    {{ form_start(tag_assign_form) }}
+        {{ form_widget(tag_assign_form.tag) }}
         <button class="button">Assign</button>
-    {{ form_end(tag_form) }}
+    {{ form_end(tag_assign_form) }}
 
+    <h3>Create and assign Tag</h3>
+    {{ form_start(tag_create_form) }}
+        {{ form_widget(tag_create_form) }}
+        <button class="button">Create and assign</button>
+    {{ form_end(tag_create_form) }}
 
     <a href="{{ path('instance_index', {'id': instance.schema.id}) }}">Back to the list</a>
 {% endblock %}

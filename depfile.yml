@@ -1,50 +1,78 @@
 paths:
-  - ./src/AppBundle
-  - ./vendor
+    - ./src/AppBundle
+    - ./vendor
 exclude_files:
-  - .*test.*
+    - .*test.*
 layers:
-  - name: Framework
-    collectors:
-      - type: className
-        regex: ^(?!AppBundle\\).+
-  - name: Command
-    collectors:
-      - type: className
-        regex: AppBundle\\Command\\.+
-  - name: Controller
-    collectors:
-      - type: className
-        regex: AppBundle\\Controller\\.+
-  - name: Entity
-    collectors:
-      - type: className
-        regex: ^AppBundle\\Entity\\[^\\]+$
-  - name: Form
-    collectors:
-      - type: className
-        regex: AppBundle\\Form\\.+
-  - name: Repository
-    collectors:
-      - type: className
-        regex: AppBundle\\Entity\\Repository\\.+
-  - name: Service
-    collectors:
-      - type: className
-        regex: AppBundle\\Service\\.+
+    - name: EntityManager
+      collectors:
+        - type: className
+          regex: Doctrine\\ORM\\EntityManagerInterface
+    - name: Command
+      collectors:
+        - type: className
+          regex: AppBundle\\Command\\.+
+    - name: Controller
+      collectors:
+        - type: className
+          regex: AppBundle\\Controller\\.+
+    - name: Entity
+      collectors:
+        - type: className
+          regex: ^AppBundle\\Entity\\.+$
+    - name: Form
+      collectors:
+        - type: className
+          regex: AppBundle\\Form\\.+
+    - name: Repository
+      collectors:
+        - type: className
+          regex: AppBundle\\Entity\\Repository\\.+
+    - name: Service
+      collectors:
+        - type: className
+          regex: AppBundle\\Service\\.+
+    - name: DomainCommand
+      collectors:
+          - type: className
+            regex: AppBundle\\DomainCommand\\.+
+    - name: Framework
+      collectors:
+          - type: bool
+            must_not:
+                # our own classes
+                - type: className
+                  regex: ^AppBundle\\.+
+                # has its own layer
+                - type: className
+                  regex: Doctrine\\ORM\\EntityManagerInterface
+                # spl classes like DateTime
+                - type: className
+                  regex: ^[^\\]+$
 ruleset:
-  Controller:
-    - Form
-    - Service
-    - Entity
-    - Framework
-  Form:
-    - Entity
-    - Framework
-  Service:
-    - Entity
-    - Framework
-  Entity:
-    - Framework
-  Command:
-    - Framework
+    Controller:
+        - Form
+        - Service
+        - Entity
+        - Framework
+        - DomainCommand
+    Form:
+        - Entity
+        - Framework
+    Service:
+        - Entity
+        - Framework
+        - DomainCommand
+        - EntityManager
+    Entity:
+        - Framework
+    Command:
+        - Framework
+    DomainCommand:
+        - Entity
+        - EntityManager
+    # vendor code - of course there are cyclic dependencies
+    EntityManager:
+        - Framework
+    Framework:
+        - EntityManager

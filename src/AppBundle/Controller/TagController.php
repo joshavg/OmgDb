@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\DomainCommand\NewTag;
 use AppBundle\Entity\Tag;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -43,18 +44,14 @@ class TagController extends Controller
      * @Method({"GET", "POST"})
      * @Template
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, NewTag $nt)
     {
         $tag = new Tag();
         $form = $this->createForm('AppBundle\Form\TagType', $tag);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-
-            $tag->setCreatedBy($this->getUser());
-            $em->persist($tag);
-            $em->flush();
+            $nt->execute($tag, $this->getUser())->flush();
 
             return $this->redirectToRoute('tag_show',
                 ['id' => $tag->getId()]);
@@ -151,7 +148,9 @@ class TagController extends Controller
     private function createDeleteForm(Tag $tag)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('tag_delete', array('id' => $tag->getId())))
+            ->setAction($this->generateUrl('tag_delete', [
+                'id' => $tag->getId()
+            ]))
             ->setMethod('DELETE')
             ->getForm();
     }

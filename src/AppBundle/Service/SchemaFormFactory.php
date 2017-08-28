@@ -123,7 +123,9 @@ class SchemaFormFactory
      * @param Property[] $properties
      * @return Property[]
      */
-    public function properties(FormInterface $form, Instance $instance, array $attributes,
+    public function properties(FormInterface $form,
+                               Instance $instance,
+                               array $attributes,
                                array $properties = null)
     {
         $props = [];
