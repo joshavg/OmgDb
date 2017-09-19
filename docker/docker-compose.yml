@@ -1,0 +1,20 @@
+version: '3.1'
+
+services:
+    db:
+        image: postgres:alpine
+        restart: unless-stopped
+        ports:
+            - "5432:5432"
+        environment:
+            - "POSTGRES_USER=omgdb"
+            - "POSTGRES_PASSWORD=omgdb"
+    app:
+        build: app
+        restart: unless-stopped
+        ports:
+            - "7000:8000"
+        volumes:
+          - "../.:/app"
+        depends_on:
+          - db
