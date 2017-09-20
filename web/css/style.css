@@ -40,21 +40,55 @@ footer {
     display: inline;
 }
 
+.button, .button.button-primary, button, input[type="submit"] {
+    border-radius: 0;
+    border: 0;
+    border-bottom: 2px solid #bbb;
+    background-color: #f0f0f0;
+}
+
+.button:hover, button:hover, input[type="submit"]:hover {
+    background-color: #e0e0e0;
+}
+
+.button.button-primary {
+    border-bottom: 2px solid #33c3f0;
+    color: #555;
+}
+
+.button.button-primary:hover {
+    background-color: #63acc7;
+    border-bottom: 2px solid #63acc7;
+}
+
 .button-small {
     padding-left: 10px;
     padding-right: 10px;
 }
 
 .button-warn {
-    background-color: crimson;
-    border-color: crimson;
+    background-color: #d93657;
+    border-color: #d93657;
+    color: white;
+}
+
+.button-warn:hover {
+    background-color: #a14050;
+    border-color: #a14050;
     color: white;
 }
 
 input[type="checkbox"] {
-    height: 1.5em;
-    width: 1.5em;
+    height: 1.5rem;
+    width: 1.5rem;
     margin-bottom: 0;
+}
+
+input[type="text"], select {
+    border-radius: 0;
+    border: 0;
+    border-bottom: 2px solid #bbb;
+    background-color: #f0f0f0;
 }
 
 h3 {
