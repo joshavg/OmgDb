@@ -10,5 +10,4 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 CMD composer install --no-interaction \
  && php bin/console doctrine:schema:create \
- && php bin/console omgdb:user:create \
  && php bin/console server:run 0.0.0.0:8000

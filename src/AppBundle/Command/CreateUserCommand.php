@@ -17,36 +17,32 @@ class CreateUserCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('omgdb:user:create')
-            ->addOption('name', null, InputOption::VALUE_REQUIRED)
-            ->addOption('email', null, InputOption::VALUE_REQUIRED);
+            ->setName('omgdb:user:create');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $name = $input->getOption('name');
-        $email = $input->getOption('email') ?: 'admin@admin.org';
-        $pw = 'admin';
-
         $user = new User();
+        $questionHelper = new QuestionHelper();
 
-        if ($name) {
-            $user->setUsername($name);
+        $user->setUsername(
+            $questionHelper->ask($input, $output, new Question('Username?'))
+        );
+        $user->setEmail(
+            $questionHelper->ask($input, $output, new Question('Email?'))
+        );
 
-            $question = new Question('Password?');
-            $question->setHidden(true)
-                ->setHiddenFallback(false);
-            $pw = (new QuestionHelper())->ask($input, $output, $question);
-        } else {
-            $user->setUsername('admin');
-        }
+        $question = new Question('Password?');
+        $question
+            ->setHidden(true)
+            ->setHiddenFallback(false);
+        $pw = $questionHelper->ask($input, $output, $question);
 
         $user
             ->setPassword(
                 $this->getContainer()->get('security.password_encoder')
                     ->encodePassword(new User(), $pw)
-            )
-            ->setEmail($email);
+            );
 
         $em = $this->getContainer()->get('doctrine')->getManager();
         $em->persist($user);
