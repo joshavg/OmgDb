@@ -4,8 +4,6 @@ services:
     db:
         image: postgres:alpine
         restart: unless-stopped
-        ports:
-            - "5432:5432"
         environment:
             - "POSTGRES_USER=omgdb"
             - "POSTGRES_PASSWORD=omgdb"
